@@ -40,6 +40,11 @@ public class AccessorBuilder
         return accessor(new AccessorMethod(name, params));
     }
 
+    public AccessorBuilder function(String name, Accessor... params)
+    {
+        return accessor(new AccessorFunction(name, params));
+    }
+
     public Accessor build()
     {
         return first;

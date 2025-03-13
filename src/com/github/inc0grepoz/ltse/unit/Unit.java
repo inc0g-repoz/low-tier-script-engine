@@ -15,6 +15,11 @@ public abstract class Unit
         }
     }
 
+    UnitRoot root()
+    {
+        return parent == null ? (UnitRoot) this : parent.root();
+    }
+
     Object execute(ExecutionContext context)
     {
         throw new UnsupportedOperationException("No " + getClass() + " implementation");

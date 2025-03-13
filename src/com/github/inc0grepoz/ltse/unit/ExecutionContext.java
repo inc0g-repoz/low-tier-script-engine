@@ -5,10 +5,23 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.github.inc0grepoz.ltse.Script;
+
 public class ExecutionContext
 {
 
+    private final Script script;
     private final Deque<Map<String, Object>> layers = new ArrayDeque<>();
+
+    public ExecutionContext(Script script)
+    {
+        this.script = script;
+    }
+
+    public Script getScript()
+    {
+        return script;
+    }
 
     public Object setVariable(String name, Object value)
     {

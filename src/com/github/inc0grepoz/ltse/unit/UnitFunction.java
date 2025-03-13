@@ -55,18 +55,33 @@ public class UnitFunction extends UnitSection
 
     final String name;
     final List<String> paramNames;
+    final UnitRoot root;
 
     UnitFunction(UnitSection parent, String name, List<String> paramNames)
     {
         super(parent);
         this.name = name;
         this.paramNames = paramNames;
+        root = root();
     }
 
     @Override
     public String toString()
     {
         return "function " + name + " (" + String.join(", ", paramNames) + ") " + super.toString();
+    }
+
+    public Object call(Object... args)
+    {
+        ExecutionContext context = new ExecutionContext(root.getScript());
+        context.enterSection();
+
+        for (int i = 0; i < args.length; i++)
+        {
+            context.setVariable(paramNames.get(i), args[i]);
+        }
+
+        return execute(context);
     }
 
 }

@@ -1,7 +1,12 @@
 // Script file for testing
 
+function test_function_call(a)
+{
+    return a + 5;
+}
+
 function test() {
-    a = 0;
+    a = test_function_call(15);
     while (a < 10) {
         a = a + 1;
     }

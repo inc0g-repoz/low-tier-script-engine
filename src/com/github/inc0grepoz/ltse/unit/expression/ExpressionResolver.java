@@ -131,33 +131,34 @@ public class ExpressionResolver
                     throw new SyntaxError("Illegal member name: " + String.join(" ", nextTokenList));
                 }
             }
-            else if (nextTokenList.getLast().equals(")")) // method
+            else if (nextTokenList.getLast().equals(")")) // parameterized accessor
             {
-                if (builder.isEmpty())
+                String name = nextTokenList.poll();
+                openParentheses(nextTokenList);
+
+                Accessor[] accessors;
+                if (nextTokenList.isEmpty())
                 {
-                    throw new UnsupportedOperationException("No functions support");
+                    accessors = new Accessor[0];
                 }
                 else
                 {
-                    String name = nextTokenList.poll();
-                    openParentheses(nextTokenList);
+                    LinkedList<LinkedList<String>> paramList = splitOperands(nextTokenList, ",");
+                    accessors = new Accessor[paramList.size()];
 
-                    if (nextTokenList.isEmpty())
+                    for (int i = 0; i < accessors.length; i++)
                     {
-                        builder.method(name);
+                        accessors[i] = resolve(script, paramList.poll());
                     }
-                    else
-                    {
-                        LinkedList<LinkedList<String>> paramList = splitOperands(nextTokenList, ",");
-                        Accessor[] accessors = new Accessor[paramList.size()];
+                }
 
-                        for (int i = 0; i < accessors.length; i++)
-                        {
-                            accessors[0] = resolve(script, paramList.poll());
-                        }
-
-                        builder.method(name, accessors);
-                    }
+                if (builder.isEmpty()) // in the beginning
+                {
+                    builder.function(name, accessors);
+                }
+                else // somewhere later
+                {
+                    builder.method(name, accessors);
                 }
             }
             else // field

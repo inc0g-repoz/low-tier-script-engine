@@ -30,19 +30,6 @@ public class UnitConditionalIf extends UnitSection
         UnitConditionalIf unit = new UnitConditionalIf(section, condition);
         ScriptCompiler.appendSectionUnits(script, node, unit);
 
-        /*
-        if (parent.childs.getLast() instanceof UnitConditionalIf)
-        {
-            UnitConditionalIf cif = (UnitConditionalIf) parent.childs.getLast();
-            return cif.otherwise = UnitConditionalElse.compile(script, node, null);
-        }
-        else
-        {
-            String breaker = node.getNodeBreakerType().name().toLowerCase();
-            throw new SyntaxError("Unexpected else " + breaker);
-        }
-        */
-
         LinkedList<ASTNode> parentNodes = node.getParent().getChildNodes();
         if (!parentNodes.isEmpty())
         {

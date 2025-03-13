@@ -13,7 +13,7 @@ public class ScriptCompiler
 
     public static UnitRoot compile(Script script, AST ast)
     {
-        UnitRoot root = new UnitRoot();
+        UnitRoot root = new UnitRoot(script);
         compileSection_r(script, ast, root);
         return root;
     }

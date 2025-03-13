@@ -2,12 +2,17 @@ package com.github.inc0grepoz.ltse.unit;
 
 import java.util.StringJoiner;
 
+import com.github.inc0grepoz.ltse.Script;
+
 public class UnitRoot extends UnitSection
 {
 
-    UnitRoot()
+    private final Script script;
+
+    UnitRoot(Script script)
     {
         super(null);
+        this.script = script;
     }
 
     @Override
@@ -18,7 +23,7 @@ public class UnitRoot extends UnitSection
         return joiner.toString();
     }
 
-    public Object callFunction(String name, Object... args)
+    public UnitFunction getFunction(String name, int paramCount)
     {
         UnitFunction fn;
 
@@ -30,25 +35,23 @@ public class UnitRoot extends UnitSection
 
                 if (fn.name.equals(name))
                 {
-                    if (fn.paramNames.size() != args.length)
+                    if (fn.paramNames.size() != paramCount)
                     {
-                        throw new IllegalArgumentException(fn.name + "(" + String.join(", ", fn.paramNames) + ")");
+                        String desc = fn.name + "(" + String.join(", ", fn.paramNames) + ")";
+                        throw new IllegalArgumentException(desc);
                     }
 
-                    ExecutionContext context = new ExecutionContext();
-                    context.enterSection();
-
-                    for (int i = 0; i < args.length; i++)
-                    {
-                        context.setVariable(fn.paramNames.get(i), args[i]);
-                    }
-
-                    return child.execute(context);
+                    return fn;
                 }
             }
         }
 
         return null;
+    }
+
+    Script getScript()
+    {
+        return script;
     }
 
 }
