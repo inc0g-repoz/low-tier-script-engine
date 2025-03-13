@@ -1,0 +1,7 @@
+function test() {
+    a = true;
+    b = true;
+    c = true;
+    d = false;
+    return (a && b == c || d) && aa
+}

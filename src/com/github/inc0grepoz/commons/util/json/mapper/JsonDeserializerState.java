@@ -1,0 +1,14 @@
+package com.github.inc0grepoz.commons.util.json.mapper;
+
+enum JsonDeserializerState
+{
+    EXPECT_OBJECT_OPEN,
+    EXPECT_KEY_QUOTE_BEGIN,
+    EXPECT_KEY_QUOTE_END,
+    EXPECT_KEY_VALUE_DELIMITER,
+    EXPECT_VALUE,
+    EXPECT_VALUE_STRING_END,
+    EXPECT_VALUE_ARRAY_END,
+    EXPECT_VALUE_JSON_END,
+    EXPECT_OBJECT_END_OR_ENTRIES_DELIMITER
+}
