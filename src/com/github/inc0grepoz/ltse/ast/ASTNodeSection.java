@@ -3,7 +3,7 @@ package com.github.inc0grepoz.ltse.ast;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-import com.github.inc0grepoz.util.AnsiColor;
+import com.github.inc0grepoz.common.util.AnsiColor;
 
 public class ASTNodeSection extends ASTNode
 {

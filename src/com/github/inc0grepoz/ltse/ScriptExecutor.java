@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.inc0grepoz.common.util.Lexer;
 import com.github.inc0grepoz.ltse.ast.AST;
 import com.github.inc0grepoz.ltse.unit.expression.Operator;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorAdd;
@@ -17,7 +18,6 @@ import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
-import com.github.inc0grepoz.util.Lexer;
 
 public class ScriptExecutor
 {

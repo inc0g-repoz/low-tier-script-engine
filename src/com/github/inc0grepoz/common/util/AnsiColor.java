@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.util;
+package com.github.inc0grepoz.common.util;
 
 import java.util.concurrent.ThreadLocalRandom;
 

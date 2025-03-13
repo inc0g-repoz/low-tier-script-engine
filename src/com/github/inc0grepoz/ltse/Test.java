@@ -1,12 +1,9 @@
-package bootstrap;
+package com.github.inc0grepoz.ltse;
 
 import java.io.File;
 import java.util.function.Supplier;
 
-import com.github.inc0grepoz.ltse.Script;
-import com.github.inc0grepoz.ltse.ScriptExecutor;
-
-public class Bootstrap
+public class Test
 {
 
     public static void main(String[] args) throws Throwable
