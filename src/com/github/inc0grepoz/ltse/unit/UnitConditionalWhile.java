@@ -26,12 +26,9 @@ public class UnitConditionalWhile extends UnitSection
 
         LinkedList<String> conditionTokens = node.readEnclosedTokens("(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
-        UnitConditionalWhile unit = new UnitConditionalWhile(section, condition);
 
-        if (!tokens.isEmpty())
-        {
-            ScriptCompiler.compileUnit_r(script, node, unit);
-        }
+        UnitConditionalWhile unit = new UnitConditionalWhile(section, condition);
+        ScriptCompiler.appendSectionUnits(script, node, unit);
 
         return unit;
     }
@@ -42,6 +39,12 @@ public class UnitConditionalWhile extends UnitSection
     {
         super(parent);
         this.condition = condition;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "while (" + condition + ") " + super.toString();
     }
 
     @Override

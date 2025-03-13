@@ -21,6 +21,12 @@ public class UnitOperation extends Unit
     }
 
     @Override
+    public String toString()
+    {
+        return accessor.toString();
+    }
+
+    @Override
     Object execute(ExecutionContext context)
     {
         accessor.linkedAccess(context, null);

@@ -26,11 +26,30 @@ public class UnitConditionalIf extends UnitSection
 
         LinkedList<String> conditionTokens = node.readEnclosedTokens("(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
-        UnitConditionalIf unit = new UnitConditionalIf(section, condition);
 
-        if (!tokens.isEmpty())
+        UnitConditionalIf unit = new UnitConditionalIf(section, condition);
+        ScriptCompiler.appendSectionUnits(script, node, unit);
+
+        /*
+        if (parent.childs.getLast() instanceof UnitConditionalIf)
         {
-            ScriptCompiler.compileUnit_r(script, node, unit);
+            UnitConditionalIf cif = (UnitConditionalIf) parent.childs.getLast();
+            return cif.otherwise = UnitConditionalElse.compile(script, node, null);
+        }
+        else
+        {
+            String breaker = node.getNodeBreakerType().name().toLowerCase();
+            throw new SyntaxError("Unexpected else " + breaker);
+        }
+        */
+
+        LinkedList<ASTNode> parentNodes = node.getParent().getChildNodes();
+        if (!parentNodes.isEmpty())
+        {
+            if (parentNodes.peek().getTokens().peek().equals("else"))
+            {
+                unit.otherwise = UnitConditionalElse.compile(script, parentNodes.poll(), null);
+            }
         }
 
         return unit;
@@ -44,6 +63,12 @@ public class UnitConditionalIf extends UnitSection
     {
         super(parent);
         this.condition = condition;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "if (" + condition + ") " + super.toString() + (otherwise == null ? "" : " " + otherwise);
     }
 
     @Override

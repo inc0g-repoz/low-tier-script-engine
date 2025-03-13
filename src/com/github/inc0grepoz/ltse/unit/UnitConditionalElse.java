@@ -15,9 +15,13 @@ public class UnitConditionalElse extends UnitSection
 
         UnitConditionalElse unit = new UnitConditionalElse(section);
 
-        if (!tokens.isEmpty())
+        if (tokens.isEmpty())
         {
-            ScriptCompiler.compileUnit_r(script, node, unit);
+            ScriptCompiler.appendSectionUnits(script, node, unit);
+        }
+        else
+        {
+            unit.childs.add(ScriptCompiler.compileUnit_r(script, node, section));
         }
 
         return unit;
@@ -26,6 +30,12 @@ public class UnitConditionalElse extends UnitSection
     UnitConditionalElse(UnitSection parent)
     {
         super(parent);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "else " + super.toString();
     }
 
 }

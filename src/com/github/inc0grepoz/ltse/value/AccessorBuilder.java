@@ -8,6 +8,12 @@ public class AccessorBuilder
 
     AccessorBuilder() {}
 
+    @Override
+    public String toString()
+    {
+        return first == null ? null : first.toString();
+    }
+
     public AccessorBuilder accessor(Accessor accessor)
     {
         length++;
@@ -22,12 +28,6 @@ public class AccessorBuilder
         }
 
         return this;
-    }
-
-    @Override
-    public String toString()
-    {
-        return first == null ? null : first.toString();
     }
 
     public AccessorBuilder field(String name)

@@ -12,6 +12,7 @@ import com.github.inc0grepoz.ltse.unit.expression.Operator;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorAdd;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorAnd;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorAssign;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorComparator;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorDivide;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorEqual;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
@@ -26,15 +27,19 @@ public class ScriptExecutor
     private final List<Operator> operators = new ArrayList<>();
 
     {
-        operators.add(new OperatorAssign("="));
-        operators.add(new OperatorEqual("=="));
-        operators.add(new OperatorNotEqual("!="));
-        operators.add(new OperatorAdd("+"));
-        operators.add(new OperatorSubtract("-"));
-        operators.add(new OperatorMultiply("*"));
-        operators.add(new OperatorOr("||"));
-        operators.add(new OperatorDivide("/"));
-        operators.add(new OperatorAnd("&&"));
+        operators.add(new OperatorAssign    ("="));
+        operators.add(new OperatorEqual     ("=="));
+        operators.add(new OperatorComparator("<",  (n1, n2) -> n1.doubleValue() <  n2.doubleValue()));
+        operators.add(new OperatorComparator("<=", (n1, n2) -> n1.doubleValue() <= n2.doubleValue()));
+        operators.add(new OperatorComparator(">",  (n1, n2) -> n1.doubleValue() >  n2.doubleValue()));
+        operators.add(new OperatorComparator(">=", (n1, n2) -> n1.doubleValue() >= n2.doubleValue()));
+        operators.add(new OperatorNotEqual  ("!="));
+        operators.add(new OperatorAdd       ("+"));
+        operators.add(new OperatorSubtract  ("-"));
+        operators.add(new OperatorMultiply  ("*"));
+        operators.add(new OperatorOr        ("||"));
+        operators.add(new OperatorDivide    ("/"));
+        operators.add(new OperatorAnd       ("&&"));
     }
 
     public Script load(File file)
@@ -44,7 +49,7 @@ public class ScriptExecutor
         try
         {
             input = Lexer.readTokens(new FileReader(file));
-            System.out.println(String.join("$", input));
+//          System.out.println(String.join("$", input));
         }
         catch (Throwable t)
         {
@@ -52,6 +57,7 @@ public class ScriptExecutor
         }
 
         AST ast = AST.generateTree(input);
+//      System.out.println(ast);
 
         Script script = new Script(this, ast);
         scripts.add(script);

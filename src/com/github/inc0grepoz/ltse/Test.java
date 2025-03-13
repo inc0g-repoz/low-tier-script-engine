@@ -1,8 +1,10 @@
 package com.github.inc0grepoz.ltse;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.function.Supplier;
 
+@SuppressWarnings({"rawtypes", "unused"})
 public class Test
 {
 
@@ -13,10 +15,15 @@ public class Test
         // src/com/github/inc0grepoz/dsl/util/Lexer.java
         // test
         File file = new File("test");
+        Supplier[] getter = (Supplier[]) Array.newInstance(Supplier.class, 1);
 
         Object object = new Object()
         {
-            public int field = 2;
+            public int field;
+
+            {
+                getter[0] = () -> field;
+            }
 
             @Override
             public String toString()
@@ -27,7 +34,7 @@ public class Test
         };
 
         Script script = time("Compiled", () -> executor.load(file));
-        Object result = time("Executed", () -> script.callFunction("test", object));
+        Object result = time("Executed", () -> script.callFunction("test"));
 
         System.out.println(result);
     }

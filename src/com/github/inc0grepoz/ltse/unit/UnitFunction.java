@@ -26,30 +26,29 @@ public class UnitFunction extends UnitSection
 
         token = tokens.poll();
 
+        List<String> paramNames;
+
         if (token.equals(")"))
         {
-            return new UnitFunction(section, name, Collections.emptyList());
+            paramNames = Collections.emptyList();
         }
-
-        List<String> paramNames = new ArrayList<>();
-        paramNames.add(token);
-
-        while ((token = tokens.poll()).equals(","))
+        else
         {
-            paramNames.add(tokens.poll());
-        }
+            (paramNames = new ArrayList<>()).add(token);
 
-        if (!token.equals(")"))
-        {
-            throw new IllegalStateException("')' expected, but \"" + token + "\" found");
+            while ((token = tokens.poll()).equals(","))
+            {
+                paramNames.add(tokens.poll());
+            }
+
+            if (!token.equals(")"))
+            {
+                throw new IllegalStateException("')' expected, but \"" + token + "\" found");
+            }
         }
 
         UnitFunction unit = new UnitFunction(section, name, paramNames);
-
-        if (!tokens.isEmpty())
-        {
-            ScriptCompiler.compileUnit_r(script, node, unit);
-        }
+        ScriptCompiler.appendSectionUnits(script, node, unit);
 
         return unit;
     }
@@ -62,6 +61,12 @@ public class UnitFunction extends UnitSection
         super(parent);
         this.name = name;
         this.paramNames = paramNames;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "function " + name + " (" + String.join(", ", paramNames) + ") " + super.toString();
     }
 
 }

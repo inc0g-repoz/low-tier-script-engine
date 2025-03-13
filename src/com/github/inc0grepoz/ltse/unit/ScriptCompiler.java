@@ -25,53 +25,46 @@ public class ScriptCompiler
             return compileSection_r(script, node, new UnitSection(parent));
         }
 
-        Unit unit;
-
         switch (node.getTokens().peek())
         {
         case "else":
-            if (parent.childs.getLast() instanceof UnitConditionalIf)
-            {
-                UnitConditionalIf cif = (UnitConditionalIf) parent.childs.getLast();
-                unit = cif.otherwise = UnitConditionalElse.compile(script, node, null);
-            }
-            else
-            {
-                String breaker = node.getNodeBreakerType().name().toLowerCase();
-                throw new SyntaxError("Unexpected else " + breaker);
-            }
-            break;
-//      case "for":
+            throw new SyntaxError("There can be no \"else\" without an \"if\"");
         case "function":
-            unit = UnitFunction.compile(script, node, parent);
-            break;
+            return UnitFunction.compile(script, node, parent);
         case "if":
-            unit = UnitConditionalIf.compile(script, node, parent);
-            break;
+            return UnitConditionalIf.compile(script, node, parent);
         case "return":
-            unit = UnitReturn.compile(script, node, parent);
-            break;
+            return UnitReturn.compile(script, node, parent);
         case "while":
-            unit = UnitConditionalWhile.compile(script, node, parent);
-            break;
+            return UnitConditionalWhile.compile(script, node, parent);
         default:
-            unit = UnitOperation.compile(script, node, parent);
+            return UnitOperation.compile(script, node, parent);
         }
+    }
 
-        if (node.getNodeBreakerType() == NodeBreakerType.BLOCK)
+    static void appendSectionUnits(Script script, ASTNode node, Unit parent)
+    {
+        if (parent instanceof UnitSection)
         {
-            if (unit instanceof UnitSection)
+            UnitSection section = (UnitSection) parent;
+
+            if (node.getNodeBreakerType() == NodeBreakerType.BLOCK)
             {
                 ASTNode next = node.getParent().getChildNodes().poll();
-                compileSection_r(script, next, (UnitSection) unit);
+                compileSection_r(script, next, section);
             }
             else
             {
-                throw new IllegalStateException("Attempted to extend a statement with a block of code");
+                if (!node.getTokens().isEmpty())
+                {
+                    compileUnit_r(script, node, section);
+                }
             }
         }
-
-        return unit;
+        else
+        {
+            throw new IllegalStateException("Attempted to extend a statement with a block of code");
+        }
     }
 
     private static UnitSection compileSection_r(Script script, ASTNode node, UnitSection parent)

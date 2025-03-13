@@ -25,7 +25,7 @@ public class AccessorOperator extends Accessor
     @Override
     public String toString()
     {
-        StringJoiner joiner = new StringJoiner(operator.getName());
+        StringJoiner joiner = new StringJoiner(" " + operator.getName() + " ");
 
         for (int i = 0; i < operands.length; i++)
         {

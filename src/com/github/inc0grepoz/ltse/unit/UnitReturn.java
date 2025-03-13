@@ -32,6 +32,12 @@ public class UnitReturn extends Unit
     }
 
     @Override
+    public String toString()
+    {
+        return "return " + accessor;
+    }
+
+    @Override
     Object execute(ExecutionContext context)
     {
         return accessor.linkedAccess(context, null);

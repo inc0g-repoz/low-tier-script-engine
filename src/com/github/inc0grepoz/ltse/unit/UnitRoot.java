@@ -1,11 +1,21 @@
 package com.github.inc0grepoz.ltse.unit;
 
+import java.util.StringJoiner;
+
 public class UnitRoot extends UnitSection
 {
 
     UnitRoot()
     {
         super(null);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringJoiner joiner = new StringJoiner("\n");
+        childs.forEach(child -> joiner.add(child.toString()));
+        return joiner.toString();
     }
 
     public Object callFunction(String name, Object... args)

@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.ltse.unit;
 
 import java.util.LinkedList;
+import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.Script;
 
@@ -12,6 +13,19 @@ public class UnitSection extends Unit
     UnitSection(UnitSection parent)
     {
         super(parent);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringJoiner joiner = new StringJoiner("\n", "{\n", "\n}");
+
+        for (Unit child: childs)
+        {
+            joiner.add(child.toString());
+        }
+
+        return joiner.toString();
     }
 
     @Override
