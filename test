@@ -31,9 +31,4 @@ function main(hook) {
 
 //  hook.thread.sleep(1000);
 //  hook.out.println("Slept for 1000 ms");
-
-    b = true;
-    b = !b;
-    a = +1;
-    hook.out.println(a);
 }

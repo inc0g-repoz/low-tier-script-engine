@@ -55,7 +55,8 @@ public class ExecutionContext
             }
         }
 
-        throw new RuntimeException("Variable '" + name + "' not found in any active section");
+//      throw new RuntimeException("Variable '" + name + "' not found in any active section");
+        return null;
     }
 
     ExecutionContext enterSection()
