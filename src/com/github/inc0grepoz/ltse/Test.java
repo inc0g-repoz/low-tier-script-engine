@@ -1,13 +1,12 @@
 package com.github.inc0grepoz.ltse;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
-
-import com.github.inc0grepoz.common.util.Lexer;
 
 @SuppressWarnings({"rawtypes", "unused"})
 public class Test

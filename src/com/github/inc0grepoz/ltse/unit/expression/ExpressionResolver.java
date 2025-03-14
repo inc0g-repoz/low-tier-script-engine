@@ -241,6 +241,11 @@ public class ExpressionResolver
             }
             else // field
             {
+                if (nextTokenList.size() != 1)
+                {
+                    throw new SyntaxError("Unresolved expression " + String.join(" ", nextTokenList));
+                }
+
                 if (builder.isEmpty())
                 {
                     builder.accessor(resolveToken(nextTokenList.poll()));

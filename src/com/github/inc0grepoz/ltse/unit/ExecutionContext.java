@@ -10,6 +10,8 @@ import com.github.inc0grepoz.ltse.Script;
 public class ExecutionContext
 {
 
+    private static final Object NO_KEY = new Object();
+
     private final Script script;
     private final Deque<Map<String, Object>> layers = new ArrayDeque<>();
 
@@ -49,14 +51,13 @@ public class ExecutionContext
 
         for (Map<String, Object> layer : layers)
         {
-            if ((o = layer.get(name)) != null)
+            if ((o = layer.getOrDefault(name, NO_KEY)) != NO_KEY)
             {
                 return o;
             }
         }
 
-//      throw new RuntimeException("Variable '" + name + "' not found in any active section");
-        return null;
+        throw new RuntimeException("Variable '" + name + "' not found in any active section");
     }
 
     ExecutionContext enterSection()

@@ -28,6 +28,9 @@ function main(hook) {
 
     n = 5;
     hook.out.println("Factorial of " + n + " equals " + factorial(n));
+    a = null;
+    if (a) {}
+    if (b) {}
 
 //  hook.thread.sleep(1000);
 //  hook.out.println("Slept for 1000 ms");
