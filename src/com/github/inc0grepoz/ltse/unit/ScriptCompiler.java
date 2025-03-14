@@ -28,10 +28,14 @@ public class ScriptCompiler
 
         switch (node.getTokens().peek())
         {
+        case "break":
+            throw new SyntaxError("Breaking is not supporter");
+        case "continue":
+            throw new SyntaxError("Continuing is not supporter");
         case "else":
             throw new SyntaxError("There can be no \"else\" without an \"if\"");
         case "for":
-            return UnitConditionalFor.compile(script, node, parent);
+            return UnitLoopFor.compile(script, node, parent);
         case "function":
             return UnitFunction.compile(script, node, parent);
         case "if":
@@ -39,7 +43,7 @@ public class ScriptCompiler
         case "return":
             return UnitReturn.compile(script, node, parent);
         case "while":
-            return UnitConditionalWhile.compile(script, node, parent);
+            return UnitLoopWhile.compile(script, node, parent);
         default:
             return UnitOperation.compile(script, node, parent);
         }

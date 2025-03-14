@@ -8,17 +8,17 @@ import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
-public class UnitConditionalWhile extends UnitSection
+public class UnitLoopWhile extends UnitSection
 {
 
-    static UnitConditionalWhile compile(Script script, ASTNode node, UnitSection section)
+    static UnitLoopWhile compile(Script script, ASTNode node, UnitSection section)
     {
         node.getTokens().poll(); // while
 
         LinkedList<String> conditionTokens = node.readEnclosedTokens("(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
 
-        UnitConditionalWhile unit = new UnitConditionalWhile(section, condition);
+        UnitLoopWhile unit = new UnitLoopWhile(section, condition);
         ScriptCompiler.appendSectionUnits(script, node, unit);
 
         return unit;
@@ -26,7 +26,7 @@ public class UnitConditionalWhile extends UnitSection
 
     final Accessor condition;
 
-    UnitConditionalWhile(UnitSection parent, Accessor condition)
+    UnitLoopWhile(UnitSection parent, Accessor condition)
     {
         super(parent);
         this.condition = condition;

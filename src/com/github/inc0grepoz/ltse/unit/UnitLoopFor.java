@@ -9,10 +9,10 @@ import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
-public class UnitConditionalFor extends UnitSection
+public class UnitLoopFor extends UnitSection
 {
 
-    static UnitConditionalFor compile(Script script, ASTNode node, UnitSection section)
+    static UnitLoopFor compile(Script script, ASTNode node, UnitSection section)
     {
         node.getTokens().poll(); // for
 
@@ -32,7 +32,7 @@ public class UnitConditionalFor extends UnitSection
         Accessor increment = (tempTokens = split.poll()).isEmpty() ? null
                 : ExpressionResolver.resolve(script, tempTokens);
 
-        UnitConditionalFor unit = new UnitConditionalFor(section, parameter, condition, increment);
+        UnitLoopFor unit = new UnitLoopFor(section, parameter, condition, increment);
         ScriptCompiler.appendSectionUnits(script, node, unit);
 
         return unit;
@@ -40,7 +40,7 @@ public class UnitConditionalFor extends UnitSection
 
     final Accessor parameter, condition, increment;
 
-    UnitConditionalFor(UnitSection parent, Accessor parameter, Accessor condition, Accessor increment)
+    UnitLoopFor(UnitSection parent, Accessor parameter, Accessor condition, Accessor increment)
     {
         super(parent);
         this.parameter = parameter;

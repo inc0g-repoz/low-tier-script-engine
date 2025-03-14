@@ -23,15 +23,20 @@ function factorial(n) {
     else return n * factorial(n - 1);
 }
 
+function sleep(hook, time) {
+    sleepTime = 0;
+    hook.thread.sleep(time);
+    hook.out.println("Slept for " + time + " ms");
+}
+
 function main(hook) {
-//  fibbonacci(hook, 10);
+    fibbonacci(hook, 5);
 
     n = 5;
     hook.out.println("Factorial of " + n + " equals " + factorial(n));
+
     a = null;
     if (a) {}
-    if (b) {}
 
-//  hook.thread.sleep(1000);
-//  hook.out.println("Slept for 1000 ms");
+    sleep(hook, 0);
 }
