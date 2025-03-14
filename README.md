@@ -17,3 +17,4 @@ List of features:
 - [x] Basic control flow blocks and statements
 - [x] Basic Java logic and arithmetic unary and binary operators
 - [ ] Bitwise and ternary operators
+- [ ] Array index operator
