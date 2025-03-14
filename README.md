@@ -6,7 +6,7 @@
 **LTSE**
 
 # What's this?
-LTSE is a simple script engine with a C-like syntax running of JVM.
+LTSE is a simple script engine with a C-like syntax running off JVM.
 Instead of using types compatible with the engine it allows accessing them directly through [Reflection API][reflection].
 
 List of features:
