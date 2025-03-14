@@ -6,11 +6,13 @@ import com.github.inc0grepoz.ltse.value.Accessor;
 public abstract class Operator
 {
 
-    private final String name;
+    final String name;
+    final int operandCount;
 
-    Operator(String name)
+    Operator(String name, int operandCount)
     {
         this.name = name;
+        this.operandCount = operandCount;
     }
 
     public String getName()

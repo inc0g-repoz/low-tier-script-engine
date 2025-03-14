@@ -2,23 +2,15 @@ package com.github.inc0grepoz.ltse;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.github.inc0grepoz.common.util.Lexer;
 import com.github.inc0grepoz.ltse.ast.AST;
-import com.github.inc0grepoz.ltse.unit.expression.Operator;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorAdd;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorAnd;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorAssign;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorComparator;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorDivide;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorEqual;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
+import com.github.inc0grepoz.ltse.unit.expression.*;
 
 public class ScriptExecutor
 {
@@ -27,34 +19,29 @@ public class ScriptExecutor
     private final List<Operator> operators = new ArrayList<>();
 
     {
-        operators.add(new OperatorAssign    ("="));
-        operators.add(new OperatorEqual     ("=="));
-        operators.add(new OperatorComparator("<",  (n1, n2) -> n1.doubleValue() <  n2.doubleValue()));
-        operators.add(new OperatorComparator("<=", (n1, n2) -> n1.doubleValue() <= n2.doubleValue()));
-        operators.add(new OperatorComparator(">",  (n1, n2) -> n1.doubleValue() >  n2.doubleValue()));
-        operators.add(new OperatorComparator(">=", (n1, n2) -> n1.doubleValue() >= n2.doubleValue()));
-        operators.add(new OperatorNotEqual  ("!="));
-        operators.add(new OperatorAdd       ("+"));
-        operators.add(new OperatorSubtract  ("-"));
-        operators.add(new OperatorMultiply  ("*"));
-        operators.add(new OperatorOr        ("||"));
-        operators.add(new OperatorDivide    ("/"));
-        operators.add(new OperatorAnd       ("&&"));
+        operators.add(new OperatorAssign      ("="));
+        operators.add(new OperatorOr          ("||"));
+        operators.add(new OperatorAnd         ("&&"));
+        operators.add(new OperatorAssignMutate("+=", (n1, n2) -> n1.doubleValue() + n2.doubleValue()));
+        operators.add(new OperatorAssignMutate("-=", (n1, n2) -> n1.doubleValue() - n2.doubleValue()));
+        operators.add(new OperatorAssignMutate("*=", (n1, n2) -> n1.doubleValue() * n2.doubleValue()));
+        operators.add(new OperatorAssignMutate("/=", (n1, n2) -> n1.doubleValue() / n2.doubleValue()));
+        operators.add(new OperatorEqual       ("=="));
+        operators.add(new OperatorNotEqual    ("!="));
+        operators.add(new OperatorComparator  ("<",  (n1, n2) -> n1.doubleValue() <  n2.doubleValue()));
+        operators.add(new OperatorComparator  ("<=", (n1, n2) -> n1.doubleValue() <= n2.doubleValue()));
+        operators.add(new OperatorComparator  (">",  (n1, n2) -> n1.doubleValue() >  n2.doubleValue()));
+        operators.add(new OperatorComparator  (">=", (n1, n2) -> n1.doubleValue() >= n2.doubleValue()));
+        operators.add(new OperatorAdd         ("+"));
+        operators.add(new OperatorSubtract    ("-"));
+        operators.add(new OperatorMultiply    ("*"));
+        operators.add(new OperatorDivide      ("/"));
     }
 
-    public Script load(File file)
+    public Script load(Reader reader) throws IOException
     {
-        LinkedList<String> input;
-
-        try
-        {
-            input = Lexer.readTokens(new FileReader(file));
-//          System.out.println(String.join("$", input));
-        }
-        catch (Throwable t)
-        {
-            throw new RuntimeException(t);
-        }
+        LinkedList<String> input = Lexer.readTokens(reader);
+//      System.out.println(String.join("$", input));
 
         AST ast = AST.generateTree(input);
 //      System.out.println(ast);
@@ -63,6 +50,11 @@ public class ScriptExecutor
         scripts.add(script);
 
         return script;
+    }
+
+    public Script load(File file) throws IOException
+    {
+        return load(new FileReader(file));
     }
 
     public boolean unload(Script script)

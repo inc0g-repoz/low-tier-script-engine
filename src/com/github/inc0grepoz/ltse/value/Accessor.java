@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.ltse.value;
 
+import java.util.function.Function;
+
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
 public abstract class Accessor
@@ -12,17 +14,25 @@ public abstract class Accessor
 
     Accessor next;
 
+    public abstract Object access(ExecutionContext ctx, Object src);
+
     public Object linkedAccess(ExecutionContext ctx, Object src)
     {
         Object rv = access(ctx, src);
         return next == null ? rv : next.linkedAccess(ctx, rv);
     }
 
-    public abstract Object access(ExecutionContext ctx, Object src);
-
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
         throw new UnsupportedOperationException();
+    }
+
+    public Object mutate(ExecutionContext ctx, Object src, Function<Object, Object> fn)
+    {
+        Object cv = access(ctx, src);
+        return next == null
+                ? mutate(ctx, src, fn.apply(cv))
+                : next.mutate(ctx, src, fn);
     }
 
 }

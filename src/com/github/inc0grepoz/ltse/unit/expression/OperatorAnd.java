@@ -9,7 +9,7 @@ public class OperatorAnd extends Operator
 
     public OperatorAnd(String name)
     {
-        super(name);
+        super(name, 2);
     }
 
     @Override

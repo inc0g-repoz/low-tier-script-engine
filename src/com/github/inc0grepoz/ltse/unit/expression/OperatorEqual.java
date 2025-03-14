@@ -9,7 +9,7 @@ public class OperatorEqual extends Operator
 
     public OperatorEqual(String name)
     {
-        super(name);
+        super(name, 2);
     }
 
     @Override

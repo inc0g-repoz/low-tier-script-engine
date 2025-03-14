@@ -24,11 +24,9 @@ public class UnitFunction extends UnitSection
             throw new IllegalStateException("'(' expected, but \"" + token + "\" found");
         }
 
-        token = tokens.poll();
-
         List<String> paramNames;
 
-        if (token.equals(")"))
+        if ((token = tokens.poll()).equals(")"))
         {
             paramNames = Collections.emptyList();
         }

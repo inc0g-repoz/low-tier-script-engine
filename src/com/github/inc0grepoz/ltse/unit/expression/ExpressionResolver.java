@@ -26,6 +26,59 @@ public class ExpressionResolver
     static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("\\d*\\.\\d+[Ff]");
     static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("\\d*\\.\\d+[Dd]?");
 
+    public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator)
+    {
+        int parentheses = 0;
+
+        LinkedList<LinkedList<String>> separateTokens = new LinkedList<>();
+
+        ListIterator<String> iter = tokens.listIterator();
+        LinkedList<String> tokenList = new LinkedList<>();
+        String next;
+
+        while (iter.hasNext())
+        {
+            switch (next = iter.next())
+            {
+            case "(":
+                parentheses++;
+                break;
+            case ")":
+                parentheses--;
+                break;
+            }
+
+            if (parentheses == 0 && next.equals(separator))
+            {
+                // Flushing the previous tokens
+                separateTokens.add(tokenList);
+                tokenList = new LinkedList<>();
+            }
+            else
+            {
+                // Writing the observed token
+                tokenList.add(next);
+            }
+        }
+
+        // Flushing the last sequence
+        separateTokens.add(tokenList);
+
+        return separateTokens;
+    }
+
+    public static LinkedList<String> openParentheses(LinkedList<String> tokens)
+    {
+        while (tokens.size() > 1
+                && tokens.getFirst().equals("(")
+                && tokens.getLast().equals(")"))
+        {
+            tokens.removeFirst();
+            tokens.removeLast();
+        }
+        return tokens;
+    }
+
     public static Accessor resolve(Script script, LinkedList<String> tokens)
     {
         openParentheses(tokens);
@@ -92,7 +145,7 @@ public class ExpressionResolver
 
         for (Operator operator: script.getOperators())
         {
-            separateTokens = splitOperands(tokens, operator.getName());
+            separateTokens = splitTokens(tokens, operator.getName());
 
             if (separateTokens.size() > 1)
             {
@@ -112,7 +165,7 @@ public class ExpressionResolver
 
     private static Accessor resolveLinkedAccessor(Script script, LinkedList<String> tokens)
     {
-        LinkedList<LinkedList<String>> splitTokens = splitOperands(tokens, ".");
+        LinkedList<LinkedList<String>> splitTokens = splitTokens(tokens, ".");
         LinkedList<String> nextTokenList;
         AccessorBuilder builder = Accessor.builder();
 
@@ -143,7 +196,7 @@ public class ExpressionResolver
                 }
                 else
                 {
-                    LinkedList<LinkedList<String>> paramList = splitOperands(nextTokenList, ",");
+                    LinkedList<LinkedList<String>> paramList = splitTokens(nextTokenList, ",");
                     accessors = new Accessor[paramList.size()];
 
                     for (int i = 0; i < accessors.length; i++)
@@ -178,59 +231,6 @@ public class ExpressionResolver
 //      System.out.println("Length: " + builder.length());
 //      System.out.println("Type: " + builder.build().getClass());
         return builder.build();
-    }
-
-    private static LinkedList<LinkedList<String>> splitOperands(LinkedList<String> tokens, String separator)
-    {
-        int parentheses = 0;
-
-        LinkedList<LinkedList<String>> separateTokens = new LinkedList<>();
-
-        ListIterator<String> iter = tokens.listIterator();
-        LinkedList<String> tempList = new LinkedList<>();
-        String next;
-
-        while (iter.hasNext())
-        {
-            switch (next = iter.next())
-            {
-            case "(":
-                parentheses++;
-                break;
-            case ")":
-                parentheses--;
-                break;
-            }
-
-            if (parentheses == 0 && next.equals(separator))
-            {
-                // Flushing the previous tokens
-                separateTokens.add(tempList);
-                tempList = new LinkedList<>();
-            }
-            else
-            {
-                // Writing the observed token
-                tempList.add(next);
-            }
-        }
-
-        // Flushing the last sequence
-        separateTokens.add(tempList);
-
-        return separateTokens;
-    }
-
-    private static LinkedList<String> openParentheses(LinkedList<String> tokens)
-    {
-        while (tokens.size() > 1
-                && tokens.getFirst().equals("(")
-                && tokens.getLast().equals(")"))
-        {
-            tokens.removeFirst();
-            tokens.removeLast();
-        }
-        return tokens;
     }
 
 }

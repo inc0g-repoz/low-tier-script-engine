@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.ltse;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.function.Supplier;
 
@@ -8,7 +9,7 @@ import java.util.function.Supplier;
 public class Test
 {
 
-    public static void main(String[] args) throws Throwable
+    public static void main(String[] args)
     {
         ScriptExecutor executor = new ScriptExecutor();
 
@@ -33,9 +34,18 @@ public class Test
 
         };
 
-        Script script = time("Compiled", () -> executor.load(file));
-        Object result = time("Executed", () -> script.callFunction("test"));
+        Script script = time("Compiled", () -> {
+            try
+            {
+                return executor.load(file);
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+        });
 
+        Object result = time("Executed", () -> script.callFunction("test"));
         System.out.println(result);
     }
 

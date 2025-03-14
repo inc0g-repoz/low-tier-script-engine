@@ -8,7 +8,7 @@ public class OperatorAssign extends Operator
 
     public OperatorAssign(String name)
     {
-        super(name);
+        super(name, 2);
     }
 
     @Override

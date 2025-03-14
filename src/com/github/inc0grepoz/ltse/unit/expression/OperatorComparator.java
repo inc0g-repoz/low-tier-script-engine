@@ -12,16 +12,16 @@ public class OperatorComparator extends Operator
 
     public OperatorComparator(String name, BiFunction<Number, Number, Boolean> lambda)
     {
-        super(name);
+        super(name, 2);
         this.lambda = lambda;
     }
 
     @Override
     public Object evaluate(ExecutionContext ctx, Accessor[] operands)
     {
-        if (operands.length != 2)
+        if (operands.length != operandCount)
         {
-            throw new RuntimeException("Only can compare 2 numbers");
+            throw new RuntimeException("Only can compare " + operandCount + " numbers");
         }
 
         Number fst = (Number) operands[0].linkedAccess(ctx, null);

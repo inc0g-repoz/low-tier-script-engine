@@ -1,13 +1,15 @@
 // Script file for testing
 
-function test_function_call(a)
-{
+function test_function_call(a) {
     return a + 5;
 }
 
 function test() {
     a = test_function_call(15);
-    while (a < 10) {
+    for (i = 0; i < 10; i += 1) {
+        a = a + 1;
+    }
+    while (a < 50) {
         a = a + 1;
     }
     if (a == 1) {
@@ -17,6 +19,7 @@ function test() {
     } else if (a == 3) {
         return "three";
     } else {
-        return a;
+        a -= 5;
+        return i;
     }
 }

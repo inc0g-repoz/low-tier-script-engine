@@ -29,6 +29,8 @@ public class ScriptCompiler
         {
         case "else":
             throw new SyntaxError("There can be no \"else\" without an \"if\"");
+        case "for":
+            return UnitConditionalFor.compile(script, node, parent);
         case "function":
             return UnitFunction.compile(script, node, parent);
         case "if":

@@ -8,7 +8,7 @@ public class OperatorMultiply extends Operator
 
     public OperatorMultiply(String name)
     {
-        super(name);
+        super(name, 2);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class OperatorMultiply extends Operator
             }
             else
             {
-                throw new UnsupportedOperationException("Attempted to multiplied an illegal type");
+                throw new UnsupportedOperationException("Attempted to multiply an illegal type");
             }
         }
 
