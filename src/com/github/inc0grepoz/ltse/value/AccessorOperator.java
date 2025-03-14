@@ -38,18 +38,7 @@ public class AccessorOperator extends Accessor
     @Override
     public Object access(ExecutionContext ctx, Object src)
     {
-        return roundInt(operator.evaluate(ctx, operands));
-    }
-
-    private Object roundInt(Object rv)
-    {
-        if (rv instanceof Number)
-        {
-            Number n = (Number) rv;
-            return n.doubleValue() % 1 == 0 ? n.intValue() : rv;
-        }
-
-        return rv;
+        return operator.evaluate(ctx, operands);
     }
 
 }

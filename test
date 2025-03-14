@@ -1,25 +1,30 @@
 // Script file for testing
 
-function test_function_call(a) {
-    return a + 5;
+function fibbonacci(hook, count) {
+    n1 = 0;
+    n2 = 1;
+    n3 = 0;
+
+    // Printing 0 and 1
+    hook.out.println(n1);
+    hook.out.println(n2);
+
+    // Loop starts from 2 because 0 and 1 are already printed
+    for (i = 2; i < count; i += 1) {
+        n3 = n1 + n2;
+        hook.out.println(n3);
+        n1 = n2;
+        n2 = n3;
+    }
 }
 
-function test() {
-    a = test_function_call(15);
-    for (i = 0; i < 10; i += 1) {
-        a = a + 1;
-    }
-    while (a < 50) {
-        a = a + 1;
-    }
-    if (a == 1) {
-        return "one";
-    } else if (a == 2) {
-        return "two";
-    } else if (a == 3) {
-        return "three";
-    } else {
-        a -= 5;
-        return i;
-    }
+function factorial(n) {
+    if (n == 1.0) return 1.0;
+    else return n * factorial(n - 1);
+}
+
+function main(hook) {
+//  fibbonacci(hook, 10);
+    hook.out.println(factorial(5.0));
+    return 0;
 }

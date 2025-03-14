@@ -2,6 +2,7 @@ package com.github.inc0grepoz.ltse;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.function.Supplier;
 
@@ -18,20 +19,10 @@ public class Test
         File file = new File("test");
         Supplier[] getter = (Supplier[]) Array.newInstance(Supplier.class, 1);
 
-        Object object = new Object()
+        Object hook = new Object()
         {
-            public int field;
-
-            {
-                getter[0] = () -> field;
-            }
-
-            @Override
-            public String toString()
-            {
-                return Integer.toString(field);
-            }
-
+            PrintStream out = System.out;
+            Thread thread = Thread.currentThread();
         };
 
         Script script = time("Compiled", () -> {
@@ -45,7 +36,7 @@ public class Test
             }
         });
 
-        Object result = time("Executed", () -> script.callFunction("test"));
+        Object result = time("Executed", () -> script.callFunction("main", hook));
         System.out.println(result);
     }
 

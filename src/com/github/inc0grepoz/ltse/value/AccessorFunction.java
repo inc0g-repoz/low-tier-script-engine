@@ -68,9 +68,13 @@ public class AccessorFunction extends AccessorNamed
         {
             return cachedFunction.call(paramArr);
         }
+        catch (NullPointerException npe)
+        {
+            throw new RuntimeException("Unknown function " + name + " with " + params.length + " parameter(-s)", npe);
+        }
         catch (Throwable t)
         {
-            return null;
+            throw t;
         }
     }
 

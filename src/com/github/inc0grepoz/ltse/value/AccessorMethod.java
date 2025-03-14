@@ -79,7 +79,7 @@ public class AccessorMethod extends AccessorNamed
         }
         catch (Throwable t)
         {
-            return null;
+            throw new RuntimeException("Failed to invoke the method " + this, t);
         }
     }
 

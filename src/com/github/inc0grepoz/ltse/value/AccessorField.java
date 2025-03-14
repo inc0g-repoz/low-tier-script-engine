@@ -37,7 +37,7 @@ public class AccessorField extends AccessorNamed
         }
         catch (Throwable t)
         {
-            return null;
+            throw new RuntimeException("Failed to access the field " + this, t);
         }
     }
 
