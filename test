@@ -24,14 +24,16 @@ function factorial(n) {
 }
 
 function main(hook) {
-    fibbonacci(hook, 10);
+//  fibbonacci(hook, 10);
 
     n = 5;
     hook.out.println("Factorial of " + n + " equals " + factorial(n));
 
-    //hook.thread.sleep(1000);
-    hook.out.println("Slept for 1000 ms");
+//  hook.thread.sleep(1000);
+//  hook.out.println("Slept for 1000 ms");
 
+    b = true;
+    b = !b;
     a = 1;
-    hook.out.println(++a);
+    hook.out.println(b.toString(b));
 }

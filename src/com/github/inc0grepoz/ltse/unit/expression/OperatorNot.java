@@ -9,7 +9,7 @@ public class OperatorNot extends Operator
 
     public OperatorNot(String name)
     {
-        super(name, OperatorType.BINARY);
+        super(name, OperatorType.UNARY_LEFT);
     }
 
     @Override
