@@ -8,7 +8,7 @@ public class OperatorSubtract extends Operator
 
     public OperatorSubtract(String name)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
     }
 
     @Override

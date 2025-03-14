@@ -8,7 +8,7 @@ public class OperatorAdd extends Operator
 
     public OperatorAdd(String name)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
     }
 
     @Override

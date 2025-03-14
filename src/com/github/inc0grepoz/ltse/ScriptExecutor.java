@@ -19,23 +19,28 @@ public class ScriptExecutor
     private final List<Operator> operators = new ArrayList<>();
 
     {
-        operators.add(new OperatorAssign      ("="));
-        operators.add(new OperatorOr          ("||"));
-        operators.add(new OperatorAnd         ("&&"));
-        operators.add(new OperatorAssignMutate("+=", (n1, n2) -> n1.doubleValue() + n2.doubleValue()));
-        operators.add(new OperatorAssignMutate("-=", (n1, n2) -> n1.doubleValue() - n2.doubleValue()));
-        operators.add(new OperatorAssignMutate("*=", (n1, n2) -> n1.doubleValue() * n2.doubleValue()));
-        operators.add(new OperatorAssignMutate("/=", (n1, n2) -> n1.doubleValue() / n2.doubleValue()));
-        operators.add(new OperatorEqual       ("=="));
-        operators.add(new OperatorNotEqual    ("!="));
-        operators.add(new OperatorComparator  ("<",  (n1, n2) -> n1.doubleValue() <  n2.doubleValue()));
-        operators.add(new OperatorComparator  ("<=", (n1, n2) -> n1.doubleValue() <= n2.doubleValue()));
-        operators.add(new OperatorComparator  (">",  (n1, n2) -> n1.doubleValue() >  n2.doubleValue()));
-        operators.add(new OperatorComparator  (">=", (n1, n2) -> n1.doubleValue() >= n2.doubleValue()));
-        operators.add(new OperatorAdd         ("+"));
-        operators.add(new OperatorSubtract    ("-"));
-        operators.add(new OperatorMultiply    ("*"));
-        operators.add(new OperatorDivide      ("/"));
+        operators.add(new OperatorAssign           ("="));
+        operators.add(new OperatorOr               ("||"));
+        operators.add(new OperatorAnd              ("&&"));
+        operators.add(new OperatorAssignMutate     ("+=", (n1, n2) -> n1.doubleValue() + n2.doubleValue()));
+        operators.add(new OperatorAssignMutate     ("-=", (n1, n2) -> n1.doubleValue() - n2.doubleValue()));
+        operators.add(new OperatorAssignMutate     ("*=", (n1, n2) -> n1.doubleValue() * n2.doubleValue()));
+        operators.add(new OperatorAssignMutate     ("/=", (n1, n2) -> n1.doubleValue() / n2.doubleValue()));
+        operators.add(new OperatorEqual            ("=="));
+        operators.add(new OperatorNotEqual         ("!="));
+        operators.add(new OperatorComparator       ("<",  (n1, n2) -> n1.doubleValue() <  n2.doubleValue()));
+        operators.add(new OperatorComparator       ("<=", (n1, n2) -> n1.doubleValue() <= n2.doubleValue()));
+        operators.add(new OperatorComparator       (">",  (n1, n2) -> n1.doubleValue() >  n2.doubleValue()));
+        operators.add(new OperatorComparator       (">=", (n1, n2) -> n1.doubleValue() >= n2.doubleValue()));
+        operators.add(new OperatorAdd              ("+"));
+        operators.add(new OperatorSubtract         ("-"));
+        operators.add(new OperatorMultiply         ("*"));
+        operators.add(new OperatorDivide           ("/"));
+        operators.add(new OperatorNot              ("!"));
+        operators.add(new OperatorAssignMutateUnary("++", OperatorType.UNARY_LEFT,  (n) -> n.doubleValue() + 1));
+        operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_LEFT,  (n) -> n.doubleValue() + 1));
+        operators.add(new OperatorAssignMutateUnary("++", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() + 1));
+        operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() + 1));
     }
 
     public Script load(Reader reader) throws IOException

@@ -7,6 +7,10 @@ import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 public abstract class Accessor
 {
 
+    public static final Accessor NULL  = AccessorValue.of(null);
+    public static final Accessor TRUE  = AccessorValue.of(true);
+    public static final Accessor FALSE = AccessorValue.of(false);
+
     public static AccessorBuilder builder()
     {
         return new AccessorBuilder();

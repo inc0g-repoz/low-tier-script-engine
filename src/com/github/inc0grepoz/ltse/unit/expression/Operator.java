@@ -7,17 +7,22 @@ public abstract class Operator
 {
 
     final String name;
-    final int operandCount;
+    final OperatorType type;
 
-    Operator(String name, int operandCount)
+    Operator(String name, OperatorType type)
     {
         this.name = name;
-        this.operandCount = operandCount;
+        this.type = type;
     }
 
     public String getName()
     {
         return name;
+    }
+
+    public OperatorType getType()
+    {
+        return type;
     }
 
     public abstract Object evaluate(ExecutionContext ctx, Accessor[] operands);

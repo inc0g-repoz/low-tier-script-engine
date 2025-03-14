@@ -9,7 +9,7 @@ public class OperatorOr extends Operator
 
     public OperatorOr(String name)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
     }
 
     @Override

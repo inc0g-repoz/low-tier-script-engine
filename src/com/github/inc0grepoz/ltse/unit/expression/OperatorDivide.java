@@ -8,7 +8,7 @@ public class OperatorDivide extends Operator
 
     public OperatorDivide(String name)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
     }
 
     @Override

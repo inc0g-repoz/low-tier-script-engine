@@ -8,7 +8,7 @@ public class OperatorMultiply extends Operator
 
     public OperatorMultiply(String name)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
     }
 
     @Override

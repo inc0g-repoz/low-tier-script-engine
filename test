@@ -10,7 +10,7 @@ function fibbonacci(hook, count) {
     hook.out.println(n2);
 
     // Loop starts from 2 because 0 and 1 are already printed
-    for (i = 2; i < count; i += 1) {
+    for (i = 2; i < count; i++) {
         n3 = n1 + n2;
         hook.out.println(n3);
         n1 = n2;
@@ -24,7 +24,14 @@ function factorial(n) {
 }
 
 function main(hook) {
-//  fibbonacci(hook, 10);
-    hook.out.println(factorial(5.0));
-    return 0;
+    fibbonacci(hook, 10);
+
+    n = 5;
+    hook.out.println("Factorial of " + n + " equals " + factorial(n));
+
+    //hook.thread.sleep(1000);
+    hook.out.println("Slept for 1000 ms");
+
+    a = 1;
+    hook.out.println(++a);
 }

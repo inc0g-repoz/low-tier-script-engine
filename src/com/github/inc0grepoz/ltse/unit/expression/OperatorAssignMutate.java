@@ -12,15 +12,15 @@ public class OperatorAssignMutate extends Operator
 
     public OperatorAssignMutate(String name, BiFunction<Number, Number, Number> lambda)
     {
-        super(name, 2);
+        super(name, OperatorType.BINARY);
         this.lambda = lambda;
     }
 
     @Override
     public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
-        if (operands.length != operandCount)
+        if (operands.length != type.getOperandCount())
         {
-            throw new RuntimeException("Only can use \"" + name + "\" on " + operandCount + " numbers");
+            throw new RuntimeException("Only can use \"" + name + "\" on " + type.getOperandCount() + " numbers");
         }
 
         Number rv = (Number) operands[1].linkedAccess(ctx, null);

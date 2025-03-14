@@ -8,7 +8,7 @@ import com.github.inc0grepoz.ltse.unit.expression.Operator;
 public class AccessorOperator extends Accessor
 {
 
-    public static AccessorOperator of(Operator operator, Accessor[] operands)
+    public static AccessorOperator of(Operator operator, Accessor... operands)
     {
         return new AccessorOperator(operator, operands);
     }

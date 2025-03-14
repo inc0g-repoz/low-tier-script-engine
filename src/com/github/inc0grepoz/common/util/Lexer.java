@@ -11,9 +11,10 @@ import com.github.inc0grepoz.ltse.SyntaxError;
 public class Lexer
 {
 
-    private static final String CHAR_SPECIAL = "\r\t\n ~!@#$%^&*()-=+[]{}:;'\"\\|/<>,.?";
-    private static final String CHAR_NEVER_TRAIL = "!()[]{}<>;.";
     private static final String CHAR_DIGIT = ".0123456789";
+    private static final String CHAR_BRACES = "()[]{}<>";
+    private static final String CHAR_SPECIAL = "\r\t\n ~!@#$%^&*()-=+[]{}:;'\"\\|/<>,.?";
+    private static final String CHAR_NEVER_TRAIL = CHAR_BRACES + "!;.";
     private static final Pattern PATTERN_NUMBER = Pattern.compile("(\\d*\\.)?(\\d+)");
 
     public static LinkedList<String> readTokens(Reader in) throws IOException
@@ -164,7 +165,9 @@ public class Lexer
             }
 
             // Some special symbols may trail
-            if (!lastSpecial || CHAR_NEVER_TRAIL.indexOf(ch) != -1)
+            if (!lastSpecial
+                    || CHAR_NEVER_TRAIL.indexOf(ch) != -1
+                    || CHAR_BRACES.indexOf(chp) != -1)
             {
                 flushBuffer(builder, tokens);
             }

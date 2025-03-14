@@ -15,6 +15,7 @@ public class ScriptCompiler
     {
         UnitRoot root = new UnitRoot(script);
         compileSection_r(script, ast, root);
+//      System.out.println(root);
         return root;
     }
 

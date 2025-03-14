@@ -15,10 +15,6 @@ import com.github.inc0grepoz.ltse.value.AccessorVariable;
 public class ExpressionResolver
 {
 
-    static final Accessor ACCESSOR_NULL = AccessorValue.of(null);
-    static final Accessor ACCESSOR_TRUE = AccessorValue.of(true);
-    static final Accessor ACCESSOR_FALSE = AccessorValue.of(false);
-
     static final Pattern PATTERN_STRING = Pattern.compile("^\".+\"$");
     static final Pattern PATTERN_SPECIAL = Pattern.compile("[~!@#$%^&*()-=+\\[\\]{}:;'\"\\|/<>,.?]+");
     static final Pattern PATTERN_NUMBER_INT = Pattern.compile("\\d+");
@@ -94,15 +90,20 @@ public class ExpressionResolver
 
     private static Accessor resolveToken(String token)
     {
+        if (token == null)
+        {
+            return Accessor.NULL;
+        }
+
         // Persistent (reserved tokens)
         switch (token)
         {
         case "null":
-            return ACCESSOR_NULL;
+            return Accessor.NULL;
         case "true":
-            return ACCESSOR_TRUE;
+            return Accessor.TRUE;
         case "false":
-            return ACCESSOR_FALSE;
+            return Accessor.FALSE;
         }
 
         // String tokens
@@ -145,18 +146,42 @@ public class ExpressionResolver
 
         for (Operator operator: script.getOperators())
         {
-            separateTokens = splitTokens(tokens, operator.getName());
-
-            if (separateTokens.size() > 1)
+            switch (operator.getType())
             {
-                Accessor[] operands = new Accessor[separateTokens.size()];
-
-                for (int i = 0; i < operands.length; i++)
+            case UNARY_LEFT:
+                if (!operator.getName().equals(tokens.peekFirst()))
                 {
-                    operands[i] = resolve(script, separateTokens.poll());
+                    break;
                 }
 
-                return AccessorOperator.of(operator, operands);
+                tokens.pollFirst();
+                return AccessorOperator.of(operator, resolve(script, tokens));
+            case UNARY_RIGHT:
+                if (!operator.getName().equals(tokens.peekLast()))
+                {
+                    break;
+                }
+
+                tokens.pollLast();
+                return AccessorOperator.of(operator, resolve(script, tokens));
+            case BINARY:
+                separateTokens = splitTokens(tokens, operator.getName());
+
+                if (separateTokens.size() > 1)
+                {
+                    Accessor[] operands = new Accessor[separateTokens.size()];
+
+                    for (int i = 0; i < operands.length; i++)
+                    {
+                        operands[i] = resolve(script, separateTokens.poll());
+                    }
+
+                    return AccessorOperator.of(operator, operands);
+                }
+
+                break;
+            case TERNARY:
+                // Unresolved
             }
         }
 
@@ -173,7 +198,7 @@ public class ExpressionResolver
         {
             nextTokenList = splitTokens.poll();
 
-            if (nextTokenList.getFirst().equals("(")) // value
+            if (("(").equals(nextTokenList.peekFirst())) // value
             {
                 if (builder.isEmpty())
                 {
@@ -184,7 +209,7 @@ public class ExpressionResolver
                     throw new SyntaxError("Illegal member name: " + String.join(" ", nextTokenList));
                 }
             }
-            else if (nextTokenList.getLast().equals(")")) // parameterized accessor
+            else if ((")").equals(nextTokenList.peekLast())) // parameterized accessor
             {
                 String name = nextTokenList.poll();
                 openParentheses(nextTokenList);
