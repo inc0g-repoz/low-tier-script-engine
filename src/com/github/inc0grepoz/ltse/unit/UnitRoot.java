@@ -35,13 +35,10 @@ public class UnitRoot extends UnitSection
 
                 if (fn.name.equals(name))
                 {
-                    if (fn.paramNames.size() != paramCount)
+                    if (fn.paramNames.size() == paramCount)
                     {
-                        String desc = fn.name + "(" + String.join(", ", fn.paramNames) + ")";
-                        throw new IllegalArgumentException(desc);
+                        return fn;
                     }
-
-                    return fn;
                 }
             }
         }

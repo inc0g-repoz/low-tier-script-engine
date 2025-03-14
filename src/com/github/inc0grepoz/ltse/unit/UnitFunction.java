@@ -71,6 +71,12 @@ public class UnitFunction extends UnitSection
 
     public Object call(Object... args)
     {
+        if (args.length != paramNames.size())
+        {
+            String desc = name + "(" + String.join(", ", paramNames) + ")";
+            throw new IllegalArgumentException(desc);
+        }
+
         ExecutionContext context = new ExecutionContext(root.getScript());
         context.enterSection();
 
