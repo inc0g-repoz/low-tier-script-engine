@@ -29,9 +29,9 @@ public class ScriptCompiler
         switch (node.getTokens().peek())
         {
         case "break":
-            throw new SyntaxError("Breaking is not supporter");
+            throw new SyntaxError("Breaking is not supported");
         case "continue":
-            throw new SyntaxError("Continuing is not supporter");
+            throw new SyntaxError("Continuing is not supported");
         case "else":
             throw new SyntaxError("There can be no \"else\" without an \"if\"");
         case "for":
@@ -42,6 +42,8 @@ public class ScriptCompiler
             return UnitConditionalIf.compile(script, node, parent);
         case "return":
             return UnitReturn.compile(script, node, parent);
+        case "switch":
+            throw new SyntaxError("Switching is not supported");
         case "while":
             return UnitLoopWhile.compile(script, node, parent);
         default:
