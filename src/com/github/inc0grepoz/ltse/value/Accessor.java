@@ -8,6 +8,7 @@ public abstract class Accessor
 {
 
     public static final Accessor NULL  = AccessorValue.of(null);
+    public static final Accessor ZERO  = AccessorValue.of(0);
     public static final Accessor TRUE  = AccessorValue.of(true);
     public static final Accessor FALSE = AccessorValue.of(false);
 
