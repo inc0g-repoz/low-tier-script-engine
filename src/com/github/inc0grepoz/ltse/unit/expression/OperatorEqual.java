@@ -25,7 +25,14 @@ public class OperatorEqual extends Operator
             if (PrimitiveTester.isPrimitiveType(fst)
                     && PrimitiveTester.isPrimitiveType(scd))
             {
-                equal = fst.equals(scd);
+                if (fst instanceof Number && scd instanceof Number)
+                {
+                    equal = ((Number) fst).doubleValue() == ((Number) scd).doubleValue();
+                }
+                else
+                {
+                    equal = fst.equals(scd);
+                }
             }
             else
             {

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"rawtypes", "unused"})
@@ -38,6 +36,7 @@ public class Test
             }
         });
 
+        Integer n = 1; n.toString();
         time("Executed", () -> script.callFunction("main", hook));
     }
 

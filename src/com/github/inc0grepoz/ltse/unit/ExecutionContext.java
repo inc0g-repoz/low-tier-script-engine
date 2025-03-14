@@ -72,6 +72,7 @@ public class ExecutionContext
         {
             throw new IllegalStateException("No active section to exit");
         }
+
         layers.pop();
         return this;
     }

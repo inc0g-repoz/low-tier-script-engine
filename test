@@ -18,9 +18,17 @@ function fibbonacci(hook, count) {
     }
 }
 
-function factorial(n) {
-    if (n == 1.0) return 1.0;
+function factorial_r(n) {
+    if (n == 1) return 1;
     else return n * factorial(n - 1);
+}
+
+function factorial(n) {
+    rv = 1;
+    while (n != 1) {
+        rv *= n--;
+    }
+    return rv;
 }
 
 function sleep(hook, time) {
@@ -30,13 +38,13 @@ function sleep(hook, time) {
 }
 
 function main(hook) {
-    fibbonacci(hook, 5);
+//  fibbonacci(hook, 5);
 
     n = 5;
     hook.out.println("Factorial of " + n + " equals " + factorial(n));
 
-    a = null;
-    if (a) {}
+//  sleep(hook, 0);
 
-    sleep(hook, 0);
+    v = 5;
+    hook.out.println(++v + " a");
 }
