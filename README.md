@@ -1,4 +1,4 @@
-[icon]: https://raw.githubusercontent.com/inc0g-repoz/low-tier-script-engine/src/assets/icon.png
+[icon]: https://raw.githubusercontent.com/inc0g-repoz/low-tier-script-engine/refs/heads/main/src/assets/icon.png
 [reflection]: https://www.oracle.com/technical-resources/articles/java/javareflection.html
 <!-- The stuff above is invisible -->
 
