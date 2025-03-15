@@ -77,9 +77,9 @@ public class UnitFunction extends UnitSection
         return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
     }
 
-    public Object call(Object... args)
+    public Object call(Object... params)
     {
-        if (args.length != paramNames.size())
+        if (params.length != paramNames.size())
         {
             String desc = name + "(" + String.join(", ", paramNames) + ")";
             throw new IllegalArgumentException(desc);
@@ -88,9 +88,9 @@ public class UnitFunction extends UnitSection
         ExecutionContext context = new ExecutionContext(root.getScript());
         context.enterSection();
 
-        for (int i = 0; i < args.length; i++)
+        for (int i = 0; i < params.length; i++)
         {
-            context.setVariable(paramNames.get(i), args[i]);
+            context.setVariable(paramNames.get(i), params[i]);
         }
 
         return execute(context);

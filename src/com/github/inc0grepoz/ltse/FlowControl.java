@@ -1,5 +1,10 @@
 package com.github.inc0grepoz.ltse;
 
+/**
+ * A set of values for controlling execution of scripts.
+ * 
+ * @author inc0g-repoz
+ */
 public enum FlowControl
 {
 

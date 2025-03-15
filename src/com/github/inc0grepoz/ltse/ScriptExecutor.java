@@ -12,6 +12,11 @@ import com.github.inc0grepoz.common.util.Lexer;
 import com.github.inc0grepoz.ltse.ast.AST;
 import com.github.inc0grepoz.ltse.unit.expression.*;
 
+/**
+ * A script execution framework.
+ * 
+ * @author inc0g-repoz
+ */
 public class ScriptExecutor
 {
 
@@ -43,6 +48,16 @@ public class ScriptExecutor
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() - 1));
     }
 
+    /**
+     * Loads a script from the reader input, compiles it,
+     * stores it in the pool and returns it's instance.
+     * 
+     * @param reader the character stream reader
+     * @return a compiled {@code Script}
+     * @throws IOException
+     *         if one of the input operations interrupts
+     *         during compilation
+     */
     public Script load(Reader reader) throws IOException
     {
         LinkedList<String> input = Lexer.readTokens(reader);
@@ -57,21 +72,43 @@ public class ScriptExecutor
         return script;
     }
 
+    /**
+     * Loads a script from the file content, compiles it,
+     * stores it in the pool and returns it's instance.
+     * 
+     * @param file the file to read characters from
+     * @return a compiled {@code Script}
+     * @throws IOException
+     *         if one of the input operations interrupts
+     *         during compilation
+     */
     public Script load(File file) throws IOException
     {
         return load(new FileReader(file));
     }
 
+    /**
+     * Removes the first occurrence of the specified script
+     * from the pool, if it is present. Returns {@code true},
+     * if it was stored in the pool, or {@code false} otherwise.
+     * 
+     * @param script the script to unload
+     * @return whether the specified script was stored in the pool
+     */
     public boolean unload(Script script)
     {
         return scripts.remove(script);
     }
 
+    /**
+     * Unloads all scripts from the pool.
+     */
     public void unloadAll()
     {
         scripts.clear();
     }
 
+    // Supplies the default operators to compiled scripts
     List<Operator> getDefaultOperators()
     {
         return operators;

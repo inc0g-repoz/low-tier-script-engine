@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
 
-public class AccessorFunction extends AccessorNamed
+class AccessorFunction extends AccessorNamed
 {
 
     private final Accessor[] params;

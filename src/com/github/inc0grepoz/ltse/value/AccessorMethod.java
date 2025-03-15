@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
-public class AccessorMethod extends AccessorNamed
+class AccessorMethod extends AccessorNamed
 {
 
     private final Accessor[] params;

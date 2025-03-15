@@ -4,9 +4,20 @@ import java.util.LinkedList;
 
 import com.github.inc0grepoz.ltse.SyntaxError;
 
+/**
+ * Represents an abstract syntax tree read from lexer output.
+ * 
+ * @author inc0g-repoz
+ */
 public class AST extends ASTNodeSection
 {
 
+    /**
+     * Returns a new generated {@code AST} from the specified input.
+     * 
+     * @param input the lexer output
+     * @return a new generated {@code AST}
+     */
     public static AST generateTree(LinkedList<String> input)
     {
         AST root = new AST();
@@ -86,6 +97,7 @@ public class AST extends ASTNodeSection
         return root;
     }
 
+    // Creates an empty AST
     private AST()
     {
         super(null);

@@ -6,25 +6,46 @@ import java.util.function.Function;
 import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
+/**
+ * Represents a value, variable or a member access chain.
+ * 
+ * @author inc0g-repoz
+ */
 public abstract class Accessor
 {
 
-    public static final Accessor VOID   = AccessorValue.of(FlowControl.VOID);
-    public static final Accessor NULL   = AccessorValue.of(null);
-    public static final Accessor ZERO   = AccessorValue.of(0);
-    public static final Accessor TRUE   = AccessorValue.of(true);
-    public static final Accessor FALSE  = AccessorValue.of(false);
+    /** Precached {@code void} return value accessor. **/
+    public static final Accessor VOID = AccessorValue.of(FlowControl.VOID);
 
+    /** Precached {@code null} value accessor. **/
+    public static final Accessor NULL = AccessorValue.of(null);
+
+    /** Precached void {@code 0} accessor for subtraction operators. **/
+    public static final Accessor ZERO = AccessorValue.of(0);
+
+    /** Precached {@code true} value accessor. **/
+    public static final Accessor TRUE = AccessorValue.of(true);
+
+    /** Precached {@code false} value accessor. **/
+    public static final Accessor FALSE = AccessorValue.of(false);
+
+    /**
+     * Creates a new {@code AccessorBuilder} with an empty
+     * access chain.
+     * 
+     * @return a new {@code AccessorBuilder}
+     */
     public static AccessorBuilder builder()
     {
         return new AccessorBuilder();
     }
 
-    static Object convert(Object rv)
+    // Converts objects, if they're integer numbers
+    static Object convert(Object object)
     {
-        if (rv instanceof Number)
+        if (object instanceof Number)
         {
-            Number n  = (Number) rv;
+            Number n  = (Number) object;
             double dv = n.doubleValue();
 
             if (dv % 1 == 0)
@@ -48,11 +69,20 @@ public abstract class Accessor
             }
         }
 
-        return rv;
+        return object;
     }
 
     Accessor next, elementIndex;
 
+    /**
+     * Returns an {@code Object} accessed through this {@code Accessor}
+     * instance from the specified source to be used in a linked access
+     * chain or as a return value.
+     * 
+     * @param ctx the function {@code ExecutionContext}
+     * @param src the {@code Object} source
+     * @return an accessed {@code Object}
+     */
     public abstract Object access(ExecutionContext ctx, Object src);
 
     public Object linkedAccess(ExecutionContext ctx, Object src)
@@ -61,11 +91,29 @@ public abstract class Accessor
         return next == null ? rv : next.linkedAccess(ctx, rv);
     }
 
+    /**
+     * Mutates the {@code Object} refered to by this {@code Accessor}
+     * and returns the new value specified.
+     * 
+     * @param ctx the function {@code ExecutionContext}
+     * @param src the {@code Object} source
+     * @param val the new value
+     * @return the new value
+     */
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Mutates the {@code Object} refered to by this {@code Accessor}
+     * and returns the new value from the specified function.
+     * 
+     * @param ctx the function {@code ExecutionContext}
+     * @param src the {@code Object} source
+     * @param fn  the mutator function
+     * @return the new value
+     */
     public Object mutate(ExecutionContext ctx, Object src, Function<Object, Object> fn)
     {
         Object cv = access(ctx, src);
@@ -74,11 +122,13 @@ public abstract class Accessor
                 : next.mutate(ctx, src, fn);
     }
 
+    // Accesses the source object element
     Object accessElement(ExecutionContext ctx, Object eltSrc)
     {
         return Array.get(eltSrc, (int) elementIndex.linkedAccess(ctx, null));
     }
 
+    // Mutates the source object element
     Object mutateElement(ExecutionContext ctx, Object eltSrc, Object val)
     {
         if (next == null)

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
-public class AccessorField extends AccessorNamed
+class AccessorField extends AccessorNamed
 {
 
     private Class<?> cachedType;
