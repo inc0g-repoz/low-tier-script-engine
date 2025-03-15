@@ -23,7 +23,11 @@ public class Test
         {
             PrintStream out = System.out;
             Thread thread = Thread.currentThread();
-            int[] array = new int[] { 1, 2, 3 };
+
+            public Object createArray(Class<?> clazz, int size)
+            {
+                return Array.newInstance(clazz, size);
+            }
         };
 
         Script script = time("Compiled", () -> {

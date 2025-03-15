@@ -1,7 +1,5 @@
 package com.github.inc0grepoz.ltse.value;
 
-import java.lang.reflect.Array;
-
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
 public class AccessorVariable extends AccessorNamed
@@ -26,8 +24,7 @@ public class AccessorVariable extends AccessorNamed
     @Override
     public Object access(ExecutionContext ctx, Object src) {
         Object rv = ctx.getVariable(name);
-        return elementIndex == null ? rv : Array.get(rv,
-                (int) elementIndex.linkedAccess(ctx, null));
+        return elementIndex == null ? rv : accessElement(ctx, rv);
     }
 
     @Override
@@ -40,16 +37,7 @@ public class AccessorVariable extends AccessorNamed
                     : next.mutate(ctx, access(ctx, src), val);
         }
 
-        Object rv = ctx.getVariable(name);
-
-        if (next == null)
-        {
-            int idx = (int) elementIndex.linkedAccess(ctx, null);
-            Array.set(rv, idx, val = convert(val));
-            return val;
-        }
-
-        return next.mutate(ctx, access(ctx, src), val);
+        return mutateElement(ctx, ctx.getVariable(name), val);
     }
 
 }

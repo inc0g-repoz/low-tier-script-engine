@@ -1,5 +1,15 @@
 // Script file for testing
 
+function create_int_array(hook, size) {
+    _ = 1;
+    return hook.createArray(_.getClass(), size);
+}
+
+function create_string_array(hook, size) {
+    _ = "";
+    return hook.createArray(_.getClass(), size);
+}
+
 function fibbonacci(hook, count) {
     n1 = 0;
     n2 = 1;
@@ -57,7 +67,7 @@ function main(hook) {
     hook.out.println(++v + " is an integer");
 
     out = hook.out;
-    array = hook.array;
-    array[0] = 5;
-    out.println("array[0] value is " + array[0]);
+    array = create_string_array(hook, 10);
+    array[0] = "Array Element";
+    out.println(array[0]);
 }

@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.ltse.value;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +42,7 @@ public class AccessorMethod extends AccessorNamed
         try
         {
             Object rv = access(cachedMethod, src, paramArr);
-            return elementIndex == null ? rv : Array.get(rv,
-                    (int) elementIndex.linkedAccess(ctx, null));
+            return elementIndex == null ? rv : accessElement(ctx, rv);
         }
         catch (Throwable t)
         {
@@ -80,28 +78,15 @@ public class AccessorMethod extends AccessorNamed
         }
 
         Object[] paramArr = cacheMethod(ctx, src);
-        Object rv;
 
         try
         {
-            rv = access(cachedMethod, src, paramArr);
+            return mutateElement(ctx, access(cachedMethod, src, paramArr), val);
         }
         catch (Throwable t)
         {
             return null;
         }
-
-        if (next == null)
-        {
-            int idx = (int) elementIndex.linkedAccess(ctx, null);
-            Array.set(rv, idx, val = convert(val));
-            return val;
-        }
-
-        rv = elementIndex == null ? rv : Array.get(rv,
-                (int) elementIndex.linkedAccess(ctx, null));
-
-        return next.mutate(ctx, rv, val);
     }
 
     private Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)

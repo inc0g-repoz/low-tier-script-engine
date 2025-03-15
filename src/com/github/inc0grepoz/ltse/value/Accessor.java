@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.ltse.value;
 
+import java.lang.reflect.Array;
 import java.util.function.Function;
 
 import com.github.inc0grepoz.ltse.FlowControl;
@@ -71,6 +72,24 @@ public abstract class Accessor
         return next == null
                 ? mutate(ctx, src, fn.apply(cv))
                 : next.mutate(ctx, src, fn);
+    }
+
+    Object accessElement(ExecutionContext ctx, Object eltSrc)
+    {
+        return Array.get(eltSrc, (int) elementIndex.linkedAccess(ctx, null));
+    }
+
+    Object mutateElement(ExecutionContext ctx, Object eltSrc, Object val)
+    {
+        if (next == null)
+        {
+            int idx = (int) elementIndex.linkedAccess(ctx, null);
+            Array.set(eltSrc, idx, val = convert(val));
+            return val;
+        }
+
+        Object elt = Array.get(eltSrc, (int) elementIndex.linkedAccess(ctx, null));
+        return next.mutate(ctx, elt, val);
     }
 
 }

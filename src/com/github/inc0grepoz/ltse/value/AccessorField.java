@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.ltse.value;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
@@ -35,8 +34,7 @@ public class AccessorField extends AccessorNamed
         try
         {
             Object rv = access(cachedField, src);
-            return elementIndex == null ? rv : Array.get(rv,
-                    (int) elementIndex.linkedAccess(ctx, null));
+            return elementIndex == null ? rv : accessElement(ctx, rv);
         }
         catch (Throwable t)
         {
@@ -89,28 +87,14 @@ public class AccessorField extends AccessorNamed
             }
         }
 
-        Object rv;
-
         try
         {
-            rv = access(cachedField, src);
+            return mutateElement(ctx, access(cachedField, src), val);
         }
         catch (Throwable t)
         {
             return null;
         }
-
-        if (next == null)
-        {
-            int idx = (int) elementIndex.linkedAccess(ctx, null);
-            Array.set(rv, idx, val = convert(val));
-            return val;
-        }
-
-        rv = elementIndex == null ? rv : Array.get(rv,
-                (int) elementIndex.linkedAccess(ctx, null));
-
-        return next.mutate(ctx, rv, val);
     }
 
     Object mutate(Field field, Object src, Object val) throws Throwable
