@@ -78,7 +78,7 @@ class AccessorField extends AccessorNamed
                 }
                 catch (Throwable t)
                 {
-                    return null;
+                    throw new RuntimeException("Failed to access a field " + this, t);
                 }
             }
             else
@@ -93,7 +93,7 @@ class AccessorField extends AccessorNamed
         }
         catch (Throwable t)
         {
-            return null;
+            throw new RuntimeException("Failed to mutate an element of field " + this, t);
         }
     }
 

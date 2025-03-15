@@ -85,7 +85,7 @@ class AccessorMethod extends AccessorNamed
         }
         catch (Throwable t)
         {
-            return null;
+            throw new RuntimeException("Failed to mutate a return value element of method " + this, t);
         }
     }
 
