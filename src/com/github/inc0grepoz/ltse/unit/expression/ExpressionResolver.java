@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 import com.github.inc0grepoz.ltse.Script;
-import com.github.inc0grepoz.ltse.SyntaxError;
+import com.github.inc0grepoz.ltse.exception.SyntaxError;
 import com.github.inc0grepoz.ltse.value.Accessor;
 import com.github.inc0grepoz.ltse.value.AccessorBuilder;
 import com.github.inc0grepoz.ltse.value.AccessorOperator;

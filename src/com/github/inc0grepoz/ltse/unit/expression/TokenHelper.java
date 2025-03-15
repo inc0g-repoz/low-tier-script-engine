@@ -3,7 +3,7 @@ package com.github.inc0grepoz.ltse.unit.expression;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import com.github.inc0grepoz.ltse.SyntaxError;
+import com.github.inc0grepoz.ltse.exception.SyntaxError;
 
 public class TokenHelper
 {

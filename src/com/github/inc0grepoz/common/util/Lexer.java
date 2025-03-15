@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.github.inc0grepoz.ltse.SyntaxError;
+import com.github.inc0grepoz.ltse.exception.SyntaxError;
 
 public class Lexer
 {

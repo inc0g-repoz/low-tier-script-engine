@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.ltse;
+package com.github.inc0grepoz.ltse.exception;
 
 /**
  * An exception that can be thrown due to bad syntax

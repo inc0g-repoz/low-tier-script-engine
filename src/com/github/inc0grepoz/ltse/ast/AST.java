@@ -2,7 +2,7 @@ package com.github.inc0grepoz.ltse.ast;
 
 import java.util.LinkedList;
 
-import com.github.inc0grepoz.ltse.SyntaxError;
+import com.github.inc0grepoz.ltse.exception.SyntaxError;
 
 /**
  * Represents an abstract syntax tree read from lexer output.

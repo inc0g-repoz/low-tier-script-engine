@@ -67,14 +67,13 @@ public class UnitFunction extends UnitSection
     @Override
     public String toString()
     {
-        return "function " + name + " (" + String.join(", ", paramNames) + ") " + super.toString();
+        return "function " + name + "(" + String.join(", ", paramNames) + ") " + super.toString();
     }
 
     @Override
     Object execute(ExecutionContext context)
     {
-        Object rv = super.execute(context);
-        return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
+        return FlowControl.KEEP_EXECUTING;
     }
 
     public Object call(Object... params)
@@ -85,7 +84,7 @@ public class UnitFunction extends UnitSection
             throw new IllegalArgumentException(desc);
         }
 
-        ExecutionContext context = new ExecutionContext(root.getScript());
+        ExecutionContext context = root.getScript().supplyContext();
         context.enterSection();
 
         for (int i = 0; i < params.length; i++)
@@ -93,7 +92,10 @@ public class UnitFunction extends UnitSection
             context.setVariable(paramNames.get(i), params[i]);
         }
 
-        return execute(context);
+        Object rv = super.execute(context);
+        context.exitSection();
+
+        return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
     }
 
 }

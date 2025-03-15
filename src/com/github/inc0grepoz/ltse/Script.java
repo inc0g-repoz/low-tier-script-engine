@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.inc0grepoz.ltse.ast.AST;
+import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.unit.ScriptCompiler;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
 import com.github.inc0grepoz.ltse.unit.UnitRoot;
@@ -18,13 +19,14 @@ public class Script
 {
 
     private final List<Operator> operators = new ArrayList<>();
+    private final ExecutionContext globalContext = new ExecutionContext(this);
     private final UnitRoot root;
 
     // A package-private constructor
     Script(ScriptExecutor executor, AST ast)
     {
         executor.getDefaultOperators().forEach(operators::add);
-        root = ScriptCompiler.compile(this, ast);
+        root = ScriptCompiler.compile(this, ast, globalContext);
     }
 
     /**
@@ -63,6 +65,16 @@ public class Script
     public List<Operator> getOperators()
     {
         return operators;
+    }
+
+    /**
+     * Supplies the execution context copy to a function.
+     * 
+     * @return a clone of the script execution context
+     */
+    public ExecutionContext supplyContext()
+    {
+        return globalContext.clone();
     }
 
 }

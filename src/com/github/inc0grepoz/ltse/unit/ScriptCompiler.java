@@ -3,19 +3,22 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 
 import com.github.inc0grepoz.ltse.Script;
-import com.github.inc0grepoz.ltse.SyntaxError;
 import com.github.inc0grepoz.ltse.ast.AST;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.ast.NodeBreakerType;
+import com.github.inc0grepoz.ltse.exception.SyntaxError;
 
 public class ScriptCompiler
 {
 
-    public static UnitRoot compile(Script script, AST ast)
+    public static UnitRoot compile(Script script, AST ast, ExecutionContext ctx)
     {
         UnitRoot root = new UnitRoot(script);
         compileSection_r(script, ast, root);
-//      System.out.println(root);
+
+        ctx.enterSection();
+        root.childs.forEach(u -> u.execute(ctx));
+
         return root;
     }
 

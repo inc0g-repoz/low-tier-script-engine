@@ -1,5 +1,7 @@
 // Script file for testing
 
+global = 5 + 5;
+
 function create_int_array(hook, size) {
     _ = 1;
     return hook.createArray(_.getClass(), size);
@@ -53,20 +55,22 @@ function test_flow_control(hook) {
 }
 
 function main(hook) {
+    out = hook.out;
+    out.println(global + " is in the global context");
+
     fibbonacci(hook, 10);
-    hook.out.println(test_flow_control(hook).toString());
+    out.println(test_flow_control(hook).toString());
 
     n = 5;
     f = factorial(n);
-    hook.out.println("Factorial of " + n + " equals " + f);
-    hook.out.println("f is a " + f.getClass());
+    out.println("Factorial of " + n + " equals " + f);
+    out.println("f is a " + f.getClass());
 
     sleep(hook, 0);
 
     v = 5;
-    hook.out.println(++v + " is an integer");
+    out.println(++v + " is an integer");
 
-    out = hook.out;
     array = create_string_array(hook, 10);
     array[0] = "Array Element";
     out.println(array[0]);
