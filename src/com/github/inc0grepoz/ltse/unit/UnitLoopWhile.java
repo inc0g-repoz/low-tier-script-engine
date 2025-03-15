@@ -2,7 +2,7 @@ package com.github.inc0grepoz.ltse.unit;
 
 import java.util.LinkedList;
 
-import com.github.inc0grepoz.commons.util.json.mapper.PrimitiveTester;
+import com.github.inc0grepoz.common.util.PrimitiveTester;
 import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;

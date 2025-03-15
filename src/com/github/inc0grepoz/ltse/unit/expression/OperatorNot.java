@@ -1,6 +1,6 @@
 package com.github.inc0grepoz.ltse.unit.expression;
 
-import com.github.inc0grepoz.commons.util.json.mapper.PrimitiveTester;
+import com.github.inc0grepoz.common.util.PrimitiveTester;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.value.Accessor;
 

@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.commons.util.json.mapper;
+package com.github.inc0grepoz.common.util;
 
 /**
  * An utility to test objects and primitives.
