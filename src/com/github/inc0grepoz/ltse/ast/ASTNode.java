@@ -32,11 +32,6 @@ public abstract class ASTNode
         throw new UnsupportedOperationException();
     }
 
-    public LinkedList<String> readEnclosedTokens(String prefix, String suffix)
-    {
-        throw new UnsupportedOperationException();
-    }
-
     public NodeBreakerType getNodeBreakerType()
     {
         throw new UnsupportedOperationException();

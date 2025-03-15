@@ -12,12 +12,6 @@ import com.github.inc0grepoz.ltse.unit.expression.Operator;
 public class Script
 {
 
-    /**
-     * Used by the script units to continue executing,
-     * if one of the units returns a value.
-     */
-    public static final Object KEEP_EXECUTING = void.class;
-
     private final List<Operator> operators = new ArrayList<>();
     private final UnitRoot root;
 

@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.ltse.unit.expression;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.regex.Pattern;
 
 import com.github.inc0grepoz.ltse.Script;
@@ -22,62 +21,9 @@ public class ExpressionResolver
     static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("\\d*\\.\\d+[Ff]");
     static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("\\d*\\.\\d+[Dd]?");
 
-    public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator)
-    {
-        int parentheses = 0;
-
-        LinkedList<LinkedList<String>> separateTokens = new LinkedList<>();
-
-        ListIterator<String> iter = tokens.listIterator();
-        LinkedList<String> tokenList = new LinkedList<>();
-        String next;
-
-        while (iter.hasNext())
-        {
-            switch (next = iter.next())
-            {
-            case "(":
-                parentheses++;
-                break;
-            case ")":
-                parentheses--;
-                break;
-            }
-
-            if (parentheses == 0 && next.equals(separator))
-            {
-                // Flushing the previous tokens
-                separateTokens.add(tokenList);
-                tokenList = new LinkedList<>();
-            }
-            else
-            {
-                // Writing the observed token
-                tokenList.add(next);
-            }
-        }
-
-        // Flushing the last sequence
-        separateTokens.add(tokenList);
-
-        return separateTokens;
-    }
-
-    public static LinkedList<String> openParentheses(LinkedList<String> tokens)
-    {
-        while (tokens.size() > 1
-                && tokens.getFirst().equals("(")
-                && tokens.getLast().equals(")"))
-        {
-            tokens.removeFirst();
-            tokens.removeLast();
-        }
-        return tokens;
-    }
-
     public static Accessor resolve(Script script, LinkedList<String> tokens)
     {
-        openParentheses(tokens);
+        TokenHelper.openParentheses(tokens);
 
         if (tokens.size() == 1)
         {
@@ -165,7 +111,7 @@ public class ExpressionResolver
                 tokens.pollLast();
                 return AccessorOperator.of(operator, resolve(script, tokens));
             case BINARY:
-                separateTokens = splitTokens(tokens, operator.getName());
+                separateTokens = TokenHelper.splitTokens(tokens, operator.getName());
 
                 if (separateTokens.size() > 1)
                 {
@@ -190,19 +136,30 @@ public class ExpressionResolver
 
     private static Accessor resolveLinkedAccessor(Script script, LinkedList<String> tokens)
     {
-        LinkedList<LinkedList<String>> splitTokens = splitTokens(tokens, ".");
+        LinkedList<LinkedList<String>> splitTokens = TokenHelper.splitTokens(tokens, ".");
         LinkedList<String> nextTokenList;
         AccessorBuilder builder = Accessor.builder();
+        Accessor index = null;
 
         while (!splitTokens.isEmpty())
         {
             nextTokenList = splitTokens.poll();
+
+            if (("]").equals(nextTokenList.peekLast()))
+            {
+                index = resolve(script, TokenHelper.readEnclosedTokensBackwards(nextTokenList, "[", "]"));
+            }
+            else
+            {
+                index = null;
+            }
 
             if (("(").equals(nextTokenList.peekFirst())) // value
             {
                 if (builder.isEmpty())
                 {
                     builder.accessor(resolve(script, nextTokenList));
+                    builder.index(index);
                 }
                 else
                 {
@@ -212,7 +169,7 @@ public class ExpressionResolver
             else if ((")").equals(nextTokenList.peekLast())) // parameterized accessor
             {
                 String name = nextTokenList.poll();
-                openParentheses(nextTokenList);
+                TokenHelper.openParentheses(nextTokenList);
 
                 Accessor[] accessors;
                 if (nextTokenList.isEmpty())
@@ -221,7 +178,7 @@ public class ExpressionResolver
                 }
                 else
                 {
-                    LinkedList<LinkedList<String>> paramList = splitTokens(nextTokenList, ",");
+                    LinkedList<LinkedList<String>> paramList = TokenHelper.splitTokens(nextTokenList, ",");
                     accessors = new Accessor[paramList.size()];
 
                     for (int i = 0; i < accessors.length; i++)
@@ -233,10 +190,12 @@ public class ExpressionResolver
                 if (builder.isEmpty()) // in the beginning
                 {
                     builder.function(name, accessors);
+                    builder.index(index);
                 }
                 else // somewhere later
                 {
                     builder.method(name, accessors);
+                    builder.index(index);
                 }
             }
             else // field
@@ -249,10 +208,12 @@ public class ExpressionResolver
                 if (builder.isEmpty())
                 {
                     builder.accessor(resolveToken(nextTokenList.poll()));
+                    builder.index(index);
                 }
                 else
                 {
                     builder.field(nextTokenList.poll());
+                    builder.index(index);
                 }
             }
         }
@@ -261,6 +222,11 @@ public class ExpressionResolver
 //      System.out.println("Length: " + builder.length());
 //      System.out.println("Type: " + builder.build().getClass());
         return builder.build();
+    }
+
+    private ExpressionResolver()
+    {
+        throw new UnsupportedOperationException();
     }
 
 }

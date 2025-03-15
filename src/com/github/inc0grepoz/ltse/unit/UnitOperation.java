@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.ltse.unit;
 
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
@@ -30,7 +31,7 @@ public class UnitOperation extends Unit
     Object execute(ExecutionContext context)
     {
         accessor.linkedAccess(context, null);
-        return Script.KEEP_EXECUTING;
+        return FlowControl.KEEP_EXECUTING;
     }
 
 }

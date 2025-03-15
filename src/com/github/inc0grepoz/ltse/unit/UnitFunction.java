@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 
@@ -67,6 +68,13 @@ public class UnitFunction extends UnitSection
     public String toString()
     {
         return "function " + name + " (" + String.join(", ", paramNames) + ") " + super.toString();
+    }
+
+    @Override
+    Object execute(ExecutionContext context)
+    {
+        Object rv = super.execute(context);
+        return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
     }
 
     public Object call(Object... args)

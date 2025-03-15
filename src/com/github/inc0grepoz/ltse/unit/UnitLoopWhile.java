@@ -3,9 +3,11 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 
 import com.github.inc0grepoz.commons.util.json.mapper.PrimitiveTester;
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
+import com.github.inc0grepoz.ltse.unit.expression.TokenHelper;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class UnitLoopWhile extends UnitSection
@@ -15,7 +17,7 @@ public class UnitLoopWhile extends UnitSection
     {
         node.getTokens().poll(); // while
 
-        LinkedList<String> conditionTokens = node.readEnclosedTokens("(", ")");
+        LinkedList<String> conditionTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
 
         UnitLoopWhile unit = new UnitLoopWhile(section, condition);
@@ -45,13 +47,13 @@ public class UnitLoopWhile extends UnitSection
         {
             Object rv = super.execute(context);
 
-            if (rv != Script.KEEP_EXECUTING)
+            if (rv != FlowControl.KEEP_EXECUTING)
             {
                 return rv;
             }
         }
 
-        return Script.KEEP_EXECUTING;
+        return FlowControl.KEEP_EXECUTING;
     }
 
 }

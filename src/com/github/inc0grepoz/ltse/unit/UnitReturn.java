@@ -6,7 +6,6 @@ import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
 import com.github.inc0grepoz.ltse.value.Accessor;
-import com.github.inc0grepoz.ltse.value.AccessorValue;
 
 public class UnitReturn extends Unit
 {
@@ -17,7 +16,7 @@ public class UnitReturn extends Unit
         tokens.poll(); // return
 
         Accessor rva = tokens.isEmpty()
-                ? AccessorValue.of(void.class)
+                ? Accessor.VOID
                 : ExpressionResolver.resolve(script, tokens);
 
         return new UnitReturn(parent, rva);

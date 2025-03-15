@@ -3,10 +3,12 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 
 import com.github.inc0grepoz.commons.util.json.mapper.PrimitiveTester;
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.SyntaxError;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
+import com.github.inc0grepoz.ltse.unit.expression.TokenHelper;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class UnitLoopFor extends UnitSection
@@ -16,9 +18,9 @@ public class UnitLoopFor extends UnitSection
     {
         node.getTokens().poll(); // for
 
-        LinkedList<String> tempTokens = node.readEnclosedTokens("(", ")");
-        ExpressionResolver.openParentheses(tempTokens);
-        LinkedList<LinkedList<String>> split = ExpressionResolver.splitTokens(tempTokens, ";");
+        LinkedList<String> tempTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
+        TokenHelper.openParentheses(tempTokens);
+        LinkedList<LinkedList<String>> split = TokenHelper.splitTokens(tempTokens, ";");
 
         if (split.size() != 3)
         {
@@ -51,7 +53,7 @@ public class UnitLoopFor extends UnitSection
     @Override
     public String toString()
     {
-        return "while (" + condition + ") " + super.toString();
+        return "for (" + parameter + "; " + condition + "; " + increment + ") " + super.toString();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class UnitLoopFor extends UnitSection
         {
             Object rv = super.execute(context);
 
-            if (rv != Script.KEEP_EXECUTING)
+            if (rv != FlowControl.KEEP_EXECUTING)
             {
                 return rv;
             }
@@ -77,7 +79,7 @@ public class UnitLoopFor extends UnitSection
             }
         }
 
-        return Script.KEEP_EXECUTING;
+        return FlowControl.KEEP_EXECUTING;
     }
 
 }

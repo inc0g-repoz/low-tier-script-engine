@@ -37,16 +37,27 @@ function sleep(hook, time) {
     hook.out.println("Slept for " + time + " ms");
 }
 
+function test_flow_control(hook) {
+    return;
+    hook.out.println("No");
+}
+
 function main(hook) {
-//  fibbonacci(hook, 5);
+    fibbonacci(hook, 10);
+    hook.out.println(test_flow_control(hook).toString());
 
     n = 5;
     f = factorial(n);
     hook.out.println("Factorial of " + n + " equals " + f);
     hook.out.println("f is a " + f.getClass());
 
-//  sleep(hook, 0);
+    sleep(hook, 0);
 
     v = 5;
     hook.out.println(++v + " is an integer");
+
+    out = hook.out;
+    array = hook.array;
+    array[0] = 5;
+    out.println("array[0] value is " + array[0]);
 }

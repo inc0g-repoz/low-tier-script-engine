@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.ltse.value;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,109 @@ public class AccessorMethod extends AccessorNamed
     @Override
     public Object access(ExecutionContext ctx, Object src)
     {
+        Object[] paramArr = cacheMethod(ctx, src);
+
+        try
+        {
+            Object rv = access(cachedMethod, src, paramArr);
+            return elementIndex == null ? rv : Array.get(rv,
+                    (int) elementIndex.linkedAccess(ctx, null));
+        }
+        catch (Throwable t)
+        {
+            throw new RuntimeException("Failed to invoke the method " + this, t);
+        }
+    }
+
+    Object access(Method method, Object src, Object[] params)
+    throws Throwable
+    {
+        boolean accessible = method.isAccessible();
+        Object rv = null;
+
+        method.setAccessible(true);
+        rv = method.invoke(src, params);
+
+        if (!accessible)
+        {
+            method.setAccessible(accessible);
+        }
+
+        return rv;
+    }
+
+    @Override
+    public Object mutate(ExecutionContext ctx, Object src, Object val)
+    {
+        if (elementIndex == null)
+        {
+            return next == null
+                    ? super.mutate(ctx, src, val)
+                    : next.mutate(ctx, access(ctx, src), val);
+        }
+
+        Object[] paramArr = cacheMethod(ctx, src);
+        Object rv;
+
+        try
+        {
+            rv = access(cachedMethod, src, paramArr);
+        }
+        catch (Throwable t)
+        {
+            return null;
+        }
+
+        if (next == null)
+        {
+            int idx = (int) elementIndex.linkedAccess(ctx, null);
+            Array.set(rv, idx, val = convert(val));
+            return val;
+        }
+
+        rv = elementIndex == null ? rv : Array.get(rv,
+                (int) elementIndex.linkedAccess(ctx, null));
+
+        return next.mutate(ctx, rv, val);
+    }
+
+    private Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
+    {
+        try
+        {
+            return clazz.getMethod(name, classes);
+        }
+        catch (Throwable t1)
+        {
+            try
+            {
+                return clazz.getMethod(name, classes);
+            }
+            catch (Throwable t2)
+            {}
+        }
+
+        for (Method next: clazz.getMethods())
+        {
+            if (next.getParameterCount() == params.length && next.getName().equals(name))
+            {
+                return next;
+            }
+        }
+
+        for (Method next: clazz.getDeclaredMethods())
+        {
+            if (next.getParameterCount() == params.length && next.getName().equals(name))
+            {
+                return next;
+            }
+        }
+
+        return null;
+    }
+
+    private Object[] cacheMethod(ExecutionContext ctx, Object src)
+    {
         Object[]   paramArr;
         Class<?>[] classArr;
 
@@ -73,74 +177,7 @@ public class AccessorMethod extends AccessorNamed
             cachedMethod = findMethod(cachedType = clazz, name, paramArr, classArr);
         }
 
-        try
-        {
-            return access(cachedMethod, src, paramArr);
-        }
-        catch (Throwable t)
-        {
-            throw new RuntimeException("Failed to invoke the method " + this, t);
-        }
-    }
-
-    Object access(Method method, Object src, Object[] params)
-    throws Throwable
-    {
-        boolean accessible = method.isAccessible();
-        Object rv = null;
-
-        method.setAccessible(true);
-        rv = method.invoke(src, params);
-
-        if (!accessible)
-        {
-            method.setAccessible(accessible);
-        }
-
-        return rv;
-    }
-
-    @Override
-    public Object mutate(ExecutionContext ctx, Object src, Object val)
-    {
-        return next == null
-                ? super.mutate(ctx, src, val)
-                : next.mutate(ctx, access(ctx, src), val);
-    }
-
-    private Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
-    {
-        try
-        {
-            return clazz.getMethod(name, classes);
-        }
-        catch (Throwable t1)
-        {
-            try
-            {
-                return clazz.getMethod(name, classes);
-            }
-            catch (Throwable t2)
-            {}
-        }
-
-        for (Method next: clazz.getMethods())
-        {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
-            {
-                return next;
-            }
-        }
-
-        for (Method next: clazz.getDeclaredMethods())
-        {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
-            {
-                return next;
-            }
-        }
-
-        return null;
+        return paramArr;
     }
 
 }

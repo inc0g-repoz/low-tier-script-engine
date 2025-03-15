@@ -45,6 +45,12 @@ public class AccessorBuilder
         return accessor(new AccessorFunction(name, params));
     }
 
+    public AccessorBuilder index(Accessor accessor)
+    {
+        last.elementIndex = accessor;
+        return this;
+    }
+
     public Accessor build()
     {
         return first;

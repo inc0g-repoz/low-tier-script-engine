@@ -3,7 +3,7 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 import java.util.StringJoiner;
 
-import com.github.inc0grepoz.ltse.Script;
+import com.github.inc0grepoz.ltse.FlowControl;
 
 public class UnitSection extends Unit
 {
@@ -38,14 +38,14 @@ public class UnitSection extends Unit
         {
             rv = unit.execute(context);
 
-            if (rv != Script.KEEP_EXECUTING)
+            if (rv != FlowControl.KEEP_EXECUTING)
             {
                 return rv;
             }
         }
 
         context.exitSection();
-        return Script.KEEP_EXECUTING;
+        return FlowControl.KEEP_EXECUTING;
     }
 
 }

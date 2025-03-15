@@ -2,15 +2,17 @@ package com.github.inc0grepoz.ltse.value;
 
 import java.util.function.Function;
 
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
 public abstract class Accessor
 {
 
-    public static final Accessor NULL  = AccessorValue.of(null);
-    public static final Accessor ZERO  = AccessorValue.of(0);
-    public static final Accessor TRUE  = AccessorValue.of(true);
-    public static final Accessor FALSE = AccessorValue.of(false);
+    public static final Accessor VOID   = AccessorValue.of(FlowControl.VOID);
+    public static final Accessor NULL   = AccessorValue.of(null);
+    public static final Accessor ZERO   = AccessorValue.of(0);
+    public static final Accessor TRUE   = AccessorValue.of(true);
+    public static final Accessor FALSE  = AccessorValue.of(false);
 
     public static AccessorBuilder builder()
     {
@@ -48,7 +50,7 @@ public abstract class Accessor
         return rv;
     }
 
-    Accessor next;
+    Accessor next, elementIndex;
 
     public abstract Object access(ExecutionContext ctx, Object src);
 

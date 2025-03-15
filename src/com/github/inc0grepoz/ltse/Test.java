@@ -23,6 +23,7 @@ public class Test
         {
             PrintStream out = System.out;
             Thread thread = Thread.currentThread();
+            int[] array = new int[] { 1, 2, 3 };
         };
 
         Script script = time("Compiled", () -> {

@@ -3,9 +3,11 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 
 import com.github.inc0grepoz.commons.util.json.mapper.PrimitiveTester;
+import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
 import com.github.inc0grepoz.ltse.unit.expression.ExpressionResolver;
+import com.github.inc0grepoz.ltse.unit.expression.TokenHelper;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class UnitConditionalIf extends UnitSection
@@ -15,7 +17,7 @@ public class UnitConditionalIf extends UnitSection
     {
         node.getTokens().poll(); // if
 
-        LinkedList<String> conditionTokens = node.readEnclosedTokens("(", ")");
+        LinkedList<String> conditionTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
 
         UnitConditionalIf unit = new UnitConditionalIf(section, condition);
@@ -53,7 +55,7 @@ public class UnitConditionalIf extends UnitSection
     Object execute(ExecutionContext context)
     {
         return PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null))
-                ? (otherwise == null ? Script.KEEP_EXECUTING : otherwise.execute(context))
+                ? (otherwise == null ? FlowControl.KEEP_EXECUTING : otherwise.execute(context))
                 : super.execute(context);
     }
 

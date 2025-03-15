@@ -3,8 +3,6 @@ package com.github.inc0grepoz.ltse.ast;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-import com.github.inc0grepoz.ltse.SyntaxError;
-
 public class ASTNodeTokens extends ASTNode
 {
 
@@ -27,46 +25,6 @@ public class ASTNodeTokens extends ASTNode
     @Override
     public LinkedList<String> getTokens()
     {
-        return tokens;
-    }
-
-    @Override
-    public LinkedList<String> readEnclosedTokens(String prefix, String suffix)
-    {
-        LinkedList<String> tokens = new LinkedList<>();
-        String token = this.tokens.poll();
-        int level = 1;
-
-        if (!prefix.equals(token))
-        {
-            throw new SyntaxError("\"" + prefix + "\" expected, but \"" + token + "\" found");
-        }
-
-        while (true)
-        {
-            token = this.tokens.poll();
-
-            if (token == null)
-            {
-                throw new SyntaxError("Unterminated sequence in " + prefix + suffix);
-            }
-            else if (prefix.equals(token))
-            {
-                level++;
-            }
-            else if (suffix.equals(token))
-            {
-                level--;
-            }
-
-            if (level == 0)
-            {
-                break;
-            }
-
-            tokens.add(token);
-        }
-
         return tokens;
     }
 
