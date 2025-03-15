@@ -16,5 +16,5 @@ List of features:
 - [x] Object members chaining
 - [x] Basic control flow blocks and statements
 - [x] Basic Java logic and arithmetic unary and binary operators
+- [x] Array index operator
 - [ ] Bitwise and ternary operators
-- [ ] Array index operator
