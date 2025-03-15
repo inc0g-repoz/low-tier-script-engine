@@ -30,7 +30,7 @@ public class AccessorVariable extends AccessorNamed
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
         return next == null
-                ? ctx.setVariable(name, val)
+                ? ctx.setVariable(name, convert(val))
                 : next.mutate(ctx, access(ctx, src), val);
     }
 

@@ -17,6 +17,37 @@ public abstract class Accessor
         return new AccessorBuilder();
     }
 
+    static Object convert(Object rv)
+    {
+        if (rv instanceof Number)
+        {
+            Number n  = (Number) rv;
+            double dv = n.doubleValue();
+
+            if (dv % 1 == 0)
+            {
+                if (Byte.MIN_VALUE <= dv && dv <= Byte.MAX_VALUE)
+                {
+                    return n.byteValue();
+                }
+
+                if (Short.MIN_VALUE <= dv && dv <= Short.MAX_VALUE)
+                {
+                    return n.shortValue();
+                }
+
+                if (Integer.MIN_VALUE <= dv && dv <= Integer.MAX_VALUE)
+                {
+                    return n.intValue();
+                }
+
+                return n.longValue();
+            }
+        }
+
+        return rv;
+    }
+
     Accessor next;
 
     public abstract Object access(ExecutionContext ctx, Object src);

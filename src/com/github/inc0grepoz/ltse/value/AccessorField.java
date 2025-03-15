@@ -70,7 +70,7 @@ public class AccessorField extends AccessorNamed
         try
         {
             return next == null
-                    ? mutate(cachedField, src, val)
+                    ? mutate(cachedField, src, convert(val))
                     : next.mutate(ctx, access(ctx, src), val);
         }
         catch (Throwable t)

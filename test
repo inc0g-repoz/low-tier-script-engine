@@ -20,7 +20,7 @@ function fibbonacci(hook, count) {
 
 function factorial_r(n) {
     if (n == 1) return 1;
-    else return n * factorial(n - 1);
+    else return n * factorial(--n);
 }
 
 function factorial(n) {
@@ -41,10 +41,12 @@ function main(hook) {
 //  fibbonacci(hook, 5);
 
     n = 5;
-    hook.out.println("Factorial of " + n + " equals " + factorial(n));
+    f = factorial(n);
+    hook.out.println("Factorial of " + n + " equals " + f);
+    hook.out.println("f is a " + f.getClass());
 
 //  sleep(hook, 0);
 
     v = 5;
-    hook.out.println(++v + " a");
+    hook.out.println(++v + " is an integer");
 }

@@ -36,7 +36,6 @@ public class Test
             }
         });
 
-        Integer n = 1; n.toString();
         time("Executed", () -> script.callFunction("main", hook));
     }
 
