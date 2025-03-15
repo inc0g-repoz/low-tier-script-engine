@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.inc0grepoz.common.util.Lexer;
 import com.github.inc0grepoz.ltse.ast.AST;
 import com.github.inc0grepoz.ltse.unit.expression.*;
+import com.github.inc0grepoz.ltse.util.Lexer;
 
 /**
  * A script execution framework.

@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.ltse.unit.expression;
 
-import com.github.inc0grepoz.common.util.PrimitiveTester;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.PrimitiveTester;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class OperatorOr extends Operator

@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.common.util;
+package com.github.inc0grepoz.ltse.util;
 
 /**
  * An utility to test objects and primitives.
