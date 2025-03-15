@@ -19,3 +19,4 @@ List of features:
 - [x] Array index operator
 - [ ] Bitwise and ternary operators
 - [ ] Loop execution continuation and breaking
+- [ ] Full unicode escape sequences support
