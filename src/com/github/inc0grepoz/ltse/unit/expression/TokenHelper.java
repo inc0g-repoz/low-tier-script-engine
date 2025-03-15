@@ -109,7 +109,7 @@ public class TokenHelper
                 parentheses--;
                 break;
             }
-    
+
             if (parentheses == 0 && next.equals(separator))
             {
                 // Flushing the previous tokens
@@ -131,13 +131,38 @@ public class TokenHelper
 
     public static LinkedList<String> openParentheses(LinkedList<String> tokens)
     {
+        int balance;
+
         while (tokens.size() > 1
                 && tokens.getFirst().equals("(")
                 && tokens.getLast().equals(")"))
         {
             tokens.removeFirst();
             tokens.removeLast();
+            balance = 0;
+
+            for (String token: tokens)
+            {
+                switch (token)
+                {
+                case "(":
+                    balance++;
+                    break;
+                case ")":
+                    balance--;
+                    break;
+                }
+
+                if (balance < 0)
+                {
+                    tokens.addFirst("(");
+                    tokens.addLast(")");
+
+                    return tokens;
+                }
+            }
         }
+
         return tokens;
     }
 

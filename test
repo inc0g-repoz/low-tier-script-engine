@@ -1,9 +1,9 @@
 // Script file for testing
 
-global = 5 + 5;
+GLOBAL = 5 + 5;
 
 function create_int_array(hook, size) {
-    _ = 1;
+    _ = 100000;
     return hook.createArray(_.getClass(), size);
 }
 
@@ -30,17 +30,29 @@ function fibbonacci(hook, count) {
     }
 }
 
-function factorial_r(n) {
-    if (n == 1) return 1;
-    else return n * factorial(--n);
-}
-
-function factorial(n) {
+function factorial_i(n) {
     rv = 1;
     while (n != 1) {
         rv *= n--;
     }
     return rv;
+}
+
+function factorial_r(n) {
+    if (n == 1) return 1;
+    else return n * factorial_i(--n);
+}
+
+function number_to_string(n) {
+    if (n == 1) {
+        return "one";
+    } else if (n == 2) {
+        return "two";
+    } else if (n == 3) {
+        return "three";
+    } else {
+        return "four";
+    }
 }
 
 function sleep(hook, time) {
@@ -56,20 +68,13 @@ function test_flow_control(hook) {
 
 function main(hook) {
     out = hook.out;
-    out.println(global + " is in the global context");
-
-    fibbonacci(hook, 10);
-    out.println(test_flow_control(hook).toString());
+    out.println(GLOBAL + " is in the global context");
+    v = ("a" + "b").toString();
+    out.println(v);
 
     n = 5;
-    f = factorial(n);
-    out.println("Factorial of " + n + " equals " + f);
-    out.println("f is a " + f.getClass());
-
-    sleep(hook, 0);
-
-    v = 5;
-    out.println(++v + " is an integer");
+    out.println("Iterative factorial of " + n + " equals " + factorial_i(n));
+    out.println("Recursive factorial of " + n + " equals " + factorial_r(n));
 
     array = create_string_array(hook, 10);
     array[0] = "Array Element";
