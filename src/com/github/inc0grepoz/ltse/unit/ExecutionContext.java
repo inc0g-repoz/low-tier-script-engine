@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 import com.github.inc0grepoz.ltse.Script;
 
 /**
- * Represents the context of the execution flow with a
+ * Represents a context of the execution flow with a
  * pool for variables.
  * 
  * @author inc0g-repoz
