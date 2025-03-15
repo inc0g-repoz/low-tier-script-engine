@@ -18,3 +18,4 @@ List of features:
 - [x] Basic Java logic and arithmetic unary and binary operators
 - [x] Array index operator
 - [ ] Bitwise and ternary operators
+- [ ] Loop execution continuation and breaking
