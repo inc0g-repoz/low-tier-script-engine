@@ -13,6 +13,7 @@ List of features:
 - [x] Local and script scope variables
 - [x] Function parameters
 - [x] Function calls with recursion
+- [x] Inbuilt functions
 - [x] Object members chaining
 - [x] Basic control flow blocks and statements
 - [x] Basic Java logic and arithmetic unary and binary operators
