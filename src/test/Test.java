@@ -28,17 +28,6 @@ public class Test
         File file = new File("test");
         Supplier[] getter = (Supplier[]) Array.newInstance(Supplier.class, 1);
 
-        Object hook = new Object()
-        {
-            PrintStream out = System.out;
-            Thread thread = Thread.currentThread();
-
-            public Object createArray(Class<?> clazz, int size)
-            {
-                return Array.newInstance(clazz, size);
-            }
-        };
-
         Script script = time("Compiled", () -> {
             try
             {
@@ -50,7 +39,7 @@ public class Test
             }
         });
 
-        Object rv = time("Executed", () -> script.callFunction("main", hook));
+        Object rv = time("Executed", () -> script.callFunction("main"));
 
         if (rv != FlowControl.VOID)
         {

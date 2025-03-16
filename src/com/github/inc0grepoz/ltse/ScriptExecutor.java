@@ -12,8 +12,27 @@ import java.util.function.Function;
 import com.github.inc0grepoz.ltse.ast.AST;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
 import com.github.inc0grepoz.ltse.unit.UnitRoot;
-import com.github.inc0grepoz.ltse.unit.expression.*;
-import com.github.inc0grepoz.ltse.unit.inbuilt.*;
+import com.github.inc0grepoz.ltse.unit.expression.Operator;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAdd;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAnd;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssign;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssignMutate;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssignMutateUnary;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorComparator;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorDivide;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorEqual;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorNot;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorType;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltLength;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewArray;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewInstance;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrint;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrintln;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltSleep;
 import com.github.inc0grepoz.ltse.util.Lexer;
 
 /**
@@ -57,6 +76,7 @@ public class ScriptExecutor
         inbuilt.add(root -> new InBuiltNewInstance(root));
         inbuilt.add(root -> new InBuiltPrint      (root));
         inbuilt.add(root -> new InBuiltPrintln    (root));
+        inbuilt.add(root -> new InBuiltSleep      (root));
     }
 
     /**

@@ -28,10 +28,12 @@ function factorial_r(n) {
     else return n * factorial_i(--n);
 }
 
-function main(hook) {
+function main() {
     MAP.put("key", "value");
     println("Map Size: " + MAP.size());
     println("Stored Value: " + MAP.get("key"));
+
+//  sleep(1000);
 
     array = fibbonacci(10);
     for (i = 0; i < 10; i++) {
