@@ -41,7 +41,12 @@ public class Test
             }
         });
 
-        time("Executed", () -> script.callFunction("main", hook));
+        Object rv = time("Executed", () -> script.callFunction("main", hook));
+
+        if (rv != FlowControl.VOID)
+        {
+            System.out.println("Returned " + rv);
+        }
     }
 
     private static <T> T time(Supplier<T> lambda)

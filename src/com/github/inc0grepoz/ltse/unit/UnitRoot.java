@@ -46,6 +46,11 @@ public class UnitRoot extends UnitSection
         return null;
     }
 
+    public void init(ExecutionContext globalContext)
+    {
+        childs.forEach(u -> u.execute(globalContext));
+    }
+
     Script getScript()
     {
         return script;

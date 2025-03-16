@@ -1,16 +1,6 @@
 // Script file for testing
 
-GLOBAL = 5 + 5;
-
-function create_int_array(hook, size) {
-    _ = 100000;
-    return hook.createArray(_.getClass(), size);
-}
-
-function create_string_array(hook, size) {
-    _ = "";
-    return hook.createArray(_.getClass(), size);
-}
+MAP = new_instance("java.util.HashMap", new_array("java.lang.Object", 0));
 
 function fibbonacci(hook, count) {
     n1 = 0;
@@ -43,40 +33,8 @@ function factorial_r(n) {
     else return n * factorial_i(--n);
 }
 
-function number_to_string(n) {
-    if (n == 1) {
-        return "one";
-    } else if (n == 2) {
-        return "two";
-    } else if (n == 3) {
-        return "three";
-    } else {
-        return "four";
-    }
-}
-
-function sleep(hook, time) {
-    sleepTime = 0;
-    hook.thread.sleep(time);
-    hook.out.println("Slept for " + time + " ms");
-}
-
-function test_flow_control(hook) {
-    return;
-    hook.out.println("No");
-}
-
 function main(hook) {
-    out = hook.out;
-    out.println(GLOBAL + " is in the global context");
-    v = ("a" + "b").toString();
-    out.println(v);
-
-    n = 5;
-    out.println("Iterative factorial of " + n + " equals " + factorial_i(n));
-    out.println("Recursive factorial of " + n + " equals " + factorial_r(n));
-
-    array = create_string_array(hook, 10);
-    array[0] = "Array Element";
-    out.println(array[0]);
+    MAP.put("key", "value");
+    println(MAP.size());
+    println(MAP.get("key"));
 }

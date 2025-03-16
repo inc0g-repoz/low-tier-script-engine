@@ -3,6 +3,7 @@ package com.github.inc0grepoz.ltse.value;
 import java.lang.reflect.Field;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorField extends AccessorNamed
 {
@@ -28,7 +29,7 @@ class AccessorField extends AccessorNamed
 
         if (cachedType != clazz)
         {
-            cachedField = findField(cachedType = clazz, name);
+            cachedField = Reflection.findField(cachedType = clazz, name);
         }
 
         try
@@ -65,7 +66,7 @@ class AccessorField extends AccessorNamed
 
         if (cachedType != clazz)
         {
-            cachedField = findField(cachedType = clazz, name);
+            cachedField = Reflection.findField(cachedType = clazz, name);
         }
 
         if (elementIndex == null)
@@ -110,25 +111,6 @@ class AccessorField extends AccessorNamed
         }
 
         return val;
-    }
-
-    private Field findField(Class<?> clazz, String name)
-    {
-        try
-        {
-            return clazz.getField(name);
-        }
-        catch (Throwable t1)
-        {
-            try
-            {
-                return clazz.getDeclaredField(name);
-            }
-            catch (Throwable t2)
-            {
-                return null;
-            }
-        }
     }
 
 }

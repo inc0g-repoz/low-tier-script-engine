@@ -26,7 +26,10 @@ public class Script
     Script(ScriptExecutor executor, AST ast)
     {
         executor.getDefaultOperators().forEach(operators::add);
-        root = ScriptCompiler.compile(this, ast, globalContext);
+        root = ScriptCompiler.compile(this, ast);
+
+        globalContext.enterSection();
+        root.init(globalContext);
     }
 
     /**

@@ -11,13 +11,19 @@ import com.github.inc0grepoz.ltse.exception.SyntaxError;
 public class ScriptCompiler
 {
 
-    public static UnitRoot compile(Script script, AST ast, ExecutionContext ctx)
+    public static UnitRoot compile(Script script, AST ast)
     {
         UnitRoot root = new UnitRoot(script);
-        compileSection_r(script, ast, root);
 
-        ctx.enterSection();
-        root.childs.forEach(u -> u.execute(ctx));
+        // Loading inbuilt functions
+        new InBuiltLength     (root);
+        new InBuiltNewArray   (root);
+        new InBuiltNewInstance(root);
+        new InBuiltPrint      (root);
+        new InBuiltPrintln    (root);
+
+        // Compiling declared functions
+        compileSection_r(script, ast, root);
 
         return root;
     }

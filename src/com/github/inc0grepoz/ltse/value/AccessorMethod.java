@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorMethod extends AccessorNamed
 {
@@ -89,41 +90,6 @@ class AccessorMethod extends AccessorNamed
         }
     }
 
-    private Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
-    {
-        try
-        {
-            return clazz.getMethod(name, classes);
-        }
-        catch (Throwable t1)
-        {
-            try
-            {
-                return clazz.getMethod(name, classes);
-            }
-            catch (Throwable t2)
-            {}
-        }
-
-        for (Method next: clazz.getMethods())
-        {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
-            {
-                return next;
-            }
-        }
-
-        for (Method next: clazz.getDeclaredMethods())
-        {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
-            {
-                return next;
-            }
-        }
-
-        return null;
-    }
-
     private Object[] cacheMethod(ExecutionContext ctx, Object src)
     {
         Object[]   paramArr;
@@ -159,7 +125,7 @@ class AccessorMethod extends AccessorNamed
 
         if (cachedType != clazz)
         {
-            cachedMethod = findMethod(cachedType = clazz, name, paramArr, classArr);
+            cachedMethod = Reflection.findMethod(cachedType = clazz, name, paramArr, classArr);
         }
 
         return paramArr;

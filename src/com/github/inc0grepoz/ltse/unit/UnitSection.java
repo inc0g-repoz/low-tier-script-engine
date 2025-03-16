@@ -18,6 +18,11 @@ public class UnitSection extends Unit
     @Override
     public String toString()
     {
+        if (childs.isEmpty())
+        {
+            return "{}";
+        }
+
         StringJoiner joiner = new StringJoiner("\n", "{\n", "\n}");
 
         for (Unit child: childs)
