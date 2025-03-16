@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.ltse.unit;
 
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.AST;
@@ -11,16 +12,12 @@ import com.github.inc0grepoz.ltse.exception.SyntaxError;
 public class ScriptCompiler
 {
 
-    public static UnitRoot compile(Script script, AST ast)
+    public static UnitRoot compile(Script script, AST ast, Consumer<UnitRoot> inbuiltSupplier)
     {
         UnitRoot root = new UnitRoot(script);
 
         // Loading inbuilt functions
-        new InBuiltLength     (root);
-        new InBuiltNewArray   (root);
-        new InBuiltNewInstance(root);
-        new InBuiltPrint      (root);
-        new InBuiltPrintln    (root);
+        inbuiltSupplier.accept(root);
 
         // Compiling declared functions
         compileSection_r(script, ast, root);

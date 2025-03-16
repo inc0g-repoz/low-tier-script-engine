@@ -1,11 +1,14 @@
-package com.github.inc0grepoz.ltse.unit;
+package com.github.inc0grepoz.ltse.unit.inbuilt;
 
 import java.util.Arrays;
+
+import com.github.inc0grepoz.ltse.unit.UnitFunction;
+import com.github.inc0grepoz.ltse.unit.UnitSection;
 
 public class InBuiltPrintln extends UnitFunction
 {
 
-    InBuiltPrintln(UnitSection parent)
+    public InBuiltPrintln(UnitSection parent)
     {
         super(parent, "println", Arrays.asList("array"));
     }

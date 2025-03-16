@@ -21,7 +21,7 @@ public abstract class Operator
      * @param name
      * @param type
      */
-    Operator(String name, OperatorType type)
+    protected Operator(String name, OperatorType type)
     {
         this.name = name;
         this.type = type;

@@ -1,14 +1,16 @@
-package com.github.inc0grepoz.ltse.unit;
+package com.github.inc0grepoz.ltse.unit.inbuilt;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
+import com.github.inc0grepoz.ltse.unit.UnitFunction;
+import com.github.inc0grepoz.ltse.unit.UnitSection;
 import com.github.inc0grepoz.ltse.util.Reflection;
 
 public class InBuiltNewInstance extends UnitFunction
 {
 
-    InBuiltNewInstance(UnitSection parent)
+    public InBuiltNewInstance(UnitSection parent)
     {
         super(parent, "new_instance", Arrays.asList("class", "params"));
     }

@@ -7,9 +7,31 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import com.github.inc0grepoz.ltse.ast.AST;
-import com.github.inc0grepoz.ltse.unit.expression.*;
+import com.github.inc0grepoz.ltse.unit.UnitFunction;
+import com.github.inc0grepoz.ltse.unit.UnitRoot;
+import com.github.inc0grepoz.ltse.unit.expression.Operator;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAdd;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAnd;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssign;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssignMutate;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorAssignMutateUnary;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorComparator;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorDivide;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorEqual;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorNot;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorType;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltLength;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewArray;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewInstance;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrint;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrintln;
 import com.github.inc0grepoz.ltse.util.Lexer;
 
 /**
@@ -22,6 +44,7 @@ public class ScriptExecutor
 
     private final List<Script> scripts = new ArrayList<>();
     private final List<Operator> operators = new ArrayList<>();
+    private final List<Function<UnitRoot, UnitFunction>> inbuilt = new ArrayList<>();
 
     {
         operators.add(new OperatorAssign           ("="));
@@ -46,6 +69,12 @@ public class ScriptExecutor
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_LEFT,  (n) -> n.doubleValue() - 1));
         operators.add(new OperatorAssignMutateUnary("++", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() + 1));
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() - 1));
+
+        inbuilt.add(root -> new InBuiltLength     (root));
+        inbuilt.add(root -> new InBuiltNewArray   (root));
+        inbuilt.add(root -> new InBuiltNewInstance(root));
+        inbuilt.add(root -> new InBuiltPrint      (root));
+        inbuilt.add(root -> new InBuiltPrintln    (root));
     }
 
     /**
@@ -112,6 +141,12 @@ public class ScriptExecutor
     List<Operator> getDefaultOperators()
     {
         return operators;
+    }
+
+    // Supplies the inbuilt functions to compiled scripts
+    void supplyInbuiltFunctions(UnitRoot root)
+    {
+        inbuilt.forEach(fs -> fs.apply(root));
     }
 
 }

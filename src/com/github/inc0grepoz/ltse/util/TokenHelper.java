@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.ltse.unit.expression;
+package com.github.inc0grepoz.ltse.util;
 
 import java.util.LinkedList;
 import java.util.ListIterator;

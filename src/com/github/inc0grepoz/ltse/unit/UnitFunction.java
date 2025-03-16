@@ -56,7 +56,7 @@ public class UnitFunction extends UnitSection
     final List<String> paramNames;
     final UnitRoot root;
 
-    UnitFunction(UnitSection parent, String name, List<String> paramNames)
+    protected UnitFunction(UnitSection parent, String name, List<String> paramNames)
     {
         super(parent);
         this.name = name;
