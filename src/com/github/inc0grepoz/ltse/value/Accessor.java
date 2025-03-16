@@ -72,6 +72,34 @@ public abstract class Accessor
         return object;
     }
 
+    // Converts objects into array component types, if they're numbers
+    static Object convert(Object object, Class<?> componentType)
+    {
+        if (object instanceof Number)
+        {
+            Number n  = (Number) object;
+
+            if (componentType == byte.class || componentType == Byte.class)
+            {
+                return n.byteValue();
+            }
+
+            if (componentType == short.class || componentType == Short.class)
+            {
+                return n.shortValue();
+            }
+
+            if (componentType == int.class || componentType == Integer.class)
+            {
+                return n.intValue();
+            }
+
+            return n.longValue();
+        }
+
+        return object;
+    }
+
     Accessor next, elementIndex;
 
     /**
@@ -125,20 +153,23 @@ public abstract class Accessor
     // Accesses the source object element
     Object accessElement(ExecutionContext ctx, Object eltSrc)
     {
-        return Array.get(eltSrc, (int) elementIndex.linkedAccess(ctx, null));
+        int idx = ((Number) elementIndex.linkedAccess(ctx, null)).intValue();
+        return Array.get(eltSrc, idx);
     }
 
     // Mutates the source object element
     Object mutateElement(ExecutionContext ctx, Object eltSrc, Object val)
     {
+        int idx = ((Number) elementIndex.linkedAccess(ctx, null)).intValue();
+
         if (next == null)
         {
-            int idx = (int) elementIndex.linkedAccess(ctx, null);
-            Array.set(eltSrc, idx, val = convert(val));
+            val = convert(val, eltSrc.getClass().getComponentType());
+            Array.set(eltSrc, idx, val);
             return val;
         }
 
-        Object elt = Array.get(eltSrc, (int) elementIndex.linkedAccess(ctx, null));
+        Object elt = Array.get(eltSrc, idx);
         return next.mutate(ctx, elt, val);
     }
 

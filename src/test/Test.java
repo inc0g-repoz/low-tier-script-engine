@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.ltse;
+package test;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,11 +6,20 @@ import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.function.Supplier;
 
+import com.github.inc0grepoz.ltse.FlowControl;
+import com.github.inc0grepoz.ltse.Script;
+import com.github.inc0grepoz.ltse.ScriptExecutor;
+
 @SuppressWarnings({"rawtypes", "unused"})
 public class Test
 {
 
     public static void main(String[] args)
+    {
+        testScriptEngine();
+    }
+
+    private static void testScriptEngine()
     {
         ScriptExecutor executor = new ScriptExecutor();
 

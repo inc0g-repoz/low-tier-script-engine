@@ -91,7 +91,8 @@ public class TokenHelper
     public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator)
     {
         int parentheses = 0;
-    
+        int squareBrackets = 0;
+
         LinkedList<LinkedList<String>> separateTokens = new LinkedList<>();
     
         ListIterator<String> iter = tokens.listIterator();
@@ -102,6 +103,12 @@ public class TokenHelper
         {
             switch (next = iter.next())
             {
+            case "[":
+                squareBrackets++;
+                break;
+            case "]":
+                squareBrackets--;
+                break;
             case "(":
                 parentheses++;
                 break;
@@ -110,7 +117,7 @@ public class TokenHelper
                 break;
             }
 
-            if (parentheses == 0 && next.equals(separator))
+            if (squareBrackets == 0 && parentheses == 0 && next.equals(separator))
             {
                 // Flushing the previous tokens
                 separateTokens.add(tokenList);

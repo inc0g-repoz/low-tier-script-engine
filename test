@@ -2,22 +2,17 @@
 
 MAP = new_instance("java.util.HashMap", new_array("java.lang.Object", 0));
 
-function fibbonacci(hook, count) {
-    n1 = 0;
-    n2 = 1;
-    n3 = 0;
-
-    // Printing 0 and 1
-    hook.out.println(n1);
-    hook.out.println(n2);
+function fibbonacci(count) {
+    n = new_array("java.lang.Integer", count);
+    n[0] = 0;
+    n[1] = 1;
 
     // Loop starts from 2 because 0 and 1 are already printed
     for (i = 2; i < count; i++) {
-        n3 = n1 + n2;
-        hook.out.println(n3);
-        n1 = n2;
-        n2 = n3;
+        n[i] = n[i - 1] + n[i - 2];
     }
+
+    return n;
 }
 
 function factorial_i(n) {
@@ -35,6 +30,12 @@ function factorial_r(n) {
 
 function main(hook) {
     MAP.put("key", "value");
-    println(MAP.size());
-    println(MAP.get("key"));
+    println("Map Size: " + MAP.size());
+    println("Stored Value: " + MAP.get("key"));
+
+    array = fibbonacci(10);
+    for (i = 0; i < 10; i++) {
+        if (i < 9) print(array[i] + " ");
+        else println(array[i]);
+    }
 }
