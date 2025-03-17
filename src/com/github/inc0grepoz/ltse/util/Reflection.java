@@ -1,8 +1,10 @@
 package com.github.inc0grepoz.ltse.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.StringJoiner;
 
 public class Reflection
 {
@@ -25,7 +27,8 @@ public class Reflection
 
         for (Constructor<?> next: clazz.getConstructors())
         {
-            if (next.getParameterCount() == params.length)
+            if (next.getParameterCount() == params.length
+                    && matchParameterTypes(next, classes))
             {
                 return next;
             }
@@ -33,13 +36,14 @@ public class Reflection
 
         for (Constructor<?> next: clazz.getDeclaredConstructors())
         {
-            if (next.getParameterCount() == params.length)
+            if (next.getParameterCount() == params.length
+                    && matchParameterTypes(next, classes))
             {
                 return next;
             }
         }
 
-        return null;
+        throw new RuntimeException("Unknown constructor " + clazz + stringifyParameterTypes(classes));
     }
 
     public static Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
@@ -48,33 +52,37 @@ public class Reflection
         {
             return clazz.getMethod(name, classes);
         }
-        catch (Throwable t1)
+        catch (Throwable t)
+        {}
+
+        try
         {
-            try
-            {
-                return clazz.getDeclaredMethod(name, classes);
-            }
-            catch (Throwable t2)
-            {}
+            return clazz.getDeclaredMethod(name, classes);
         }
-    
+        catch (Throwable t)
+        {}
+
         for (Method next: clazz.getMethods())
         {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
+            if (next.getParameterCount() == params.length
+                    && next.getName().equals(name)
+                    && matchParameterTypes(next, classes))
             {
                 return next;
             }
         }
-    
+
         for (Method next: clazz.getDeclaredMethods())
         {
-            if (next.getParameterCount() == params.length && next.getName().equals(name))
+            if (next.getParameterCount() == params.length
+                    && next.getName().equals(name)
+                    && matchParameterTypes(next, classes))
             {
                 return next;
             }
         }
-    
-        return null;
+
+        throw new RuntimeException("Unknown method " + clazz + "." + name + stringifyParameterTypes(classes));
     }
 
     public static Field findField(Class<?> clazz, String name)
@@ -83,17 +91,49 @@ public class Reflection
         {
             return clazz.getField(name);
         }
-        catch (Throwable t1)
+        catch (Throwable t)
+        {}
+
+        try
         {
-            try
+            return clazz.getDeclaredField(name);
+        }
+        catch (Throwable t)
+        {}
+
+        throw new RuntimeException("Unknown field " + clazz + "." + name);
+    }
+
+    private static boolean matchParameterTypes(Executable executable, Class<?>[] paramTypes)
+    {
+        Class<?>[] mpt = executable.getParameterTypes();
+
+        for (int i = 0; i < paramTypes.length; i++)
+        {
+            if (!mpt[i].isAssignableFrom(paramTypes[i]))
             {
-                return clazz.getDeclaredField(name);
-            }
-            catch (Throwable t2)
-            {
-                return null;
+                return false;
             }
         }
+
+        return true;
+    }
+
+    private static String stringifyParameterTypes(Class<?>[] classes)
+    {
+        if (classes.length == 0)
+        {
+            return "()";
+        }
+
+        StringJoiner joiner = new StringJoiner(", ", "(", ")");
+
+        for (int i = 0; i < classes.length; i++)
+        {
+            joiner.add(classes[i] == null ? null : classes[i].getSimpleName());
+        }
+
+        return joiner.toString();
     }
 
 }

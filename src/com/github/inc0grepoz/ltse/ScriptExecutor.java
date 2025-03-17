@@ -27,6 +27,7 @@ import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorType;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltClassForName;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltLength;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewArray;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewInstance;
@@ -71,12 +72,13 @@ public class ScriptExecutor
         operators.add(new OperatorAssignMutateUnary("++", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() + 1));
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() - 1));
 
-        inbuilt.add(root -> new InBuiltLength     (root));
-        inbuilt.add(root -> new InBuiltNewArray   (root));
-        inbuilt.add(root -> new InBuiltNewInstance(root));
-        inbuilt.add(root -> new InBuiltPrint      (root));
-        inbuilt.add(root -> new InBuiltPrintln    (root));
-        inbuilt.add(root -> new InBuiltSleep      (root));
+        inbuilt.add(root -> new InBuiltClassForName(root));
+        inbuilt.add(root -> new InBuiltLength      (root));
+        inbuilt.add(root -> new InBuiltNewArray    (root));
+        inbuilt.add(root -> new InBuiltNewInstance (root));
+        inbuilt.add(root -> new InBuiltPrint       (root));
+        inbuilt.add(root -> new InBuiltPrintln     (root));
+        inbuilt.add(root -> new InBuiltSleep       (root));
     }
 
     /**

@@ -108,13 +108,16 @@ class AccessorMethod extends AccessorNamed
 
             for (int i = 0; i < params.length; i++)
             {
-                if (params[i] == null)
+                if (params[i] == Accessor.NULL)
                 {
-                    continue;
+                    paramList.add(null);
+                    classList.add(Object.class);
                 }
-
-                paramList.add(puw = params[i].linkedAccess(ctx, null));
-                classList.add(puw.getClass());
+                else
+                {
+                    paramList.add(puw = params[i].linkedAccess(ctx, null));
+                    classList.add(puw.getClass());
+                }
             }
 
             paramList.toArray(paramArr = new Object[paramList.size()]);

@@ -9,15 +9,15 @@ public class PrimitiveTester
 {
 
     /**
-     * Returns {@code true}, if the passed object is a primitive or it's wrapper
-     * and {@code false} otherwise.
+     * Returns {@code true}, if the passed object is not {@code null} and is a
+     * primitive or it's wrapper and {@code false} otherwise.
      * 
      * @param clazz a class to test
      * @return a {@code boolean} value
      */
     public static boolean isPrimitiveType(Object source)
     {
-        return isPrimitiveClass(source.getClass());
+        return source != null && isPrimitiveClass(source.getClass());
     }
 
     /**
