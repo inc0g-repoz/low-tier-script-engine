@@ -10,7 +10,7 @@ public class InBuiltPrintln extends UnitFunction
 
     public InBuiltPrintln(UnitSection parent)
     {
-        super(parent, "println", Arrays.asList("array"));
+        super(parent, "println", Arrays.asList("object"));
     }
 
     @Override

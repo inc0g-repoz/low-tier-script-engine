@@ -10,7 +10,7 @@ public class InBuiltPrint extends UnitFunction
 
     public InBuiltPrint(UnitSection parent)
     {
-        super(parent, "print", Arrays.asList("array"));
+        super(parent, "print", Arrays.asList("object"));
     }
 
     @Override
