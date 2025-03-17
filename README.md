@@ -8,7 +8,7 @@
 LTSE is a simple script engine with a C-like syntax running off JVM.
 Instead of using types compatible with the engine it allows accessing them directly through [Reflection API][reflection].
 
-### List of features:
+### List of features
 - [x] Local and script scope variables
 - [x] Function parameters
 - [x] Function calls with recursion
