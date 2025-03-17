@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.ASTNode;
+import com.github.inc0grepoz.ltse.util.FlowControl;
 
 public class UnitFunction extends UnitSection
 {

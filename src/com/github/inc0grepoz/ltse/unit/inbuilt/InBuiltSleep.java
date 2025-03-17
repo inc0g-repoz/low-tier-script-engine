@@ -2,9 +2,9 @@ package com.github.inc0grepoz.ltse.unit.inbuilt;
 
 import java.util.Arrays;
 
-import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
 import com.github.inc0grepoz.ltse.unit.UnitSection;
+import com.github.inc0grepoz.ltse.util.FlowControl;
 
 public class InBuiltSleep extends UnitFunction
 {

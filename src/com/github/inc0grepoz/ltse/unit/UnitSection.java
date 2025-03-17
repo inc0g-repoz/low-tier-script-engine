@@ -3,7 +3,7 @@ package com.github.inc0grepoz.ltse.unit;
 import java.util.LinkedList;
 import java.util.StringJoiner;
 
-import com.github.inc0grepoz.ltse.FlowControl;
+import com.github.inc0grepoz.ltse.util.FlowControl;
 
 public class UnitSection extends Unit
 {

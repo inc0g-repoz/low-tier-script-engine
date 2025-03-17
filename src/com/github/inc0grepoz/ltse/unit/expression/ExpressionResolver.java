@@ -18,9 +18,9 @@ public class ExpressionResolver
     static final Pattern PATTERN_STRING = Pattern.compile("^\".+\"$");
     static final Pattern PATTERN_SPECIAL = Pattern.compile("[~!@#$%^&*()-=+\\[\\]{}:;'\"\\|/<>,.?]+");
     static final Pattern PATTERN_NUMBER_INT = Pattern.compile("\\d+");
-    static final Pattern PATTERN_NUMBER_LONG = Pattern.compile("\\d+[Ll]");
-    static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("\\d*\\.\\d+[Ff]");
-    static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("\\d*\\.\\d+[Dd]?");
+    static final Pattern PATTERN_NUMBER_LONG = Pattern.compile("(\\d+)[Ll]");
+    static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("(\\d*\\.\\d+)[Ff]");
+    static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("(\\d*\\.\\d+)[Dd]?");
 
     public static Accessor resolve(Script script, LinkedList<String> tokens)
     {
@@ -31,7 +31,6 @@ public class ExpressionResolver
             return resolveToken(tokens.getFirst());
         }
 
-//      throw new RuntimeException("Unresolved expression: " + String.join(" ", tokens));
         return resolveOperator(script, tokens);
     }
 
@@ -219,9 +218,6 @@ public class ExpressionResolver
             }
         }
 
-//      System.out.println("Linked Accessor: " + builder);
-//      System.out.println("Length: " + builder.length());
-//      System.out.println("Type: " + builder.build().getClass());
         return builder.build();
     }
 

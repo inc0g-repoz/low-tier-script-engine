@@ -10,9 +10,9 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
-import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
+import com.github.inc0grepoz.ltse.util.FlowControl;
 
 @SuppressWarnings({"rawtypes", "unused"})
 public class Test

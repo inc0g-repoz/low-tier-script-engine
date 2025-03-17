@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.ltse;
+package com.github.inc0grepoz.ltse.util;
 
 /**
  * A set of values for controlling execution of scripts.

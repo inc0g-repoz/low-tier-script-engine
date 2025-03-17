@@ -3,8 +3,8 @@ package com.github.inc0grepoz.ltse.value;
 import java.lang.reflect.Array;
 import java.util.function.Function;
 
-import com.github.inc0grepoz.ltse.FlowControl;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.FlowControl;
 
 /**
  * Represents a value, variable or a member access chain.
