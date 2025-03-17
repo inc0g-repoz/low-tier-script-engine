@@ -88,8 +88,6 @@ public class ExpressionResolver
 
     private static Accessor resolveOperator(Script script, LinkedList<String> tokens)
     {
-        LinkedList<LinkedList<String>> separateTokens;
-
         for (Operator operator: script.getOperators())
         {
             switch (operator.getType())
@@ -111,7 +109,13 @@ public class ExpressionResolver
                 tokens.pollLast();
                 return AccessorOperator.of(operator, resolve(script, tokens));
             case BINARY:
-                separateTokens = TokenHelper.splitTokens(tokens, operator.getName());
+                if (!tokens.contains(operator.getName()))
+                {
+                    continue;
+                }
+
+                LinkedList<LinkedList<String>> separateTokens = TokenHelper
+                        .splitTokens(tokens, operator.getName());
 
                 if (separateTokens.size() > 1)
                 {
