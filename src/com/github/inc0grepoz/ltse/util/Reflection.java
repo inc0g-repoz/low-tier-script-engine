@@ -11,8 +11,6 @@ public class Reflection
 
     public static Constructor<?> findConstructor(Class<?> clazz, Object[] params, Class<?>[] classes)
     {
-        unwrapPrimitiveTypes(classes);
-
         try
         {
             return clazz.getConstructor(classes);
@@ -50,8 +48,6 @@ public class Reflection
 
     public static Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
     {
-        unwrapPrimitiveTypes(classes);
-
         try
         {
             return clazz.getMethod(name, classes);
@@ -108,42 +104,71 @@ public class Reflection
         throw new RuntimeException("Unknown field " + clazz + "." + name);
     }
 
-    public static void unwrapPrimitiveTypes(Class<?>[] types)
-    {
-        for (int i = 0; i < types.length; i++)
-        {
-            if (types[i] == Boolean.class)
-                types[i] = boolean.class;
-            else if (types[i] == Character.class)
-                types[i] = char.class;
-            else if (types[i] == Byte.class)
-                types[i] = byte.class;
-            else if (types[i] == Short.class)
-                types[i] = short.class;
-            else if (types[i] == Integer.class)
-                types[i] = int.class;
-            else if (types[i] == Long.class)
-                types[i] = long.class;
-            else if (types[i] == Float.class)
-                types[i] = float.class;
-            else if (types[i] == Double.class)
-                types[i] = double.class;
-        }
-    }
-
     private static boolean matchParameterTypes(Executable executable, Class<?>[] paramTypes)
     {
         Class<?>[] mpt = executable.getParameterTypes();
 
         for (int i = 0; i < paramTypes.length; i++)
         {
-            if (!mpt[i].isAssignableFrom(paramTypes[i]))
+            if (mpt[i].isAssignableFrom(paramTypes[i]))
             {
-                return false;
+                continue;
             }
+
+            if (mpt[i].isPrimitive() && mpt[i] == unwrapPrimitiveType(paramTypes[i]))
+            {
+                continue;
+            }
+
+            return false;
         }
 
         return true;
+    }
+
+    public static Class<?> unwrapPrimitiveType(Class<?> type)
+    {
+        if (type == Boolean.class)
+        {
+            return boolean.class;
+        }
+
+        if (type == Character.class)
+        {
+            return char.class;
+        }
+
+        if (type == Byte.class)
+        {
+            return byte.class;
+        }
+
+        if (type == Short.class)
+        {
+            return short.class;
+        }
+
+        if (type == Integer.class)
+        {
+            return int.class;
+        }
+
+        if (type == Long.class)
+        {
+            return long.class;
+        }
+
+        if (type == Float.class)
+        {
+            return float.class;
+        }
+
+        if (type == Double.class)
+        {
+            return double.class;
+        }
+
+        return type;
     }
 
     private static String stringifyParameterTypes(Class<?>[] classes)
