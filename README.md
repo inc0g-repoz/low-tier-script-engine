@@ -16,7 +16,7 @@ Instead of using types compatible with the engine it allows accessing them direc
 - [x] Object members chaining
 - [x] Basic control flow blocks and statements
 - [x] Basic Java logic and arithmetic unary and binary operators
-- [x] Array index operator
+- [x] Loop execution continuation and breaking
+- [x] Array index operator (one-dimensional only)
 - [ ] Bitwise and ternary operators
-- [ ] Loop execution continuation and breaking
 - [ ] Full unicode escape sequences support
