@@ -9,14 +9,22 @@ public enum FlowControl
 {
 
     /**
-     * Used by script units to continue executing,
-     * if one of the units returns a value.
+     * Used in looping constructs for breaking execution.
+     */
+    BREAK,
+    /**
+     * Used in looping constructs for breaking execution.
+     */
+    CONTINUE,
+    /**
+     * Used by script units to continue executing, if one
+     * of the units returns a value.
      */
     KEEP_EXECUTING,
 
     /**
-     * Used as a function return value, when no value
-     * is returned.
+     * Used as a return value by functions, when a return
+     * statement is not followed by any values.
      */
     VOID;
 

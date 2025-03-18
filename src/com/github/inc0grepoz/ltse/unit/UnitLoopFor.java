@@ -64,22 +64,40 @@ public class UnitLoopFor extends UnitSection
             parameter.linkedAccess(context, null);
         }
 
-        while (condition == null || !PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null)))
+        for (; checkCondition(context); increment(context))
         {
             Object rv = super.execute(context);
+
+            if (rv == FlowControl.BREAK)
+            {
+                break;
+            }
+
+            if (rv == FlowControl.CONTINUE)
+            {
+                continue;
+            }
 
             if (rv != FlowControl.KEEP_EXECUTING)
             {
                 return rv;
             }
-
-            if (increment != null)
-            {
-                increment.access(context, null);
-            }
         }
 
         return FlowControl.KEEP_EXECUTING;
+    }
+
+    private boolean checkCondition(ExecutionContext context)
+    {
+        return condition == null || !PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null));
+    }
+
+    private void increment(ExecutionContext context)
+    {
+        if (increment != null)
+        {
+            increment.access(context, null);
+        }
     }
 
 }

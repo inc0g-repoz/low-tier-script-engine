@@ -43,9 +43,19 @@ public class UnitLoopWhile extends UnitSection
     @Override
     Object execute(ExecutionContext context)
     {
-        while (!PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null)))
+        while (checkCondition(context))
         {
             Object rv = super.execute(context);
+
+            if (rv == FlowControl.BREAK)
+            {
+                break;
+            }
+
+            if (rv == FlowControl.CONTINUE)
+            {
+                continue;
+            }
 
             if (rv != FlowControl.KEEP_EXECUTING)
             {
@@ -54,6 +64,11 @@ public class UnitLoopWhile extends UnitSection
         }
 
         return FlowControl.KEEP_EXECUTING;
+    }
+
+    private boolean checkCondition(ExecutionContext context)
+    {
+        return !PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null));
     }
 
 }

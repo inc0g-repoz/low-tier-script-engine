@@ -35,9 +35,9 @@ public class ScriptCompiler
         switch (node.getTokens().peek())
         {
         case "break":
-            throw new SyntaxError("Breaking is not supported");
+            return UnitBreak.compile(script, node, parent);
         case "continue":
-            throw new SyntaxError("Continuing is not supported");
+            return UnitContinue.compile(script, node, parent);
         case "else":
             throw new SyntaxError("There can be no \"else\" without an \"if\"");
         case "for":
