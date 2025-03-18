@@ -204,7 +204,7 @@ public class ExpressionResolver
             }
             else // field
             {
-                if (nextTokenList.size() != 1)
+                if (nextTokenList.size() > 1)
                 {
                     throw new SyntaxError("Unresolved expression " + String.join(" ", nextTokenList));
                 }
