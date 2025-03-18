@@ -11,6 +11,8 @@ public class Reflection
 
     public static Constructor<?> findConstructor(Class<?> clazz, Object[] params, Class<?>[] classes)
     {
+        unwrapPrimitiveTypes(classes);
+
         try
         {
             return clazz.getConstructor(classes);
@@ -48,6 +50,8 @@ public class Reflection
 
     public static Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
     {
+        unwrapPrimitiveTypes(classes);
+
         try
         {
             return clazz.getMethod(name, classes);
@@ -102,6 +106,29 @@ public class Reflection
         {}
 
         throw new RuntimeException("Unknown field " + clazz + "." + name);
+    }
+
+    public static void unwrapPrimitiveTypes(Class<?>[] types)
+    {
+        for (int i = 0; i < types.length; i++)
+        {
+            if (types[i] == Boolean.class)
+                types[i] = boolean.class;
+            else if (types[i] == Character.class)
+                types[i] = char.class;
+            else if (types[i] == Byte.class)
+                types[i] = byte.class;
+            else if (types[i] == Short.class)
+                types[i] = short.class;
+            else if (types[i] == Integer.class)
+                types[i] = int.class;
+            else if (types[i] == Long.class)
+                types[i] = long.class;
+            else if (types[i] == Float.class)
+                types[i] = float.class;
+            else if (types[i] == Double.class)
+                types[i] = double.class;
+        }
     }
 
     private static boolean matchParameterTypes(Executable executable, Class<?>[] paramTypes)
