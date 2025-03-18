@@ -10,13 +10,12 @@ Instead of using types compatible with the engine it allows accessing them direc
 
 ### List of features
 - [x] Local and script scope variables
-- [x] Function parameters
 - [x] Function calls with recursion
 - [x] Inbuilt functions
 - [x] Object members chaining
-- [x] Basic control flow blocks and statements
 - [x] Basic Java logic and arithmetic unary and binary operators
-- [x] Loop execution continuation and breaking
+- [x] Basic control flow blocks and statements
+- [x] Continuation and breaking of loops
 - [x] Array index operator (one-dimensional only)
 - [ ] Bitwise and ternary operators
 - [ ] Full unicode escape sequences support
