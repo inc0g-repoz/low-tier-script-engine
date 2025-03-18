@@ -18,9 +18,29 @@ import com.github.inc0grepoz.ltse.util.FlowControl;
 public class Test
 {
 
+    public static void testIntegerParameter(int param)
+    {
+        System.out.print(param);
+    }
+
     public static void main(String[] args)
     {
         testScriptEngine();
+//      test();
+    }
+
+    private static void test()
+    {
+        try
+        {
+            Object integer = 1;
+            System.out.println(integer.getClass());
+            Test.class.getMethod("testIntegerParameter", int.class).invoke(null, integer);
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
+        }
     }
 
     private static void testScriptEngine()
