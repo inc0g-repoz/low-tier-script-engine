@@ -1,6 +1,10 @@
 package com.github.inc0grepoz.ltse;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.github.inc0grepoz.ltse.ast.AST;
@@ -9,6 +13,7 @@ import com.github.inc0grepoz.ltse.unit.ScriptCompiler;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
 import com.github.inc0grepoz.ltse.unit.UnitRoot;
 import com.github.inc0grepoz.ltse.unit.expression.Operator;
+import com.github.inc0grepoz.ltse.util.Lexer;
 
 /**
  * Represents a compiled script.
@@ -20,13 +25,20 @@ public class Script
 
     private final List<Operator> operators = new ArrayList<>();
     private final ExecutionContext globalContext = new ExecutionContext(this);
-    private final UnitRoot root;
+    private final File loaderDirectory;
+    private final UnitRoot root = new UnitRoot(this);
 
     // A package-private constructor
     Script(ScriptExecutor executor, AST ast)
     {
         executor.getDefaultOperators().forEach(operators::add);
-        root = ScriptCompiler.compile(this, ast, executor::supplyInbuiltFunctions);
+        loaderDirectory = executor.getLoaderDirectory();
+
+        // Loading inbuilt functions
+        executor.supplyInbuiltFunctions(root);
+
+        // Compiling declared functions
+        ScriptCompiler.compile(ast, this, root);
 
         globalContext.enterSection();
         root.init(globalContext);
@@ -78,6 +90,21 @@ public class Script
     public ExecutionContext supplyContext()
     {
         return globalContext.clone();
+    }
+
+    // Includes code from the file by the specified filepath
+    public void include(String filepath) throws IOException
+    {
+        if (loaderDirectory == null || !loaderDirectory.isDirectory())
+        {
+            throw new AssertionError(filepath + " is not a valid filepath");
+        }
+
+        File file = new File(loaderDirectory, filepath);
+        LinkedList<String> input = Lexer.readTokens(new FileReader(file));
+        AST ast = AST.generateTree(input);
+
+        ScriptCompiler.compile(ast, this, root);
     }
 
 }

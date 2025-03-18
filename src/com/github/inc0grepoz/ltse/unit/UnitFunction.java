@@ -46,10 +46,17 @@ public class UnitFunction extends UnitSection
             }
         }
 
-        UnitFunction unit = new UnitFunction(section, name, paramNames);
-        ScriptCompiler.appendSectionUnits(script, node, unit);
+        UnitFunction fn = script.getFunction(name, paramNames.size());
 
-        return unit;
+        if (fn != null)
+        {
+            throw new RuntimeException("Function overloading is not supported (duplicate function " + fn.getSignature() + ")");
+        }
+
+        fn = new UnitFunction(section, name, paramNames);
+        ScriptCompiler.appendSectionUnits(script, node, fn);
+
+        return fn;
     }
 
     final String name;
@@ -67,7 +74,21 @@ public class UnitFunction extends UnitSection
     @Override
     public String toString()
     {
-        return "function " + name + "(" + String.join(", ", paramNames) + ") " + super.toString();
+        return "function " + getSignature() + " " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null || !(obj instanceof UnitFunction))
+        {
+            return false;
+        }
+
+        UnitFunction fn = (UnitFunction) obj;
+
+        return fn.paramNames.size() == paramNames.size()
+                && fn.name.equals(name);
     }
 
     @Override
@@ -96,6 +117,11 @@ public class UnitFunction extends UnitSection
         context.exitSection();
 
         return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
+    }
+
+    public String getSignature()
+    {
+        return name + "(" + String.join(", ", paramNames) + ")";
     }
 
 }

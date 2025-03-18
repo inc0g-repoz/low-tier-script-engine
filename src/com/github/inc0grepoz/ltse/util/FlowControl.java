@@ -13,7 +13,7 @@ public enum FlowControl
      */
     BREAK,
     /**
-     * Used in looping constructs for breaking execution.
+     * Used in looping constructs for continuing execution.
      */
     CONTINUE,
     /**

@@ -9,7 +9,7 @@ public class UnitRoot extends UnitSection
 
     private final Script script;
 
-    UnitRoot(Script script)
+    public UnitRoot(Script script)
     {
         super(null);
         this.script = script;

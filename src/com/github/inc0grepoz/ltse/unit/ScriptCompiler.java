@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.ltse.unit;
 
 import java.util.LinkedList;
-import java.util.function.Consumer;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ast.AST;
@@ -12,17 +11,9 @@ import com.github.inc0grepoz.ltse.exception.SyntaxError;
 public class ScriptCompiler
 {
 
-    public static UnitRoot compile(Script script, AST ast, Consumer<UnitRoot> inbuiltSupplier)
+    public static void compile(AST ast, Script script, UnitRoot root)
     {
-        UnitRoot root = new UnitRoot(script);
-
-        // Loading inbuilt functions
-        inbuiltSupplier.accept(root);
-
-        // Compiling declared functions
         compileSection_r(script, ast, root);
-
-        return root;
     }
 
     static Unit compileUnit_r(Script script, ASTNode node, UnitSection parent)
@@ -46,6 +37,8 @@ public class ScriptCompiler
             return UnitFunction.compile(script, node, parent);
         case "if":
             return UnitConditionalIf.compile(script, node, parent);
+        case "include":
+            return UnitInclude.compile(script, node, parent);
         case "return":
             return UnitReturn.compile(script, node, parent);
         case "switch":
@@ -82,7 +75,7 @@ public class ScriptCompiler
         }
     }
 
-    private static UnitSection compileSection_r(Script script, ASTNode node, UnitSection parent)
+    static UnitSection compileSection_r(Script script, ASTNode node, UnitSection parent)
     {
         LinkedList<ASTNode> childs = node.getChildNodes();
 

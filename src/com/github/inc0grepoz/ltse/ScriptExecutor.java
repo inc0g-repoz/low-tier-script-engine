@@ -48,6 +48,8 @@ public class ScriptExecutor
     private final List<Operator> operators = new ArrayList<>();
     private final List<Function<UnitRoot, UnitFunction>> inbuilt = new ArrayList<>();
 
+    private File loaderDirectory = null;
+
     {
         operators.add(new OperatorAssign           ("="));
         operators.add(new OperatorOr               ("||"));
@@ -94,10 +96,7 @@ public class ScriptExecutor
     public Script load(Reader reader) throws IOException
     {
         LinkedList<String> input = Lexer.readTokens(reader);
-//      System.out.println(String.join("$", input));
-
         AST ast = AST.generateTree(input);
-//      System.out.println(ast);
 
         Script script = new Script(this, ast);
         scripts.add(script);
@@ -141,14 +140,36 @@ public class ScriptExecutor
         scripts.clear();
     }
 
+    /**
+     * Sets the root loader directory for scripts to include
+     * other script files from.
+     * 
+     * @param loaderDirectory a loader directory
+     */
+    public void setLoaderDirectory(File loaderDirectory)
+    {
+        if (loaderDirectory == null || !loaderDirectory.isDirectory())
+        {
+            throw new IllegalArgumentException();
+        }
+
+        this.loaderDirectory = loaderDirectory;
+    }
+
+    // Returns the directory to include scripts from
+    public File getLoaderDirectory()
+    {
+        return loaderDirectory;
+    }
+
     // Supplies the default operators to compiled scripts
-    List<Operator> getDefaultOperators()
+    public List<Operator> getDefaultOperators()
     {
         return operators;
     }
 
     // Supplies the inbuilt functions to compiled scripts
-    void supplyInbuiltFunctions(UnitRoot root)
+    public void supplyInbuiltFunctions(UnitRoot root)
     {
         inbuilt.forEach(fs -> fs.apply(root));
     }

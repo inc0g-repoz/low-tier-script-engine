@@ -33,9 +33,13 @@ public class Test
     {
         try
         {
-            Object integer = 1;
-            System.out.println(integer.getClass());
-            Test.class.getMethod("testIntegerParameter", int.class).invoke(null, integer);
+            File file = new File(".");
+            System.out.println(file.getAbsolutePath());
+
+            for (String fileName: file.list())
+            {
+                System.out.println("--- " + fileName);
+            }
         }
         catch (Throwable t)
         {
