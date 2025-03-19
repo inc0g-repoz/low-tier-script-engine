@@ -141,6 +141,11 @@ class AccessorMethod extends AccessorNamed
     {
         for (int i = 0; i < paramArray.length; i++)
         {
+            if (paramArray[i] == null)
+            {
+                continue;
+            }
+
             if (paramArray[i].getClass() == AccessorFunctionProxy.class)
             {
                 AccessorFunctionProxy accessor = (AccessorFunctionProxy) paramArray[i];
