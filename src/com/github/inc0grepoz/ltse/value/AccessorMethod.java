@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
-import com.github.inc0grepoz.ltse.unit.expression.OperatorFunctionProxy;
+import com.github.inc0grepoz.ltse.unit.UnitFunction;
 import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorMethod extends AccessorNamed
@@ -139,29 +139,24 @@ class AccessorMethod extends AccessorNamed
     private void handleFunctionReferences(Method method, ExecutionContext ctx,
             Object[] paramArray, Class<?>[] classArray)
     {
-        for (int i = 0; i < params.length; i++)
+        for (int i = 0; i < paramArray.length; i++)
         {
-            if (params[i].getClass() == AccessorOperator.class)
+            if (paramArray[i].getClass() == AccessorFunctionProxy.class)
             {
-                AccessorOperator accessor = (AccessorOperator) params[i];
+                AccessorFunctionProxy accessor = (AccessorFunctionProxy) paramArray[i];
+                Class<?> parameterType = method.getParameterTypes()[i];
 
-                if (accessor.operator.getClass() == OperatorFunctionProxy.class)
+                if (Reflection.isFunctionalInterface(parameterType))
                 {
-                    Class<?> parameterType = method.getParameterTypes()[i];
-                    if (Reflection.isFunctionalInterface(parameterType))
-                    {
-                        String fnName = (String) accessor.access(null,
-                                ((AccessorNamed) accessor.operands[1]).getName());
-                        String string = accessor.operands[0] + "::" + fnName;
-                        int paramCount = parameterType.getTypeParameters().length;
-                        Object proxy = ctx.getScript().getFunction(fnName, paramCount)
-                                .createProxy(parameterType);
+                    String fnName = accessor.getName();
+                    int paramCount = parameterType.getTypeParameters().length;
+                    UnitFunction fn = ctx.getScript().getFunction(fnName, paramCount);
+                    Object proxy = accessor.initProxy(fn, parameterType);
 
-                        // Writing function cache
-                        params[i] = new AccessorFunctionProxy(string, proxy);
-                        paramArray[i] = proxy;
-                        classArray[i] = parameterType;
-                    }
+                    // Writing function cache
+                    params[i] = AccessorValue.of(proxy);
+                    paramArray[i] = proxy;
+                    classArray[i] = parameterType;
                 }
             }
         }

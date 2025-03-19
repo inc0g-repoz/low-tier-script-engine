@@ -1,29 +1,41 @@
 package com.github.inc0grepoz.ltse.value;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.unit.UnitFunction;
 
-class AccessorFunctionProxy extends Accessor
+public class AccessorFunctionProxy extends AccessorNamed
 {
 
-    private final String string;
-    private final Object proxy;
+    private final String source;
 
-    AccessorFunctionProxy(String string, Object proxy)
+    private Object proxy;
+
+    public AccessorFunctionProxy(String source, String name)
     {
-        this.string = string;
-        this.proxy = proxy;
+        super(name);
+        this.source = source;
     }
 
     @Override
     public String toString()
     {
-        return string;
+        return source + "::" + name;
     }
 
     @Override
     public Object access(ExecutionContext ctx, Object src)
     {
-        return proxy;
+        return proxy == null ? this : proxy;
+    }
+
+    public Object initProxy(UnitFunction fn, Class<?> type)
+    {
+        if (proxy != null)
+        {
+            throw new IllegalStateException("Initialized a function proxy twice");
+        }
+
+        return this.proxy = fn.createProxy(type);
     }
 
 }

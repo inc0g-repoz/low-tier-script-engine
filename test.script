@@ -41,5 +41,6 @@ function main() {
         list.add("" + i);
     }
 
-    list.forEach(this::adder);
+    funref = this::adder;
+    list.forEach(funref);
 }

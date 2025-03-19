@@ -2,6 +2,7 @@ package com.github.inc0grepoz.ltse.unit.expression;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.value.Accessor;
+import com.github.inc0grepoz.ltse.value.AccessorFunctionProxy;
 import com.github.inc0grepoz.ltse.value.AccessorVariable;
 
 public class OperatorFunctionProxy extends Operator
@@ -25,7 +26,9 @@ public class OperatorFunctionProxy extends Operator
             throw new RuntimeException("Illegal function name " + operands[1]);
         }
 
-        return ((AccessorVariable) operands[1]).getName();
+        String source = operands[0].toString();
+        String name = ((AccessorVariable) operands[1]).getName();
+        return new AccessorFunctionProxy(source, name);
     }
 
 }
