@@ -28,12 +28,15 @@ function factorial_r(n) {
     else return n * factorial_i(--n);
 }
 
+// Script scope variable
 LIST = new_instance("java.util.ArrayList", new_array("java.lang.Object", 0));
 
+// Functional interface implementation
 function adder(elt) {
     LIST.add(elt);
 }
 
+/* Applying the function above to a list of strings */
 function main() {
     list = new_instance("java.util.ArrayList", new_array("java.lang.Object", 0));
 
@@ -41,6 +44,5 @@ function main() {
         list.add("" + i);
     }
 
-    funref = this::adder;
-    list.forEach(funref);
+    list.forEach(this::adder);
 }
