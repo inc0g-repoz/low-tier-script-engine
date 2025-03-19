@@ -4,6 +4,10 @@
 
 # ![icon] LTSE
 
+> [!TIP]
+> Before you test out the engine, take a look at the wiki pages. They are worth reading.<br>
+> Make sure the feature you want to use is supported by the script language to avoid confusion.
+
 ### What's this?
 LTSE is a simple script engine with a C-like syntax running off JVM.
 Instead of using types compatible with the engine it allows accessing them directly through [Reflection API][reflection].
