@@ -18,5 +18,6 @@ Instead of using types compatible with the engine it allows accessing them direc
 - [x] Continuation and breaking of loops
 - [x] Inclusion of module scripts
 - [x] Array index operator (one-dimensional only)
+- [x] Function references
 - [ ] Bitwise and ternary operators
 - [ ] Full unicode escape sequences support
