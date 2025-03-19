@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorFunctionProxy;
 import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorMethod extends AccessorNamed
@@ -129,9 +130,41 @@ class AccessorMethod extends AccessorNamed
         if (cachedType != clazz)
         {
             cachedMethod = Reflection.findMethod(cachedType = clazz, name, paramArr, classArr);
+            handleFunctionReferences(cachedMethod, ctx, paramArr, classArr);
         }
 
         return paramArr;
+    }
+
+    private void handleFunctionReferences(Method method, ExecutionContext ctx,
+            Object[] paramArray, Class<?>[] classArray)
+    {
+        for (int i = 0; i < params.length; i++)
+        {
+            if (params[i].getClass() == AccessorOperator.class)
+            {
+                AccessorOperator accessor = (AccessorOperator) params[i];
+
+                if (accessor.operator.getClass() == OperatorFunctionProxy.class)
+                {
+                    Class<?> parameterType = method.getParameterTypes()[i];
+                    if (Reflection.isFunctionalInterface(parameterType))
+                    {
+                        String fnName = (String) accessor.access(null,
+                                ((AccessorNamed) accessor.operands[1]).getName());
+                        String string = accessor.operands[0] + "::" + fnName;
+                        int paramCount = parameterType.getTypeParameters().length;
+                        Object proxy = ctx.getScript().getFunction(fnName, paramCount)
+                                .createProxy(parameterType);
+
+                        // Writing function cache
+                        params[i] = new AccessorFunctionProxy(string, proxy);
+                        paramArray[i] = proxy;
+                        classArray[i] = parameterType;
+                    }
+                }
+            }
+        }
     }
 
 }

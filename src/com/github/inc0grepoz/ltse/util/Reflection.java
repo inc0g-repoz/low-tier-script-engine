@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Reflection
@@ -120,6 +121,11 @@ public class Reflection
                 continue;
             }
 
+            if (isFunctionalInterface(mpt[i]))
+            {
+                continue;
+            }
+
             return false;
         }
 
@@ -186,6 +192,45 @@ public class Reflection
         }
 
         return joiner.toString();
+    }
+
+    // Checks if a given type is a functional interface.
+    public static boolean isFunctionalInterface(Class<?> type)
+    {
+        // A functional interface must be an interface
+        if (!type.isInterface())
+        {
+            return false;
+        }
+
+        // Count the number of abstract methods
+        long abstractMethodCount = Arrays.stream(type.getMethods())
+                .filter(m -> isAbstractMethod(m) && !isObjectMethod(m))
+                .count();
+
+        // It must have exactly one abstract method
+        return abstractMethodCount == 1;
+    }
+
+    // Checks if a method is abstract.
+    private static boolean isAbstractMethod(Method method)
+    {
+        return (method.getModifiers() & java.lang.reflect.Modifier.ABSTRACT) != 0;
+    }
+
+    // Checks if a method is declared in the Object class.
+    private static boolean isObjectMethod(Method method)
+    {
+        try
+        {
+            // Check if the method is declared in Object.class
+            Object.class.getMethod(method.getName(), method.getParameterTypes());
+            return true;
+        }
+        catch (NoSuchMethodException e)
+        {
+            return false;
+        }
     }
 
 }

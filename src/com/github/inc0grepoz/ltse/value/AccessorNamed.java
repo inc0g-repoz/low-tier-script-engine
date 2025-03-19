@@ -10,4 +10,9 @@ abstract class AccessorNamed extends Accessor
         this.name = name;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
 }

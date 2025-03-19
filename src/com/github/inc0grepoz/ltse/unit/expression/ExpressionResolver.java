@@ -15,12 +15,12 @@ import com.github.inc0grepoz.ltse.value.AccessorVariable;
 public class ExpressionResolver
 {
 
-    static final Pattern PATTERN_STRING = Pattern.compile("^\".+\"$");
-    static final Pattern PATTERN_SPECIAL = Pattern.compile("[~!@#$%^&*()-=+\\[\\]{}:;'\"\\|/<>,.?]+");
-    static final Pattern PATTERN_NUMBER_INT = Pattern.compile("\\d+");
-    static final Pattern PATTERN_NUMBER_LONG = Pattern.compile("(\\d+)[Ll]");
-    static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("(\\d*\\.\\d+)[Ff]");
-    static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("(\\d*\\.\\d+)[Dd]?");
+//  private static final Pattern PATTERN_STRING = Pattern.compile("^\".+\"$");
+//  private static final Pattern PATTERN_SPECIAL = Pattern.compile("[~!@#$%^&*()-=+\\[\\]{}:;'\"\\|/<>,.?]+");
+    private static final Pattern PATTERN_NUMBER_INT = Pattern.compile("\\d+");
+    private static final Pattern PATTERN_NUMBER_LONG = Pattern.compile("(\\d+)[Ll]");
+    private static final Pattern PATTERN_NUMBER_FLOAT = Pattern.compile("(\\d*\\.\\d+)[Ff]");
+    private static final Pattern PATTERN_NUMBER_DOUBLE = Pattern.compile("(\\d*\\.\\d+)[Dd]?");
 
     public static Accessor resolve(Script script, LinkedList<String> tokens)
     {
@@ -34,104 +34,95 @@ public class ExpressionResolver
         return resolveOperator(script, tokens);
     }
 
-    private static Accessor resolveToken(String token)
-    {
+    private static Accessor resolveToken(String token) {
         if (token == null)
         {
             return Accessor.NULL;
         }
 
-        // Persistent (reserved tokens)
+        // Handle reserved tokens
         switch (token)
         {
-        case "null":
-            return Accessor.NULL;
-        case "true":
-            return Accessor.TRUE;
-        case "false":
-            return Accessor.FALSE;
+            case "null":
+                return Accessor.NULL;
+            case "true":
+                return Accessor.TRUE;
+            case "false":
+                return Accessor.FALSE;
+            case "this":
+                return Accessor.THIS;
         }
 
-        // String tokens
-        if (token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"')
+        // Handle string tokens
+        if (isStringToken(token))
         {
             return AccessorValue.of(token.substring(1, token.length() - 1));
         }
 
-        // Integer tokens
+        // Handle numeric tokens
         if (PATTERN_NUMBER_INT.matcher(token).matches())
         {
             return AccessorValue.of(Integer.parseInt(token));
         }
-
-        // Long tokens
         if (PATTERN_NUMBER_LONG.matcher(token).matches())
         {
             return AccessorValue.of(Long.parseLong(token));
         }
-
-        // Float tokens
         if (PATTERN_NUMBER_FLOAT.matcher(token).matches())
         {
             return AccessorValue.of(Float.parseFloat(token));
         }
-
-        // Double tokens
         if (PATTERN_NUMBER_DOUBLE.matcher(token).matches())
         {
             return AccessorValue.of(Double.parseDouble(token));
         }
 
-        // Variable
+        // Default to variable
         return AccessorVariable.of(token);
     }
 
-    private static Accessor resolveOperator(Script script, LinkedList<String> tokens)
+    private static boolean isStringToken(String token)
     {
-        for (Operator operator: script.getOperators())
+        return token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"';
+    }
+
+    private static Accessor resolveOperator(Script script, LinkedList<String> tokens) {
+        for (Operator operator : script.getOperators())
         {
             switch (operator.getType())
             {
             case UNARY_LEFT:
-                if (!operator.getName().equals(tokens.peekFirst()))
+                if (operator.getName().equals(tokens.peekFirst()))
                 {
-                    break;
+                    tokens.pollFirst();
+                    return AccessorOperator.of(operator, resolve(script, tokens));
                 }
-
-                tokens.pollFirst();
-                return AccessorOperator.of(operator, resolve(script, tokens));
+                break;
             case UNARY_RIGHT:
-                if (!operator.getName().equals(tokens.peekLast()))
+                if (operator.getName().equals(tokens.peekLast()))
                 {
-                    break;
+                    tokens.pollLast();
+                    return AccessorOperator.of(operator, resolve(script, tokens));
                 }
-
-                tokens.pollLast();
-                return AccessorOperator.of(operator, resolve(script, tokens));
+                break;
             case BINARY:
-                if (!tokens.contains(operator.getName()))
+                if (tokens.contains(operator.getName()))
                 {
-                    continue;
-                }
-
-                LinkedList<LinkedList<String>> separateTokens = TokenHelper
-                        .splitTokens(tokens, operator.getName());
-
-                if (separateTokens.size() > 1)
-                {
-                    Accessor[] operands = new Accessor[separateTokens.size()];
-
-                    for (int i = 0; i < operands.length; i++)
+                    LinkedList<LinkedList<String>> separateTokens = TokenHelper.splitTokens(tokens, operator.getName());
+                    if (separateTokens.size() > 1)
                     {
-                        operands[i] = resolve(script, separateTokens.poll());
+                        Accessor[] operands = new Accessor[separateTokens.size()];
+                        for (int i = 0; i < operands.length; i++)
+                        {
+                            operands[i] = resolve(script, separateTokens.poll());
+                        }
+                        return AccessorOperator.of(operator, operands);
                     }
-
-                    return AccessorOperator.of(operator, operands);
                 }
-
                 break;
             case TERNARY:
-                // Unresolved
+                // Unhandled
+                break;
             }
         }
 
@@ -141,93 +132,120 @@ public class ExpressionResolver
     private static Accessor resolveLinkedAccessor(Script script, LinkedList<String> tokens)
     {
         LinkedList<LinkedList<String>> splitTokens = TokenHelper.splitTokens(tokens, ".");
-        LinkedList<String> nextTokenList;
         AccessorBuilder builder = Accessor.builder();
         Accessor index = null;
 
         while (!splitTokens.isEmpty())
         {
-            nextTokenList = splitTokens.poll();
+            LinkedList<String> nextTokenList = splitTokens.poll();
+            index = resolveIndex(script, nextTokenList);
 
-            if (("]").equals(nextTokenList.peekLast()))
+            if (isValueToken(nextTokenList))
             {
-                index = resolve(script, TokenHelper.readEnclosedTokensBackwards(nextTokenList, "[", "]"));
+                handleValueToken(script, builder, nextTokenList, index);
+            }
+            else if (isParameterizedToken(nextTokenList))
+            {
+                handleParameterizedToken(script, builder, nextTokenList, index);
             }
             else
             {
-                index = null;
-            }
-
-            if (("(").equals(nextTokenList.peekFirst())) // value
-            {
-                if (builder.isEmpty())
-                {
-                    builder.accessor(resolve(script, nextTokenList));
-                    builder.index(index);
-                }
-                else
-                {
-                    throw new SyntaxError("Illegal member name: " + String.join(" ", nextTokenList));
-                }
-            }
-            else if ((")").equals(nextTokenList.peekLast())) // parameterized accessor
-            {
-                String name = nextTokenList.poll();
-                TokenHelper.openParentheses(nextTokenList);
-
-                Accessor[] accessors;
-                if (nextTokenList.isEmpty())
-                {
-                    accessors = new Accessor[0];
-                }
-                else
-                {
-                    LinkedList<LinkedList<String>> paramList = TokenHelper.splitTokens(nextTokenList, ",");
-                    accessors = new Accessor[paramList.size()];
-
-                    for (int i = 0; i < accessors.length; i++)
-                    {
-                        accessors[i] = resolve(script, paramList.poll());
-                    }
-                }
-
-                if (builder.isEmpty()) // in the beginning
-                {
-                    builder.function(name, accessors);
-                    builder.index(index);
-                }
-                else // somewhere later
-                {
-                    builder.method(name, accessors);
-                    builder.index(index);
-                }
-            }
-            else // field
-            {
-                if (nextTokenList.size() > 1)
-                {
-                    throw new SyntaxError("Unresolved expression " + String.join(" ", nextTokenList));
-                }
-
-                if (builder.isEmpty())
-                {
-                    builder.accessor(resolveToken(nextTokenList.poll()));
-                    builder.index(index);
-                }
-                else
-                {
-                    builder.field(nextTokenList.poll());
-                    builder.index(index);
-                }
+                handleFieldToken(builder, nextTokenList, index);
             }
         }
 
         return builder.build();
     }
 
+    private static Accessor resolveIndex(Script script, LinkedList<String> tokens)
+    {
+        if (tokens.peekLast() != null && tokens.peekLast().equals("]"))
+        {
+            return resolve(script, TokenHelper.readEnclosedTokensBackwards(tokens, "[", "]"));
+        }
+        return null;
+    }
+
+    private static boolean isValueToken(LinkedList<String> tokens)
+    {
+        return tokens.peekFirst() != null && tokens.peekFirst().equals("(");
+    }
+
+    private static boolean isParameterizedToken(LinkedList<String> tokens)
+    {
+        return tokens.peekLast() != null && tokens.peekLast().equals(")");
+    }
+
+    private static void handleValueToken(Script script, AccessorBuilder builder,
+            LinkedList<String> tokens, Accessor index)
+    {
+        if (builder.isEmpty())
+        {
+            builder.accessor(resolve(script, tokens));
+            builder.index(index);
+        }
+        else
+        {
+            throw new SyntaxError("Illegal member name: " + String.join(" ", tokens));
+        }
+    }
+
+    private static void handleParameterizedToken(Script script, AccessorBuilder builder,
+            LinkedList<String> tokens, Accessor index)
+    {
+        String name = tokens.poll();
+        TokenHelper.openParentheses(tokens);
+
+        Accessor[] accessors = tokens.isEmpty()
+                ? new Accessor[0]
+                : resolveParameters(script, TokenHelper.splitTokens(tokens, ","));
+
+        if (builder.isEmpty())
+        {
+            builder.function(name, accessors);
+            builder.index(index);
+        }
+        else
+        {
+            builder.method(name, accessors);
+            builder.index(index);
+        }
+    }
+
+    private static Accessor[] resolveParameters(Script script, LinkedList<LinkedList<String>> paramList)
+    {
+        Accessor[] accessors = new Accessor[paramList.size()];
+
+        for (int i = 0; i < accessors.length; i++)
+        {
+            accessors[i] = resolve(script, paramList.poll());
+        }
+
+        return accessors;
+    }
+
+    private static void handleFieldToken(AccessorBuilder builder, LinkedList<String> tokens, Accessor index)
+    {
+        if (tokens.size() > 1)
+        {
+            throw new SyntaxError("Unresolved expression: " + String.join(" ", tokens));
+        }
+
+        if (builder.isEmpty())
+        {
+            builder.accessor(resolveToken(tokens.poll()));
+            builder.index(index);
+        }
+        else
+        {
+            builder.field(tokens.poll());
+            builder.index(index);
+        }
+    }
+
     private ExpressionResolver()
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Utility class");
     }
 
 }

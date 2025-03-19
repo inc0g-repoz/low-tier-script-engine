@@ -2,26 +2,25 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
 import com.github.inc0grepoz.ltse.util.FlowControl;
+import com.github.inc0grepoz.ltse.util.Reflection;
 
 @SuppressWarnings({"rawtypes", "unused"})
 public class Test
 {
-
-    public static void testIntegerParameter(int param)
-    {
-        System.out.print(param);
-    }
 
     public static void main(String[] args)
     {
@@ -33,13 +32,9 @@ public class Test
     {
         try
         {
-            File file = new File(".");
-            System.out.println(file.getAbsolutePath());
-
-            for (String fileName: file.list())
-            {
-                System.out.println("--- " + fileName);
-            }
+            List<String> list = Arrays.asList("1", "2", "3");
+            Method method = list.getClass().getMethod("forEach", Consumer.class);
+            method.setAccessible(true);
         }
         catch (Throwable t)
         {
@@ -53,7 +48,7 @@ public class Test
 
         // src/com/github/inc0grepoz/dsl/util/Lexer.java
         // test
-        File file = new File("test");
+        File file = new File("test.script");
         Supplier[] getter = (Supplier[]) Array.newInstance(Supplier.class, 1);
 
         Script script = time("Compiled", () -> {
@@ -68,6 +63,11 @@ public class Test
         });
 
         Object rv = time("Executed", () -> script.callFunction("main"));
+
+        for (int i = 0; i < 10; i++)
+        {
+            time("Executed", () -> script.callFunction("main"));
+        }
 
         if (rv != FlowControl.VOID)
         {

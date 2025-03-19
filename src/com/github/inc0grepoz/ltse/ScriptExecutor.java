@@ -21,6 +21,7 @@ import com.github.inc0grepoz.ltse.unit.expression.OperatorAssignMutateUnary;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorComparator;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorDivide;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorEqual;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorFunctionProxy;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorMultiply;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorNot;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
@@ -73,14 +74,15 @@ public class ScriptExecutor
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_LEFT,  (n) -> n.doubleValue() - 1));
         operators.add(new OperatorAssignMutateUnary("++", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() + 1));
         operators.add(new OperatorAssignMutateUnary("--", OperatorType.UNARY_RIGHT, (n) -> n.doubleValue() - 1));
+        operators.add(new OperatorFunctionProxy    ("::"));
 
-        inbuilt.add(root -> new InBuiltClassForName(root));
-        inbuilt.add(root -> new InBuiltLength      (root));
-        inbuilt.add(root -> new InBuiltNewArray    (root));
-        inbuilt.add(root -> new InBuiltNewInstance (root));
-        inbuilt.add(root -> new InBuiltPrint       (root));
-        inbuilt.add(root -> new InBuiltPrintln     (root));
-        inbuilt.add(root -> new InBuiltSleep       (root));
+        inbuilt.add(InBuiltClassForName::new);
+        inbuilt.add(InBuiltLength::new);
+        inbuilt.add(InBuiltNewArray::new);
+        inbuilt.add(InBuiltNewInstance::new);
+        inbuilt.add(InBuiltPrint::new);
+        inbuilt.add(InBuiltPrintln::new);
+        inbuilt.add(InBuiltSleep::new);
     }
 
     /**

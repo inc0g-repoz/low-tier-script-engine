@@ -27,8 +27,8 @@ public class AccessorOperator extends Accessor
         return new AccessorOperator(operator, operands);
     }
 
-    private final Operator operator;
-    private final Accessor[] operands;
+    final Operator operator;
+    final Accessor[] operands;
 
     // A package-private constructor
     AccessorOperator(Operator operator, Accessor[] operands)

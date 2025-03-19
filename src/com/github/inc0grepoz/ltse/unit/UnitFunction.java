@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.ltse.unit;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -97,6 +98,13 @@ public class UnitFunction extends UnitSection
         return FlowControl.KEEP_EXECUTING;
     }
 
+    /**
+     * Calls this function and returns an object, if has to,
+     * or {@link FlowControl#VOID VOID} otherwise.
+     * 
+     * @param params the function parameters
+     * @return an object instance
+     */
     public Object call(Object... params)
     {
         if (params.length != paramNames.size())
@@ -119,9 +127,27 @@ public class UnitFunction extends UnitSection
         return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
     }
 
+    /**
+     * Returns a string representation of the signature.
+     * 
+     * @return a string representation of the signature
+     */
     public String getSignature()
     {
         return name + "(" + String.join(", ", paramNames) + ")";
+    }
+
+    /**
+     * Implements a functional interface using a proxy instance
+     * and returns it.
+     * 
+     * @param type the functional interface class to implement
+     * @return a proxy instance
+     */
+    public Object createProxy(Class<?> type)
+    {
+        return Proxy.newProxyInstance(type.getClassLoader(), new Class<?>[] { type },
+                (proxy, method, args) -> call(args));
     }
 
 }
