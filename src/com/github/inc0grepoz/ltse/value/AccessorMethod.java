@@ -156,6 +156,12 @@ class AccessorMethod extends AccessorNamed
                     String fnName = accessor.getName();
                     int paramCount = parameterType.getTypeParameters().length;
                     UnitFunction fn = ctx.getScript().getFunction(fnName, paramCount);
+
+                    if (fn == null)
+                    {
+                        throw new RuntimeException("Unknown function " + fnName + " with " + paramCount + " parameter(-s)");
+                    }
+
                     Object proxy = accessor.initProxy(fn, parameterType);
 
                     // Writing function cache
