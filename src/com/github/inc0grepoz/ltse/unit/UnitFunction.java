@@ -13,6 +13,8 @@ import com.github.inc0grepoz.ltse.util.FlowControl;
 public class UnitFunction extends UnitSection
 {
 
+    static final Object[] EMPTY_ARRAY = new Object[0];
+
     static UnitFunction compile(Script script, ASTNode node, UnitSection section)
     {
         LinkedList<String> tokens = node.getTokens();
@@ -107,6 +109,11 @@ public class UnitFunction extends UnitSection
      */
     public Object call(Object... params)
     {
+        if (params == null)
+        {
+            params = EMPTY_ARRAY;
+        }
+
         if (params.length != paramNames.size())
         {
             String desc = name + "(" + String.join(", ", paramNames) + ")";
