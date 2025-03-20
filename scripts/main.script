@@ -1,0 +1,10 @@
+include "math.script";
+include "util.script";
+
+function test_async() {
+    println("Hello from a different thread!");
+}
+
+function main() {
+    async(this::test_async);
+}
