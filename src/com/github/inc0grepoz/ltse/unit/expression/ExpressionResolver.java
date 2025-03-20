@@ -77,6 +77,12 @@ public class ExpressionResolver
             return AccessorValue.of(Double.parseDouble(token));
         }
 
+        // Handle characters
+        if (isCharacterToken(token))
+        {
+            return AccessorValue.of(token.charAt(1));
+        }
+
         // Default to variable
         return AccessorVariable.of(token);
     }
@@ -84,6 +90,11 @@ public class ExpressionResolver
     private static boolean isStringToken(String token)
     {
         return token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"';
+    }
+
+    private static boolean isCharacterToken(String token)
+    {
+        return token.charAt(0) == '\'' && token.charAt(token.length() - 1) == '\'';
     }
 
     private static Accessor resolveOperator(Script script, LinkedList<String> tokens) {

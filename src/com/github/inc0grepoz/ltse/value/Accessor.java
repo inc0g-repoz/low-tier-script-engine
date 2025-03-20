@@ -84,6 +84,11 @@ public abstract class Accessor
 
                 return n.longValue();
             }
+
+            if (Float.MIN_VALUE < dv && dv <= Float.MAX_VALUE)
+            {
+                return n.floatValue();
+            }
         }
 
         return object;

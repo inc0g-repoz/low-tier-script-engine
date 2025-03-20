@@ -111,17 +111,10 @@ public class Reflection
 
         for (int i = 0; i < paramTypes.length; i++)
         {
-            if (mpt[i].isAssignableFrom(paramTypes[i]))
-            {
-                continue;
-            }
-
-            if (mpt[i].isPrimitive() && mpt[i] == unwrapPrimitiveType(paramTypes[i]))
-            {
-                continue;
-            }
-
-            if (isFunctionalInterface(mpt[i]))
+            if (mpt[i].isAssignableFrom(paramTypes[i])
+                    || mpt[i].isPrimitive()
+//                  && mpt[i] == unwrapPrimitiveType(paramTypes[i])
+                    || isFunctionalInterface(mpt[i]))
             {
                 continue;
             }
