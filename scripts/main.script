@@ -7,4 +7,5 @@ function test_async() {
 
 function main() {
     async(this::test_async);
+    EXECUTOR_SERVICE.shutdown();
 }
