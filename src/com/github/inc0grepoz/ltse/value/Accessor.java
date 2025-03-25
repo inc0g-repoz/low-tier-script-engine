@@ -20,7 +20,7 @@ public abstract class Accessor
     /** Precached {@code null} value accessor. **/
     public static final Accessor NULL = AccessorValue.of(null);
 
-    /** Precached void {@code 0} accessor for subtraction operators. **/
+    /** Precached {@code 0} accessor for subtraction operators. **/
     public static final Accessor ZERO = AccessorValue.of(0);
 
     /** Precached {@code true} value accessor. **/
@@ -152,7 +152,7 @@ public abstract class Accessor
      */
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Mutating " + toString());
     }
 
     /**

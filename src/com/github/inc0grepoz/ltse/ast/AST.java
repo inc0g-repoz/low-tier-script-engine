@@ -13,7 +13,7 @@ public class AST extends ASTNodeSection
 {
 
     /**
-     * Returns a new generated {@code AST} from the specified input.
+     * Returns a new {@code AST} generated from the specified input.
      * 
      * @param input the lexer output
      * @return a new generated {@code AST}
