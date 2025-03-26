@@ -43,7 +43,7 @@ public class UnitLoopWhile extends UnitSection
     @Override
     Object execute(ExecutionContext context)
     {
-        while (checkCondition(context))
+        while (condition(context))
         {
             Object rv = super.execute(context);
 
@@ -66,7 +66,7 @@ public class UnitLoopWhile extends UnitSection
         return FlowControl.KEEP_EXECUTING;
     }
 
-    private boolean checkCondition(ExecutionContext context)
+    private boolean condition(ExecutionContext context)
     {
         return !PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null));
     }

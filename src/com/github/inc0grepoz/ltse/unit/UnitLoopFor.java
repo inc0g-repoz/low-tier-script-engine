@@ -59,12 +59,7 @@ public class UnitLoopFor extends UnitSection
     @Override
     Object execute(ExecutionContext context)
     {
-        if (parameter != null)
-        {
-            parameter.linkedAccess(context, null);
-        }
-
-        for (; checkCondition(context); increment(context))
+        for (parameter(context); condition(context); increment(context))
         {
             Object rv = super.execute(context);
 
@@ -87,7 +82,15 @@ public class UnitLoopFor extends UnitSection
         return FlowControl.KEEP_EXECUTING;
     }
 
-    private boolean checkCondition(ExecutionContext context)
+    private void parameter(ExecutionContext context)
+    {
+        if (parameter != null)
+        {
+            parameter.linkedAccess(context, null);
+        }
+    }
+
+    private boolean condition(ExecutionContext context)
     {
         return condition == null || !PrimitiveTester.isDefaultValue(condition.linkedAccess(context, null));
     }

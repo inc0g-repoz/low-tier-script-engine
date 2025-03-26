@@ -2,7 +2,9 @@ include "math.script";
 include "util.script";
 
 function test_async() {
-    println("Hello from a different thread!");
+    for (i = 1; i <= 10; i++) {
+        println("Hello from a different thread! (x" + i + ")");
+    }
 }
 
 function main() {
