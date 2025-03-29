@@ -145,6 +145,17 @@ public class UnitFunction extends UnitSection
     }
 
     /**
+     * Returns a {@code List} of parameter names in the
+     * function definition.
+     * 
+     * @return a {@code List} of parameter names
+     */
+    public List<String> getParameterNames()
+    {
+        return paramNames;
+    }
+
+    /**
      * Implements a functional interface using a proxy instance
      * and returns it.
      * 
