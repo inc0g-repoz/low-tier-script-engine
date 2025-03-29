@@ -122,6 +122,15 @@ public abstract class Accessor
         return object;
     }
 
+    static Class<?> unwrapSourceType(Object object)
+    {
+        Class<?> rv = object.getClass();
+
+        return rv == AccessorNoInstance.class
+                ? ((AccessorNoInstance) object).clazz
+                : rv;
+    }
+
     Accessor next, elementIndex;
 
     /**

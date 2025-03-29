@@ -32,6 +32,7 @@ import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltClassForName;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltLength;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewArray;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNewInstance;
+import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltNoInstance;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrint;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltPrintln;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltSleep;
@@ -80,6 +81,7 @@ public class ScriptExecutor
         inbuilt.add(InBuiltLength::new);
         inbuilt.add(InBuiltNewArray::new);
         inbuilt.add(InBuiltNewInstance::new);
+        inbuilt.add(InBuiltNoInstance::new);
         inbuilt.add(InBuiltPrint::new);
         inbuilt.add(InBuiltPrintln::new);
         inbuilt.add(InBuiltSleep::new);

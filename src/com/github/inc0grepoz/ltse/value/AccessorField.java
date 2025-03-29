@@ -25,7 +25,7 @@ class AccessorField extends AccessorNamed
     @Override
     public Object access(ExecutionContext ctx, Object src)
     {
-        Class<?> clazz = src.getClass();
+        Class<?> clazz = unwrapSourceType(src);
 
         if (cachedType != clazz)
         {
@@ -62,7 +62,7 @@ class AccessorField extends AccessorNamed
     @Override
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
-        Class<?> clazz = src.getClass();
+        Class<?> clazz = unwrapSourceType(src);
 
         if (cachedType != clazz)
         {

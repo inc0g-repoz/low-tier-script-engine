@@ -44,7 +44,7 @@ public class Reflection
             }
         }
 
-        throw new RuntimeException("Unknown constructor " + clazz + stringifyParameterTypes(classes));
+        throw new RuntimeException("Unknown constructor " + clazz.getName() + stringifyParameterTypes(classes));
     }
 
     public static Method findMethod(Class<?> clazz, String name, Object[] params, Class<?>[] classes)
@@ -83,7 +83,7 @@ public class Reflection
             }
         }
 
-        throw new RuntimeException("Unknown method " + clazz + "." + name + stringifyParameterTypes(classes));
+        throw new RuntimeException("Unknown method " + clazz.getName() + "." + name + stringifyParameterTypes(classes));
     }
 
     public static Field findField(Class<?> clazz, String name)
@@ -102,7 +102,7 @@ public class Reflection
         catch (Throwable t)
         {}
 
-        throw new RuntimeException("Unknown field " + clazz + "." + name);
+        throw new RuntimeException("Unknown field " + clazz.getName() + "." + name);
     }
 
     private static boolean matchParameterTypes(Executable executable, Class<?>[] paramTypes)

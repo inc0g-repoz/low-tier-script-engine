@@ -125,7 +125,7 @@ class AccessorMethod extends AccessorNamed
             classList.toArray(classArr = new Class<?>[classList.size()]);
         }
 
-        Class<?> clazz = src.getClass();
+        Class<?> clazz = unwrapSourceType(src);
 
         if (cachedType != clazz)
         {
