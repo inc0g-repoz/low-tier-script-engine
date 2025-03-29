@@ -3,7 +3,7 @@ package com.github.inc0grepoz.ltse.value;
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 
 /**
- * Stores a read-only no-instance accessor for static class
+ * Represents a read-only no-instance accessor for static class
  * members invocation and access.
  * 
  * @author inc0g-repoz
