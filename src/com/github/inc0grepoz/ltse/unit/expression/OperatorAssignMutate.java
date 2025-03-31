@@ -17,7 +17,8 @@ public class OperatorAssignMutate extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         if (operands.length != type.getOperandCount())
         {
             throw new RuntimeException("Only can use \"" + name + "\" on " + type.getOperandCount() + " numbers");

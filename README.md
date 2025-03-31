@@ -17,11 +17,11 @@ Instead of using types compatible with the engine it allows accessing them direc
 - [x] Function calls with recursion
 - [x] Inbuilt functions
 - [x] Object members chaining
-- [x] Basic Java logic and arithmetic unary and binary operators
+- [x] Basic Java logic and arithmetic unary, binary and ternary operators
 - [x] Basic control flow blocks and statements
 - [x] Continuation and breaking of loops
 - [x] Inclusion of module scripts
 - [x] Array index operator (one-dimensional only)
 - [x] Function references
-- [ ] Bitwise and ternary operators
+- [ ] Bitwise operators
 - [ ] Full unicode escape sequences support

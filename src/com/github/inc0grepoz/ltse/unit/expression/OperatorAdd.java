@@ -12,7 +12,8 @@ public class OperatorAdd extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         if (operands[0] == Accessor.NULL)
         {
             operands[0] = Accessor.ZERO;

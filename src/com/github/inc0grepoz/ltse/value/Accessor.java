@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.util.FlowControl;
+import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 
 /**
  * Represents a value, variable or a member access chain.
@@ -55,71 +56,6 @@ public abstract class Accessor
     public static AccessorBuilder builder()
     {
         return new AccessorBuilder();
-    }
-
-    // Converts objects, if they're integer numbers
-    static Object convert(Object object)
-    {
-        if (object instanceof Number)
-        {
-            Number n  = (Number) object;
-            double dv = n.doubleValue();
-
-            if (dv % 1 == 0)
-            {
-                if (Byte.MIN_VALUE <= dv && dv <= Byte.MAX_VALUE)
-                {
-                    return n.byteValue();
-                }
-
-                if (Short.MIN_VALUE <= dv && dv <= Short.MAX_VALUE)
-                {
-                    return n.shortValue();
-                }
-
-                if (Integer.MIN_VALUE <= dv && dv <= Integer.MAX_VALUE)
-                {
-                    return n.intValue();
-                }
-
-                return n.longValue();
-            }
-
-            if (Float.MIN_VALUE < dv && dv <= Float.MAX_VALUE)
-            {
-                return n.floatValue();
-            }
-        }
-
-        return object;
-    }
-
-    // Converts objects into array component types, if they're numbers
-    static Object convert(Object object, Class<?> componentType)
-    {
-        if (object instanceof Number)
-        {
-            Number n  = (Number) object;
-
-            if (componentType == byte.class || componentType == Byte.class)
-            {
-                return n.byteValue();
-            }
-
-            if (componentType == short.class || componentType == Short.class)
-            {
-                return n.shortValue();
-            }
-
-            if (componentType == int.class || componentType == Integer.class)
-            {
-                return n.intValue();
-            }
-
-            return n.longValue();
-        }
-
-        return object;
     }
 
     static Class<?> unwrapSourceType(Object object)
@@ -195,7 +131,7 @@ public abstract class Accessor
 
         if (next == null)
         {
-            val = convert(val, eltSrc.getClass().getComponentType());
+            val = PrimitiveConverter.convert(val, eltSrc.getClass().getComponentType());
             Array.set(eltSrc, idx, val);
             return val;
         }

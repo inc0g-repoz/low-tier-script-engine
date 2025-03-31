@@ -20,8 +20,7 @@ function factorial_i(n) {
 }
 
 function factorial_r(n) {
-    if (n == 1) return 1;
-    else return n * factorial_i(--n);
+    return n == 1 ? 1 : n * factorial_i(--n);
 }
 
 function factorial(n) {

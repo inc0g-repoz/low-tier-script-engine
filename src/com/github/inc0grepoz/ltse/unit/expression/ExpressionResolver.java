@@ -132,7 +132,20 @@ public class ExpressionResolver
                 }
                 break;
             case TERNARY:
-                // Unhandled
+                if (tokens.contains("?") && tokens.contains(":"))
+                {
+                    LinkedList<LinkedList<String>> separateTokens = TokenHelper.splitTokens(tokens, "?", 1);
+                    separateTokens.addAll(TokenHelper.splitTokens(separateTokens.pollLast(), ":", 1));
+                    if (separateTokens.size() == 3)
+                    {
+                        Accessor[] operands = new Accessor[separateTokens.size()];
+                        for (int i = 0; i < operands.length; i++)
+                        {
+                            operands[i] = resolve(script, separateTokens.poll());
+                        }
+                        return AccessorOperator.of(operator, operands);
+                    }
+                }
                 break;
             }
         }

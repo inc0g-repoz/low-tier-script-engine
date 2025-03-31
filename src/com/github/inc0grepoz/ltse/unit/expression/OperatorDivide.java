@@ -12,7 +12,8 @@ public class OperatorDivide extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         Object object;
         double rv = 0d;
 

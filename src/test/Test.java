@@ -3,12 +3,14 @@ package test;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Supplier;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
 import com.github.inc0grepoz.ltse.util.Lexer;
+import com.github.inc0grepoz.ltse.util.TokenHelper;
 
 @SuppressWarnings("unused")
 public class Test
@@ -16,6 +18,16 @@ public class Test
 
     private static final ScriptExecutor EXECUTOR = new ScriptExecutor();
     private static final File LOADER_DIRECTORY;
+
+    private static final Object TEST_OBJECT = new Object() {
+
+        public int field;
+
+        public void passInt(int value) {
+            System.out.println("int value " + value);
+        }
+
+    };
 
     static
     {
@@ -63,6 +75,11 @@ public class Test
         });
 
         Object rv = time("Executed", () -> script.callFunction("main"));
+    }
+
+    private static void test()
+    {
+        System.out.println("Nothing to test");
     }
 
     private static <T> T time(Supplier<T> lambda)

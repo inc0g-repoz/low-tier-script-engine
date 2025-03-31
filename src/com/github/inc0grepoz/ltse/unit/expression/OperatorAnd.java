@@ -13,7 +13,8 @@ public class OperatorAnd extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         for (int i = 0; i < operands.length; i++)
         {
             if (PrimitiveTester.isDefaultValue(operands[i].linkedAccess(ctx, null)))

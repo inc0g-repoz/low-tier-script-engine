@@ -27,6 +27,7 @@ import com.github.inc0grepoz.ltse.unit.expression.OperatorNot;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorNotEqual;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorOr;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorSubtract;
+import com.github.inc0grepoz.ltse.unit.expression.OperatorTernary;
 import com.github.inc0grepoz.ltse.unit.expression.OperatorType;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltClassForName;
 import com.github.inc0grepoz.ltse.unit.inbuilt.InBuiltLength;
@@ -54,6 +55,7 @@ public class ScriptExecutor
 
     {
         operators.add(new OperatorAssign           ("="));
+        operators.add(new OperatorTernary          (null));
         operators.add(new OperatorOr               ("||"));
         operators.add(new OperatorAnd              ("&&"));
         operators.add(new OperatorAssignMutate     ("+=", (n1, n2) -> n1.doubleValue() + n2.doubleValue()));

@@ -7,6 +7,7 @@ import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.unit.UnitFunction;
+import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorMethod extends AccessorNamed
@@ -133,6 +134,7 @@ class AccessorMethod extends AccessorNamed
             handleFunctionReferences(cachedMethod, ctx, paramArr, classArr);
         }
 
+        handlePrimitivesMismatch(paramArr, cachedMethod.getParameterTypes());
         return paramArr;
     }
 
@@ -170,6 +172,14 @@ class AccessorMethod extends AccessorNamed
                     classArray[i] = parameterType;
                 }
             }
+        }
+    }
+
+    private void handlePrimitivesMismatch(Object[] paramArray, Class<?>[] classArray)
+    {
+        for (int i = 0; i < paramArray.length; i++)
+        {
+            paramArray[i] = PrimitiveConverter.convert(paramArray[i], classArray[i]);
         }
     }
 

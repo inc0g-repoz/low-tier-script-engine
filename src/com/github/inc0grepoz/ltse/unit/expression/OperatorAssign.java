@@ -12,7 +12,8 @@ public class OperatorAssign extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         Object rv = null;
 
         for (int i = operands.length - 2; 0 <= i; i--)

@@ -17,7 +17,8 @@ public class OperatorAssignMutateUnary extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         if (type == OperatorType.UNARY_LEFT)
         {
             return operands[0].mutate(ctx, null, cv -> lambda.apply((Number) cv));

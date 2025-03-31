@@ -1,6 +1,8 @@
 include "math.script";
 include "util.script";
 
+TEST = no_instance("test.Test").TEST_OBJECT;
+
 function test_async() {
     for (i = 1; i <= 10; i++) {
         println("Hello from a different thread! (x" + i + ")");
@@ -10,4 +12,7 @@ function test_async() {
 function main() {
     async(this::test_async);
     EXECUTOR_SERVICE.shutdown();
+
+    n = 5;
+    println("Factorial " + n + " = " + factorial_r(n));
 }

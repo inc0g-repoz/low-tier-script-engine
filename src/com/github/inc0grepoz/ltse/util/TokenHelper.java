@@ -88,17 +88,17 @@ public class TokenHelper
         return out;
     }
 
-    public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator)
+    public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator, int limit)
     {
         int parentheses = 0;
         int squareBrackets = 0;
 
         LinkedList<LinkedList<String>> separateTokens = new LinkedList<>();
-    
+
         ListIterator<String> iter = tokens.listIterator();
         LinkedList<String> tokenList = new LinkedList<>();
         String next;
-    
+
         while (iter.hasNext())
         {
             switch (next = iter.next())
@@ -117,8 +117,13 @@ public class TokenHelper
                 break;
             }
 
-            if (squareBrackets == 0 && parentheses == 0 && next.equals(separator))
+            if (0 < limit
+                    && squareBrackets == 0
+                    && parentheses    == 0
+                    && next.equals(separator))
             {
+                limit--;
+
                 // Flushing the previous tokens
                 separateTokens.add(tokenList);
                 tokenList = new LinkedList<>();
@@ -132,8 +137,13 @@ public class TokenHelper
     
         // Flushing the last sequence
         separateTokens.add(tokenList);
-    
+
         return separateTokens;
+    }
+
+    public static LinkedList<LinkedList<String>> splitTokens(LinkedList<String> tokens, String separator)
+    {
+        return splitTokens(tokens, separator, Integer.MAX_VALUE);
     }
 
     public static LinkedList<String> openParentheses(LinkedList<String> tokens)

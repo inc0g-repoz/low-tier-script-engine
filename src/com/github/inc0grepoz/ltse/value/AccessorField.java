@@ -3,6 +3,7 @@ package com.github.inc0grepoz.ltse.value;
 import java.lang.reflect.Field;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 import com.github.inc0grepoz.ltse.util.Reflection;
 
 class AccessorField extends AccessorNamed
@@ -75,7 +76,7 @@ class AccessorField extends AccessorNamed
             {
                 try
                 {
-                    return mutate(cachedField, src, convert(val));
+                    return mutate(cachedField, src, PrimitiveConverter.narrow(val));
                 }
                 catch (Throwable t)
                 {

@@ -13,7 +13,8 @@ public class OperatorNot extends Operator
     }
 
     @Override
-    public Object evaluate(ExecutionContext ctx, Accessor[] operands) {
+    public Object evaluate(ExecutionContext ctx, Accessor[] operands)
+    {
         return PrimitiveTester.isDefaultValue(operands[0].linkedAccess(ctx, null));
     }
 
