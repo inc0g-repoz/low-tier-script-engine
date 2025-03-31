@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.ltse.unit.expression;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class OperatorSubtract extends Operator
@@ -43,7 +44,7 @@ public class OperatorSubtract extends Operator
             }
         }
 
-        return rv;
+        return PrimitiveConverter.narrow(rv);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.ltse.unit.expression;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
+import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 import com.github.inc0grepoz.ltse.value.Accessor;
 
 public class OperatorAdd extends Operator
@@ -41,7 +42,7 @@ public class OperatorAdd extends Operator
                 rv += ((Number) objects[i]).doubleValue();
             }
 
-            return rv;
+            return PrimitiveConverter.narrow(rv);
         }
 
         StringBuilder builder = new StringBuilder();

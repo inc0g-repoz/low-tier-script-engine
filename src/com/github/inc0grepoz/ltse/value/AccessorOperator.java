@@ -4,7 +4,6 @@ import java.util.StringJoiner;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
 import com.github.inc0grepoz.ltse.unit.expression.Operator;
-import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 
 /**
  * Represents an {@code Accessor} for values processed by operators
@@ -54,7 +53,7 @@ public class AccessorOperator extends Accessor
     @Override
     public Object access(ExecutionContext ctx, Object src)
     {
-        return PrimitiveConverter.narrow(operator.evaluate(ctx, operands));
+        return operator.evaluate(ctx, operands);
     }
 
 }

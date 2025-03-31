@@ -113,7 +113,7 @@ public abstract class Accessor
     {
         Object cv = access(ctx, src);
         return next == null
-                ? mutate(ctx, src, fn.apply(cv))
+                ? mutate(ctx, src, PrimitiveConverter.narrow(fn.apply(cv)))
                 : next.mutate(ctx, src, fn);
     }
 
