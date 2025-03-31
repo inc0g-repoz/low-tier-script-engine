@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.ltse.value;
 
 import com.github.inc0grepoz.ltse.unit.ExecutionContext;
-import com.github.inc0grepoz.ltse.util.PrimitiveConverter;
 
 /**
  * Represents an accessor for variables stored in a
@@ -48,7 +47,7 @@ public class AccessorVariable extends AccessorNamed
         if (elementIndex == null)
         {
             return next == null
-                    ? ctx.setVariable(name, PrimitiveConverter.narrow(val))
+                    ? ctx.setVariable(name, val)
                     : next.mutate(ctx, access(ctx, src), val);
         }
 
