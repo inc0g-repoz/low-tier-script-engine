@@ -226,4 +226,10 @@ public class Reflection
         }
     }
 
+    // Instances of this class should never be made
+    private Reflection()
+    {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
 }

@@ -185,7 +185,7 @@ public class TokenHelper
 
     private TokenHelper()
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Utility class");
     }
 
 }

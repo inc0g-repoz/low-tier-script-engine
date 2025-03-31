@@ -22,7 +22,7 @@ public class PrimitiveConverter
             Number n  = (Number) object;
             double dv = n.doubleValue();
 
-            if (dv % 1 == 0)
+            if (isInteger(dv))
             {
                 if (Byte.MIN_VALUE <= dv && dv <= Byte.MAX_VALUE)
                 {
@@ -98,10 +98,24 @@ public class PrimitiveConverter
         return object;
     }
 
+    // Should be efficient to be used whenever some operator
+    // evaluation result is returned
+    private static boolean isInteger(double n)
+    {
+        // 32-bit int range (perhaps, a premature optimization)
+//      if (Integer.MIN_VALUE <= n && n <= Integer.MAX_VALUE)
+//      {
+//          return n == (int) n; // Bitwise truncation
+//      }
+
+        // Large numbers or edge cases
+        return !Double.isInfinite(n) && n % 1 == 0;
+    }
+
     // Instances of this class should never be made
     private PrimitiveConverter()
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Utility class");
     }
 
 }

@@ -195,4 +195,10 @@ public class Lexer
         }
     }
 
+    // Instances of this class should never be made
+    private Lexer()
+    {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
 }
