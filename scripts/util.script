@@ -6,19 +6,10 @@ EXECUTOR_SERVICE = null;
     EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 }
 
-// Same thing, but reflected
-/*
-EMPTY_ARRAY_CLASSES = new_array("java.lang.Class", 0);
-EMPTY_ARRAY_OBJECTS = new_array("java.lang.Object", 0);
-
-{
-    executor_class = class_for_name("java.util.concurrent.Executors");
-    EXECUTOR_SERVICE = executor_class
-        .getMethod("newCachedThreadPool", EMPTY_ARRAY_CLASSES)
-        .invoke(executor_class, EMPTY_ARRAY_OBJECTS);
-}
+/* 
+ * Retrives the function by the specified reference
+ * and executes it in the thread-pool.
  */
-
 function async(fn_ref) {
     EXECUTOR_SERVICE.execute(fn_ref);
 }
