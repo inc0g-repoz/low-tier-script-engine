@@ -167,7 +167,17 @@ class AccessorMethod extends AccessorNamed
                     Object proxy = accessor.initProxy(fn, parameterType);
 
                     // Writing function cache
-                    params[i] = AccessorValue.of(proxy);
+                    params[i] = new AccessorValue(proxy)
+                    {
+
+                        @Override
+                        public String toString()
+                        {
+                            return accessor.toString();
+                        }
+
+                    };
+
                     paramArray[i] = proxy;
                     classArray[i] = parameterType;
                 }

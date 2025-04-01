@@ -5,12 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
 import com.github.inc0grepoz.ltse.util.Lexer;
-import com.github.inc0grepoz.ltse.util.TokenHelper;
 
 @SuppressWarnings("unused")
 public class Test
@@ -19,9 +21,9 @@ public class Test
     private static final ScriptExecutor EXECUTOR = new ScriptExecutor();
     private static final File LOADER_DIRECTORY;
 
-    private static final Object TEST_OBJECT = new Object() {
+    private static final Object HOOK = new Object() {
 
-        public int field;
+        public ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
 
         public void passInt(int value) {
             System.out.println("int value " + value);
@@ -79,7 +81,15 @@ public class Test
 
     private static void test()
     {
-        System.out.println("Nothing to test");
+        try
+        {
+            Object rv = Test.class.getMethod("v").invoke(null);
+            System.out.println(rv);
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
+        }
     }
 
     private static <T> T time(Supplier<T> lambda)
