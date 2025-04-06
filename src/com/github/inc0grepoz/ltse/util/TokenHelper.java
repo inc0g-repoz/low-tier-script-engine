@@ -183,6 +183,70 @@ public class TokenHelper
         return tokens;
     }
 
+    public static String unescape(String string)
+    {
+        StringBuilder builder = new StringBuilder(string.length());
+
+        for (int i = 0; i < string.length(); i++)
+        {
+            char ch = string.charAt(i);
+            if (ch == '\\' && i + 1 < string.length())
+            {
+                switch (string.charAt(i + 1))
+                {
+                case '\\':
+                    builder.append('\\');
+                    i++;
+                    break;
+                case '\"':
+                    builder.append('"');
+                    i++;
+                    break;
+                case '\'':
+                    builder.append('\'');
+                    i++;
+                    break;
+                case 't':
+                    builder.append('\t');
+                    i++;
+                    break;
+                case 'b':
+                    builder.append('\b');
+                    i++;
+                    break;
+                case 'n':
+                    builder.append('\n');
+                    i++;
+                    break;
+                case 'r':
+                    builder.append('\r');
+                    i++;
+                    break;
+                case 'f':
+                    builder.append('\f');
+                    i++;
+                    break;
+                case 'u': // Unicode escape
+                    if (i + 5 < string.length())
+                    {
+                        String hex = string.substring(i + 2, i + 6);
+                        builder.append((char) Integer.parseInt(hex, 16));
+                        i += 5;
+                    }
+                    break;
+                default:
+                    builder.append(ch);
+                }
+            }
+            else
+            {
+                builder.append(ch);
+            }
+        }
+
+        return builder.toString();
+    }
+
     private TokenHelper()
     {
         throw new UnsupportedOperationException("Utility class");

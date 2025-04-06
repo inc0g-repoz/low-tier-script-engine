@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
 import com.github.inc0grepoz.ltse.util.Lexer;
+import com.github.inc0grepoz.ltse.util.TokenHelper;
 
 @SuppressWarnings("unused")
 public class Test

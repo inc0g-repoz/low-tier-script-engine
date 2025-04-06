@@ -23,5 +23,5 @@ Instead of using types compatible with the engine it allows accessing them direc
 - [x] Inclusion of module scripts
 - [x] Array index operator (one-dimensional only)
 - [x] Function references
+- [x] Full unicode escape sequences support
 - [ ] Bitwise operators
-- [ ] Full unicode escape sequences support

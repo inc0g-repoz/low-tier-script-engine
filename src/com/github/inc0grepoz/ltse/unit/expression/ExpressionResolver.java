@@ -56,7 +56,21 @@ public class ExpressionResolver
         // Handle string tokens
         if (isStringToken(token))
         {
-            return AccessorValue.of(token.substring(1, token.length() - 1));
+            String string = TokenHelper.unescape(token.substring(1, token.length() - 1));
+            return AccessorValue.of(string);
+        }
+
+        // Handle characters
+        if (isCharacterToken(token))
+        {
+            String string = TokenHelper.unescape(token.substring(1, token.length() - 1));
+
+            if (string.length() != 1)
+            {
+                throw new SyntaxError("Illegal token " + token);
+            }
+
+            return AccessorValue.of(string.charAt(0));
         }
 
         // Handle numeric tokens
@@ -75,12 +89,6 @@ public class ExpressionResolver
         if (PATTERN_NUMBER_DOUBLE.matcher(token).matches())
         {
             return AccessorValue.of(Double.parseDouble(token));
-        }
-
-        // Handle characters
-        if (isCharacterToken(token))
-        {
-            return AccessorValue.of(token.charAt(1));
         }
 
         // Default to variable
