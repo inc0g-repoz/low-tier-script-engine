@@ -1,50 +1,35 @@
 package test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Supplier;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.github.inc0grepoz.ltse.Script;
 import com.github.inc0grepoz.ltse.ScriptExecutor;
 import com.github.inc0grepoz.ltse.util.Lexer;
-import com.github.inc0grepoz.ltse.util.TokenHelper;
 
-@SuppressWarnings("unused")
-public class Test
-{
+@SuppressWarnings("all")
+class DefaultTestCase {
 
     private static final ScriptExecutor EXECUTOR = new ScriptExecutor();
     private static final File LOADER_DIRECTORY;
-
-    private static final Object HOOK = new Object() {
-
-        public ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
-
-        public void passInt(int value) {
-            System.out.println("int value " + value);
-        }
-
-    };
 
     static
     {
         EXECUTOR.setLoaderDirectory(LOADER_DIRECTORY = new File("scripts"));
     }
 
-    public static void main(String[] args)
-    {
-//      testLexer();
-        testScriptEngine();
-//      test();
-    }
-
-    private static void testLexer()
+    @Disabled
+    @Test
+    void testLexer()
     {
         // src/com/github/inc0grepoz/dsl/util/Lexer.java
         // main.script
@@ -58,11 +43,13 @@ public class Test
         }
         catch (Throwable t)
         {
-            t.printStackTrace();
+            fail("Failed to lex the script: " + t);
         }
     }
 
-    private static void testScriptEngine()
+    //@Disabled
+    @Test
+    void testScriptEngine()
     {
         File file = new File(LOADER_DIRECTORY, "main.script");
 
@@ -73,23 +60,29 @@ public class Test
             }
             catch (IOException e)
             {
-                throw new RuntimeException(e);
+                throw new AssertionError(e);
             }
         });
 
         Object rv = time("Executed", () -> script.callFunction("main"));
     }
 
-    private static void test()
+    @Disabled
+    @Test
+    void testReflection()
     {
         try
         {
-            Object rv = Test.class.getMethod("v").invoke(null);
+            Object string = "value";
+            Object[] args = { "a", "4" };
+            Method m = string.getClass().getMethod("replace", CharSequence.class, CharSequence.class);
+            Object rv = m.invoke(string, args);
             System.out.println(rv);
         }
         catch (Throwable t)
         {
             t.printStackTrace();
+            throw new AssertionError(t);
         }
     }
 
