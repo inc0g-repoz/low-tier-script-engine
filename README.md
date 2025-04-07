@@ -2,14 +2,15 @@
 [reflection]: https://www.oracle.com/technical-resources/articles/java/javareflection.html
 <!-- The stuff above is invisible -->
 
-# ![icon] LTSE
+# ![icon] LIX – Lightweight Interpreted eXecutor
 
 > [!TIP]
 > Before you test out the engine, take a look at the wiki pages. They are worth reading.<br>
 > Make sure the feature you want to use is supported by the script language to avoid confusion.
 
 ### What's this?
-LTSE is a simple script engine with a C-like syntax running off JVM.
+LIX is an acronym for Lightweight Interpreted eXecution.
+The goal of this project is to implement a scalable and maintainable script engine with a C-like syntax that runs off JVM.
 Instead of using types compatible with the engine it allows accessing them directly through [Reflection API][reflection].
 
 ### List of features
