@@ -1,4 +1,4 @@
-[icon]: https://raw.githubusercontent.com/inc0g-repoz/lix/refs/heads/main/src/assets/icon.png
+[icon]: https://raw.githubusercontent.com/lix4j-project/lix4j/refs/heads/main/src/assets/icon.png
 [reflection]: https://www.oracle.com/technical-resources/articles/java/javareflection.html
 <!-- The stuff above is invisible -->
 
