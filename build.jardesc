@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="windows-1251" standalone="no"?>
+<jardesc>
+    <jar path="lix4j/out/lix4j.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/lix4j/build.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/lix4j/LICENSE"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;assets"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.ast"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.exception"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.unit"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.unit.expression"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.unit.inbuilt"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.util"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.value"/>
+    </selectedElements>
+</jardesc>

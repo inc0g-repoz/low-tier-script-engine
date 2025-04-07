@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.github.inc0grepoz.ltse.Script;
-import com.github.inc0grepoz.ltse.ScriptExecutor;
-import com.github.inc0grepoz.ltse.util.Lexer;
+import com.github.inc0grepoz.lix4j.Script;
+import com.github.inc0grepoz.lix4j.ScriptExecutor;
+import com.github.inc0grepoz.lix4j.util.Lexer;
 
 @SuppressWarnings("all")
 class DefaultTestCase {
