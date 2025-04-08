@@ -27,6 +27,8 @@ public class ScriptCompiler
         {
         case "break":
             return UnitBreak.compile(script, node, parent);
+        case "catch":
+            throw new SyntaxError("Every \"catch\" statement should have a \"try\" statement before");
         case "continue":
             return UnitContinue.compile(script, node, parent);
         case "else":
@@ -43,6 +45,8 @@ public class ScriptCompiler
             return UnitReturn.compile(script, node, parent);
         case "switch":
             throw new SyntaxError("Switching is not supported");
+        case "try":
+            return UnitConditionalTry.compile(script, node, parent);
         case "while":
             return UnitLoopWhile.compile(script, node, parent);
         default:
