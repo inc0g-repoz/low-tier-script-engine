@@ -51,7 +51,7 @@ class DefaultTestCase {
     @Test
     void testScriptEngine()
     {
-        File file = new File(LOADER_DIRECTORY, "main.script");
+        File file = new File(LOADER_DIRECTORY, "main.lix");
 
         Script script = time("Compiled", () -> {
             try

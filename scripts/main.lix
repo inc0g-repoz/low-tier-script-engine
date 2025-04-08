@@ -1,5 +1,5 @@
-include "math.script";
-include "util.script";
+include "math.lix";
+include "util.lix";
 
 function test_async() {
     for (i = 1; i <= 5; i++) {
@@ -8,9 +8,17 @@ function test_async() {
 }
 
 function main() {
+	/*
     async(this::test_async);
     EXECUTOR_SERVICE.shutdown();
 
     n = 5;
     println("Factorial " + n + " = " + factorial_r(n));
+    */
+
+    a = "000";
+    a = null;
+
+    try println(a = a.replace('0', '1'));
+    catch (e) println("Exception handled: " + e);
 }
