@@ -8,10 +8,10 @@ import com.github.inc0grepoz.lix4j.unit.expression.ExpressionResolver;
 import com.github.inc0grepoz.lix4j.util.TokenHelper;
 import com.github.inc0grepoz.lix4j.value.Accessor;
 
-public class UnitConditionalCatch extends UnitSection
+public class UnitErrorCatch extends UnitSection
 {
 
-    static UnitConditionalCatch compile(Script script, ASTNode node, UnitSection section)
+    static UnitErrorCatch compile(Script script, ASTNode node, UnitSection section)
     {
         LinkedList<String> tokens = node.getTokens();
         tokens.poll(); // catch
@@ -19,7 +19,7 @@ public class UnitConditionalCatch extends UnitSection
         LinkedList<String> errorTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
         Accessor error = ExpressionResolver.resolve(script, errorTokens);
 
-        UnitConditionalCatch unit = new UnitConditionalCatch(section, error);
+        UnitErrorCatch unit = new UnitErrorCatch(section, error);
 
         if (tokens.isEmpty())
         {
@@ -35,7 +35,7 @@ public class UnitConditionalCatch extends UnitSection
 
     final Accessor error;
 
-    UnitConditionalCatch(UnitSection parent, Accessor error)
+    UnitErrorCatch(UnitSection parent, Accessor error)
     {
         super(parent);
         this.error = error;

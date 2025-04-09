@@ -10,17 +10,17 @@ import com.github.inc0grepoz.lix4j.util.PrimitiveTester;
 import com.github.inc0grepoz.lix4j.util.TokenHelper;
 import com.github.inc0grepoz.lix4j.value.Accessor;
 
-public class UnitConditionalIf extends UnitSection
+public class UnitConditionIf extends UnitSection
 {
 
-    static UnitConditionalIf compile(Script script, ASTNode node, UnitSection section)
+    static UnitConditionIf compile(Script script, ASTNode node, UnitSection section)
     {
         node.getTokens().poll(); // if
 
         LinkedList<String> conditionTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
         Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
 
-        UnitConditionalIf unit = new UnitConditionalIf(section, condition);
+        UnitConditionIf unit = new UnitConditionIf(section, condition);
         ScriptCompiler.appendSectionUnits(script, node, unit);
 
         LinkedList<ASTNode> parentNodes = node.getParent().getChildNodes();
@@ -28,7 +28,7 @@ public class UnitConditionalIf extends UnitSection
         {
             if (parentNodes.peek().getTokens().peek().equals("else"))
             {
-                unit.otherwise = UnitConditionalElse.compile(script, parentNodes.poll(), null);
+                unit.otherwise = UnitConditionElse.compile(script, parentNodes.poll(), null);
             }
         }
 
@@ -37,9 +37,9 @@ public class UnitConditionalIf extends UnitSection
 
     final Accessor condition;
 
-    UnitConditionalElse otherwise;
+    UnitConditionElse otherwise;
 
-    UnitConditionalIf(UnitSection parent, Accessor condition)
+    UnitConditionIf(UnitSection parent, Accessor condition)
     {
         super(parent);
         this.condition = condition;

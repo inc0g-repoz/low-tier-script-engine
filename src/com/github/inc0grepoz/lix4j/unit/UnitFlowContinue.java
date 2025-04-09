@@ -7,10 +7,10 @@ import com.github.inc0grepoz.lix4j.ast.ASTNode;
 import com.github.inc0grepoz.lix4j.exception.SyntaxError;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
-public class UnitContinue extends Unit
+public class UnitFlowContinue extends Unit
 {
 
-    static UnitContinue compile(Script script, ASTNode node, UnitSection parent)
+    static UnitFlowContinue compile(Script script, ASTNode node, UnitSection parent)
     {
         LinkedList<String> tokens = node.getTokens();
         tokens.poll(); // continue
@@ -20,10 +20,10 @@ public class UnitContinue extends Unit
             throw new SyntaxError("Illegal tokens after a continue statement: " + String.join(" ", tokens));
         }
 
-        return new UnitContinue(parent);
+        return new UnitFlowContinue(parent);
     }
 
-    UnitContinue(UnitSection parent)
+    UnitFlowContinue(UnitSection parent)
     {
         super(parent);
     }

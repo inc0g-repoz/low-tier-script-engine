@@ -6,14 +6,14 @@ import com.github.inc0grepoz.lix4j.Script;
 import com.github.inc0grepoz.lix4j.ast.ASTNode;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
-public class UnitConditionalTry extends UnitSection
+public class UnitErrorTry extends UnitSection
 {
 
-    static UnitConditionalTry compile(Script script, ASTNode node, UnitSection section)
+    static UnitErrorTry compile(Script script, ASTNode node, UnitSection section)
     {
         node.getTokens().poll(); // try
 
-        UnitConditionalTry unit = new UnitConditionalTry(section);
+        UnitErrorTry unit = new UnitErrorTry(section);
         ScriptCompiler.appendSectionUnits(script, node, unit);
 
         LinkedList<ASTNode> parentNodes = node.getParent().getChildNodes();
@@ -21,16 +21,16 @@ public class UnitConditionalTry extends UnitSection
         {
             if (parentNodes.peek().getTokens().peek().equals("catch"))
             {
-                unit.otherwise = UnitConditionalCatch.compile(script, parentNodes.poll(), null);
+                unit.otherwise = UnitErrorCatch.compile(script, parentNodes.poll(), null);
             }
         }
 
         return unit;
     }
 
-    UnitConditionalCatch otherwise;
+    UnitErrorCatch otherwise;
 
-    UnitConditionalTry(UnitSection parent)
+    UnitErrorTry(UnitSection parent)
     {
         super(parent);
     }

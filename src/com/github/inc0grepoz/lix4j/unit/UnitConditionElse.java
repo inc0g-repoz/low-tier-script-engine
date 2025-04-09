@@ -5,15 +5,15 @@ import java.util.LinkedList;
 import com.github.inc0grepoz.lix4j.Script;
 import com.github.inc0grepoz.lix4j.ast.ASTNode;
 
-public class UnitConditionalElse extends UnitSection
+public class UnitConditionElse extends UnitSection
 {
 
-    static UnitConditionalElse compile(Script script, ASTNode node, UnitSection section)
+    static UnitConditionElse compile(Script script, ASTNode node, UnitSection section)
     {
         LinkedList<String> tokens = node.getTokens();
         tokens.poll(); // else
 
-        UnitConditionalElse unit = new UnitConditionalElse(section);
+        UnitConditionElse unit = new UnitConditionElse(section);
 
         if (tokens.isEmpty())
         {
@@ -27,7 +27,7 @@ public class UnitConditionalElse extends UnitSection
         return unit;
     }
 
-    UnitConditionalElse(UnitSection parent)
+    UnitConditionElse(UnitSection parent)
     {
         super(parent);
     }

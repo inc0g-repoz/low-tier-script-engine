@@ -7,10 +7,10 @@ import com.github.inc0grepoz.lix4j.ast.ASTNode;
 import com.github.inc0grepoz.lix4j.unit.expression.ExpressionResolver;
 import com.github.inc0grepoz.lix4j.value.Accessor;
 
-public class UnitReturn extends Unit
+public class UnitFlowReturn extends Unit
 {
 
-    static UnitReturn compile(Script script, ASTNode node, UnitSection parent)
+    static UnitFlowReturn compile(Script script, ASTNode node, UnitSection parent)
     {
         LinkedList<String> tokens = node.getTokens();
         tokens.poll(); // return
@@ -19,12 +19,12 @@ public class UnitReturn extends Unit
                 ? Accessor.VOID
                 : ExpressionResolver.resolve(script, tokens);
 
-        return new UnitReturn(parent, rva);
+        return new UnitFlowReturn(parent, rva);
     }
 
     private final Accessor accessor;
 
-    UnitReturn(UnitSection parent, Accessor accessor)
+    UnitFlowReturn(UnitSection parent, Accessor accessor)
     {
         super(parent);
         this.accessor = accessor;

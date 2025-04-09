@@ -7,10 +7,10 @@ import com.github.inc0grepoz.lix4j.ast.ASTNode;
 import com.github.inc0grepoz.lix4j.exception.SyntaxError;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
-public class UnitBreak extends Unit
+public class UnitFlowBreak extends Unit
 {
 
-    static UnitBreak compile(Script script, ASTNode node, UnitSection parent)
+    static UnitFlowBreak compile(Script script, ASTNode node, UnitSection parent)
     {
         LinkedList<String> tokens = node.getTokens();
         tokens.poll(); // break
@@ -20,10 +20,10 @@ public class UnitBreak extends Unit
             throw new SyntaxError("Illegal tokens after a break statement: " + String.join(" ", tokens));
         }
 
-        return new UnitBreak(parent);
+        return new UnitFlowBreak(parent);
     }
 
-    UnitBreak(UnitSection parent)
+    UnitFlowBreak(UnitSection parent)
     {
         super(parent);
     }
