@@ -30,7 +30,6 @@ public class AccessorOperator extends Accessor
     final Operator operator;
     final Accessor[] operands;
 
-    // A package-private constructor
     AccessorOperator(Operator operator, Accessor[] operands)
     {
         this.operator = operator;

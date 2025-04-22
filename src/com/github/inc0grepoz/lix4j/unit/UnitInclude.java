@@ -22,7 +22,7 @@ public class UnitInclude extends Unit
             throw new SyntaxError("Include statements should be followed by valid filepaths");
         }
 
-        Accessor fpa = ExpressionResolver.resolve(script, tokens);
+        Accessor fpa = ExpressionResolver.resolve(script, parent, tokens);
         String filepath = (String) fpa.linkedAccess(null, null);
 
         try

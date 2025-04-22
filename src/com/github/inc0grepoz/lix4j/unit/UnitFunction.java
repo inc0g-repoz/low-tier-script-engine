@@ -121,15 +121,13 @@ public class UnitFunction extends UnitSection
         }
 
         ExecutionContext context = root.getScript().supplyContext();
-        context.enterSection();
 
         for (int i = 0; i < params.length; i++)
         {
-            context.setVariable(paramNames.get(i), params[i]);
+            varpool.getOrCreate(paramNames.get(i)).mutate(context, null, params[i]);
         }
 
         Object rv = super.execute(context);
-        context.exitSection();
 
         return rv == FlowControl.KEEP_EXECUTING ? FlowControl.VOID : rv;
     }

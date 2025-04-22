@@ -1,24 +1,33 @@
-include "math.lix";
-include "util.lix";
+//include "math.lix";
+//include "util.lix";
 
+/*
 function test_async() {
     for (i = 1; i <= 5; i++) {
         println("Hello from a different thread! (x" + i + ")");
     }
 }
+*/
 
 function main() {
-	/*
-    async(this::test_async);
-    EXECUTOR_SERVICE.shutdown();
+//  async(this::test_async);
+//  EXECUTOR_SERVICE.shutdown();
 
-    n = 5;
-    println("Factorial " + n + " = " + factorial_r(n));
-    */
+//  n = 5;
+//  println("Factorial " + n + " = " + factorial_r(n));
 
-    a = "000";
+//  a = null;
+//  a = "000";
+//  println(a);
+
+//  try println(a = a.replace('0', '1'));
+//  catch (e) println("Exception handled: " + e);
+
     a = null;
+    a = "000";
+    println(a);
 
-    try println(a = a.replace('0', '1'));
-    catch (e) println("Exception handled: " + e);
+    if (false) {
+        a.replace('0', '1');
+    }
 }

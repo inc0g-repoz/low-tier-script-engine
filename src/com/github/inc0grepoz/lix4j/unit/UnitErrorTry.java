@@ -21,7 +21,7 @@ public class UnitErrorTry extends UnitSection
         {
             if (parentNodes.peek().getTokens().peek().equals("catch"))
             {
-                unit.otherwise = UnitErrorCatch.compile(script, parentNodes.poll(), null);
+                unit.otherwise = UnitErrorCatch.compile(script, parentNodes.poll(), section);
             }
         }
 

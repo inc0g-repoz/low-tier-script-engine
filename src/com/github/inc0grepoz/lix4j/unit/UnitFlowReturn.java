@@ -17,7 +17,7 @@ public class UnitFlowReturn extends Unit
 
         Accessor rva = tokens.isEmpty()
                 ? Accessor.VOID
-                : ExpressionResolver.resolve(script, tokens);
+                : ExpressionResolver.resolve(script, parent, tokens);
 
         return new UnitFlowReturn(parent, rva);
     }

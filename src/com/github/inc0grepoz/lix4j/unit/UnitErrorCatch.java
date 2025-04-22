@@ -17,7 +17,7 @@ public class UnitErrorCatch extends UnitSection
         tokens.poll(); // catch
 
         LinkedList<String> errorTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
-        Accessor error = ExpressionResolver.resolve(script, errorTokens);
+        Accessor error = ExpressionResolver.resolve(script, section, errorTokens);
 
         UnitErrorCatch unit = new UnitErrorCatch(section, error);
 
@@ -37,7 +37,7 @@ public class UnitErrorCatch extends UnitSection
 
     UnitErrorCatch(UnitSection parent, Accessor error)
     {
-        super(parent);
+        super(null, false);
         this.error = error;
     }
 

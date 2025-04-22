@@ -28,11 +28,11 @@ public class UnitLoopFor extends UnitSection
         }
 
         Accessor parameter = (tempTokens = split.poll()).isEmpty() ? null
-                : ExpressionResolver.resolve(script, tempTokens);
+                : ExpressionResolver.resolve(script, section, tempTokens);
         Accessor condition = (tempTokens = split.poll()).isEmpty() ? null
-                : ExpressionResolver.resolve(script, tempTokens);
+                : ExpressionResolver.resolve(script, section, tempTokens);
         Accessor increment = (tempTokens = split.poll()).isEmpty() ? null
-                : ExpressionResolver.resolve(script, tempTokens);
+                : ExpressionResolver.resolve(script, section, tempTokens);
 
         UnitLoopFor unit = new UnitLoopFor(section, parameter, condition, increment);
         ScriptCompiler.appendSectionUnits(script, node, unit);

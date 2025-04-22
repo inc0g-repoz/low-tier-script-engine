@@ -11,6 +11,8 @@ import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
 public class AccessorVariable extends AccessorNamed
 {
 
+    private static final Object UNASSIGNED = new String("<UNASSIGNED>");
+
     /**
      * Creates and returns a new accessor for a variable
      * with a specified name.
@@ -23,7 +25,8 @@ public class AccessorVariable extends AccessorNamed
         return new AccessorVariable(name);
     }
 
-   // A package-private constructor
+    private Object instance = UNASSIGNED;
+
     AccessorVariable(String name)
     {
         super(name);
@@ -37,21 +40,26 @@ public class AccessorVariable extends AccessorNamed
 
     @Override
     public Object access(ExecutionContext ctx, Object src) {
-        Object rv = ctx.getVariable(name);
-        return elementIndex == null ? rv : accessElement(ctx, rv);
+        if (instance == UNASSIGNED)
+        {
+            throw new RuntimeException("Variable " + name + " is unassigned");
+        }
+
+        return elementIndex == null ? instance : accessElement(ctx, instance);
     }
 
     @Override
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
+        System.out.println("Mutating " + name + " = " + val);
         if (elementIndex == null)
         {
             return next == null
-                    ? ctx.setVariable(name, val)
-                    : next.mutate(ctx, access(ctx, src), val);
+                    ? instance = val
+                    : next.mutate(ctx, instance, val);
         }
 
-        return mutateElement(ctx, ctx.getVariable(name), val);
+        return mutateElement(ctx, instance, val);
     }
 
 }

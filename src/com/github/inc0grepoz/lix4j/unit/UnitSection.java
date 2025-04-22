@@ -9,6 +9,12 @@ public class UnitSection extends Unit
 {
 
     final LinkedList<Unit> childs = new LinkedList<>();
+    final Varpool varpool = new Varpool(this);
+
+    UnitSection(UnitSection parent, boolean add)
+    {
+        super(parent, add);
+    }
 
     UnitSection(UnitSection parent)
     {
@@ -37,7 +43,6 @@ public class UnitSection extends Unit
     Object execute(ExecutionContext context)
     {
         Object rv;
-        context.enterSection();
 
         for (Unit unit: childs)
         {
@@ -49,8 +54,12 @@ public class UnitSection extends Unit
             }
         }
 
-        context.exitSection();
         return FlowControl.KEEP_EXECUTING;
+    }
+
+    public Varpool getVarpool()
+    {
+        return varpool;
     }
 
 }

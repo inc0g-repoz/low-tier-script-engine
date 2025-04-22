@@ -11,14 +11,19 @@ public abstract class Unit
 
     final UnitSection parent;
 
-    Unit(UnitSection parent)
+    Unit(UnitSection parent, boolean add)
     {
         this.parent = parent;
 
-        if (parent != null)
+        if (parent != null && add)
         {
             parent.childs.add(this);
         }
+    }
+
+    Unit(UnitSection parent)
+    {
+        this(parent, true);
     }
 
     /**

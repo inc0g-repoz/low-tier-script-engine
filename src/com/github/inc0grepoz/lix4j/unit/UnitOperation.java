@@ -11,7 +11,7 @@ public class UnitOperation extends Unit
 
     static UnitOperation compile(Script script, ASTNode node, UnitSection parent)
     {
-        return new UnitOperation(parent, ExpressionResolver.resolve(script, node.getTokens()));
+        return new UnitOperation(parent, ExpressionResolver.resolve(script, parent, node.getTokens()));
     }
 
     private Accessor accessor;

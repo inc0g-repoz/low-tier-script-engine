@@ -40,7 +40,6 @@ public class Script
         // Compiling declared functions
         ScriptCompiler.compile(ast, this, root);
 
-        globalContext.enterSection();
         root.init(globalContext);
     }
 
@@ -89,7 +88,7 @@ public class Script
      */
     public ExecutionContext supplyContext()
     {
-        return globalContext.clone();
+        return globalContext;
     }
 
     // Includes code from the file by the specified filepath

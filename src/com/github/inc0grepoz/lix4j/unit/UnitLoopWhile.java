@@ -18,7 +18,7 @@ public class UnitLoopWhile extends UnitSection
         node.getTokens().poll(); // while
 
         LinkedList<String> conditionTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
-        Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
+        Accessor condition = ExpressionResolver.resolve(script, section, conditionTokens);
 
         UnitLoopWhile unit = new UnitLoopWhile(section, condition);
         ScriptCompiler.appendSectionUnits(script, node, unit);

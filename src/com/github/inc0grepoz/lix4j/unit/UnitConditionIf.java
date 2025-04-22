@@ -18,7 +18,7 @@ public class UnitConditionIf extends UnitSection
         node.getTokens().poll(); // if
 
         LinkedList<String> conditionTokens = TokenHelper.readEnclosedTokens(node.getTokens(), "(", ")");
-        Accessor condition = ExpressionResolver.resolve(script, conditionTokens);
+        Accessor condition = ExpressionResolver.resolve(script, section, conditionTokens);
 
         UnitConditionIf unit = new UnitConditionIf(section, condition);
         ScriptCompiler.appendSectionUnits(script, node, unit);
@@ -28,7 +28,7 @@ public class UnitConditionIf extends UnitSection
         {
             if (parentNodes.peek().getTokens().peek().equals("else"))
             {
-                unit.otherwise = UnitConditionElse.compile(script, parentNodes.poll(), null);
+                unit.otherwise = UnitConditionElse.compile(script, parentNodes.poll(), section);
             }
         }
 

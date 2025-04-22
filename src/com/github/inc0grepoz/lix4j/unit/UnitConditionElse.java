@@ -29,7 +29,7 @@ public class UnitConditionElse extends UnitSection
 
     UnitConditionElse(UnitSection parent)
     {
-        super(parent);
+        super(parent, false);
     }
 
     @Override

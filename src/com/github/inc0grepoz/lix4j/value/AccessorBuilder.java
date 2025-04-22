@@ -11,7 +11,6 @@ public class AccessorBuilder
     private Accessor first, last;
     private int length;
 
-    // A package-private constructor
     AccessorBuilder() {}
 
     @Override
