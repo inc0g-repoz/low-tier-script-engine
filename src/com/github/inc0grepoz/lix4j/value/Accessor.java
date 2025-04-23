@@ -87,7 +87,7 @@ public abstract class Accessor
     }
 
     /**
-     * Mutates the {@code Object} refered to by this {@code Accessor}
+     * Mutates the {@code Object} referred to by this {@code Accessor}
      * and returns the new value specified.
      * 
      * @param ctx the function {@code ExecutionContext}
@@ -101,7 +101,7 @@ public abstract class Accessor
     }
 
     /**
-     * Mutates the {@code Object} refered to by this {@code Accessor}
+     * Mutates the {@code Object} referred to by this {@code Accessor}
      * and returns the new value from the specified function.
      * 
      * @param ctx the function {@code ExecutionContext}

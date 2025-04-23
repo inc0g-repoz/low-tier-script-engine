@@ -1,5 +1,5 @@
-//include "math.lix";
-//include "util.lix";
+include "math.lix";
+include "util.lix";
 
 /*
 function test_async() {
@@ -13,21 +13,12 @@ function main() {
 //  async(this::test_async);
 //  EXECUTOR_SERVICE.shutdown();
 
-//  n = 5;
-//  println("Factorial " + n + " = " + factorial_r(n));
-
-//  a = null;
-//  a = "000";
-//  println(a);
-
-//  try println(a = a.replace('0', '1'));
-//  catch (e) println("Exception handled: " + e);
+    n = 5;
+    println("Factorial " + n + " = " + factorial_r(n));
 
     a = null;
     a = "000";
-    println(a);
 
-    if (false) {
-        a.replace('0', '1');
-    }
+    try println(a = a.replace('0', '1'));
+    catch (e) println("Exception handled: " + e);
 }

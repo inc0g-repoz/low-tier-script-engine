@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.lix4j.value;
 
 import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
+import com.github.inc0grepoz.lix4j.unit.Variable;
 
 /**
  * Represents an accessor for variables stored in a
@@ -11,8 +12,6 @@ import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
 public class AccessorVariable extends AccessorNamed
 {
 
-    private static final Object UNASSIGNED = new String("<UNASSIGNED>");
-
     /**
      * Creates and returns a new accessor for a variable
      * with a specified name.
@@ -20,16 +19,17 @@ public class AccessorVariable extends AccessorNamed
      * @param name the variable name
      * @return a new {@code AccessorVariable}
      */
-    public static AccessorVariable of(String name)
+    public static AccessorVariable of(Variable var)
     {
-        return new AccessorVariable(name);
+        return new AccessorVariable(var);
     }
 
-    private Object instance = UNASSIGNED;
+    private Variable variable;
 
-    AccessorVariable(String name)
+    AccessorVariable(Variable var)
     {
-        super(name);
+        super(var.getName());
+        variable = var;
     }
 
     @Override
@@ -40,26 +40,21 @@ public class AccessorVariable extends AccessorNamed
 
     @Override
     public Object access(ExecutionContext ctx, Object src) {
-        if (instance == UNASSIGNED)
-        {
-            throw new RuntimeException("Variable " + name + " is unassigned");
-        }
-
-        return elementIndex == null ? instance : accessElement(ctx, instance);
+        Object rv = variable.get();
+        return elementIndex == null ? rv : accessElement(ctx, rv);
     }
 
     @Override
     public Object mutate(ExecutionContext ctx, Object src, Object val)
     {
-        System.out.println("Mutating " + name + " = " + val);
         if (elementIndex == null)
         {
             return next == null
-                    ? instance = val
-                    : next.mutate(ctx, instance, val);
+                    ? variable.set(val)
+                    : next.mutate(ctx, variable.get(), val);
         }
 
-        return mutateElement(ctx, instance, val);
+        return mutateElement(ctx, variable.get(), val);
     }
 
 }

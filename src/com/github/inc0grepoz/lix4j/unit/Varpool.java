@@ -16,7 +16,7 @@ public class Varpool implements Cloneable
 
     private final UnitSection section;
 
-    private AccessorVariable[] pool = new AccessorVariable[0];
+    private Variable[] pool = new Variable[0];
 
     /**
      * Creates a new global context for the specified {@code section}.
@@ -43,22 +43,22 @@ public class Varpool implements Cloneable
      */
     public AccessorVariable getOrCreate(String name)
     {
-        AccessorVariable rv = get0(name);
+        Variable rv = get0(name);
 
         if (rv == null)
         {
             pool = Arrays.copyOf(pool, pool.length + 1);
-            rv = pool[pool.length - 1] = AccessorVariable.of(name);
+            rv = pool[pool.length - 1] = new Variable(name);
         }
 
-        return rv;
+        return AccessorVariable.of(rv);
     }
 
     /*
      * Returns a variable with the specified name, but doesn't
      * throw an exception.
      */
-    private AccessorVariable get0(String name)
+    private Variable get0(String name)
     {
         for (int i = 0; i < pool.length; i++)
         {
@@ -70,7 +70,7 @@ public class Varpool implements Cloneable
 
         if (section.parent != null)
         {
-            AccessorVariable rv = section.parent.varpool.get0(name);
+            Variable rv = section.parent.varpool.get0(name);
             if (rv != null)
             {
                 return rv;
