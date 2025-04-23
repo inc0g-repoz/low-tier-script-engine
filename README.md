@@ -14,6 +14,7 @@ The goal of this project is to implement a scalable and maintainable script engi
 Instead of using types compatible with the engine it allows accessing them directly through [Reflection API][reflection].
 
 ### List of features
+- [x] Running scripts by double clicking on Windows 10/11
 - [x] Local and script scope variables
 - [x] Function calls with recursion
 - [x] Inbuilt functions
