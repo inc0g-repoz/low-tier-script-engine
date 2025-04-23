@@ -15,6 +15,7 @@
         <javaElement handleIdentifier="=lix4j/src&lt;assets"/>
         <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j"/>
         <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.ast"/>
+        <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.ctx"/>
         <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.exception"/>
         <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.unit"/>
         <javaElement handleIdentifier="=lix4j/src&lt;com.github.inc0grepoz.lix4j.unit.expression"/>
