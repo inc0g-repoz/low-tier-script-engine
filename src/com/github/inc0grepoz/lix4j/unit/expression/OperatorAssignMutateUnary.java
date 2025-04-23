@@ -2,7 +2,7 @@ package com.github.inc0grepoz.lix4j.unit.expression;
 
 import java.util.function.Function;
 
-import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
 import com.github.inc0grepoz.lix4j.value.Accessor;
 
 public class OperatorAssignMutateUnary extends Operator

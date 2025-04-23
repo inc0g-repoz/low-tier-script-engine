@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.inc0grepoz.lix4j.Script;
 import com.github.inc0grepoz.lix4j.ScriptExecutor;
+import com.github.inc0grepoz.lix4j.unit.UnitFunction;
 import com.github.inc0grepoz.lix4j.util.Lexer;
 
 @SuppressWarnings("all")
@@ -64,7 +65,8 @@ class DefaultTestCase {
             }
         });
 
-        Object rv = time("Executed", () -> script.callFunction("main"));
+        UnitFunction fn = script.getFunction("main", 0);
+        Object rv = time("Executed", () -> fn.call());
     }
 
     @Disabled

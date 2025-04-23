@@ -1,6 +1,6 @@
 package com.github.inc0grepoz.lix4j.value;
 
-import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
 
 /**
  * Stores a single precached Java object or a wrapped

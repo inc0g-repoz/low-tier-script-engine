@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.github.inc0grepoz.lix4j.Script;
 import com.github.inc0grepoz.lix4j.ast.ASTNode;
 import com.github.inc0grepoz.lix4j.exception.SyntaxError;
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
 public class UnitFlowContinue extends Unit

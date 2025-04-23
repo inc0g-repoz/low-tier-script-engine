@@ -21,4 +21,7 @@ function main() {
 
     try println(a = a.replace('0', '1'));
     catch (e) println("Exception handled: " + e);
+
+    if (1 == 2) println("yes");
+    else println("no");
 }

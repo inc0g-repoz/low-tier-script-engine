@@ -21,7 +21,7 @@ public class UnitConditionElse extends UnitSection
         }
         else
         {
-            unit.childs.add(ScriptCompiler.compileUnit_r(script, node, section));
+            ScriptCompiler.compileUnit_r(script, node, unit);
         }
 
         return unit;

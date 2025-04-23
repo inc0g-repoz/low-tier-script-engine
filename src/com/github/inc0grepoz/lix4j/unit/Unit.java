@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.lix4j.unit;
 
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
+
 /**
  * Represents a callable unit of scripted logic that can be
  * invoked multiple times
@@ -24,6 +26,17 @@ public abstract class Unit
     Unit(UnitSection parent)
     {
         this(parent, true);
+    }
+
+    /**
+     * Returns the parent section, if this unit is a child
+     * of any, or {@code null} otherwise.
+     * 
+     * @return the parent section
+     */
+    public UnitSection getParent()
+    {
+        return parent;
     }
 
     /**

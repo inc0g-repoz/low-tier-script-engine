@@ -16,6 +16,18 @@ public class ScriptCompiler
         compileSection_r(script, ast, root);
     }
 
+    static UnitSection compileSection_r(Script script, ASTNode node, UnitSection parent)
+    {
+        LinkedList<ASTNode> childs = node.getChildNodes();
+
+        while (!childs.isEmpty())
+        {
+            compileUnit_r(script, childs.poll(), parent);
+        }
+
+        return parent;
+    }
+
     static Unit compileUnit_r(Script script, ASTNode node, UnitSection parent)
     {
         if (!node.hasTokens())
@@ -77,18 +89,6 @@ public class ScriptCompiler
         {
             throw new IllegalStateException("Attempted to extend a statement with a block of code");
         }
-    }
-
-    static UnitSection compileSection_r(Script script, ASTNode node, UnitSection parent)
-    {
-        LinkedList<ASTNode> childs = node.getChildNodes();
-
-        while (!childs.isEmpty())
-        {
-            compileUnit_r(script, childs.poll(), parent);
-        }
-
-        return parent;
     }
 
 }

@@ -27,7 +27,7 @@ public class UnitErrorCatch extends UnitSection
         }
         else
         {
-            unit.childs.add(ScriptCompiler.compileUnit_r(script, node, section));
+            ScriptCompiler.compileUnit_r(script, node, unit);
         }
 
         return unit;
@@ -37,7 +37,7 @@ public class UnitErrorCatch extends UnitSection
 
     UnitErrorCatch(UnitSection parent, Accessor error)
     {
-        super(null, false);
+        super(parent, false);
         this.error = error;
     }
 

@@ -3,13 +3,15 @@ package com.github.inc0grepoz.lix4j.unit;
 import java.util.LinkedList;
 import java.util.StringJoiner;
 
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
+import com.github.inc0grepoz.lix4j.runtime.VarpoolStatic;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
 public class UnitSection extends Unit
 {
 
     final LinkedList<Unit> childs = new LinkedList<>();
-    final Varpool varpool = new Varpool(this);
+    final VarpoolStatic varpool = new VarpoolStatic(this);
 
     UnitSection(UnitSection parent, boolean add)
     {
@@ -57,7 +59,7 @@ public class UnitSection extends Unit
         return FlowControl.KEEP_EXECUTING;
     }
 
-    public Varpool getVarpool()
+    public VarpoolStatic getVarpool()
     {
         return varpool;
     }

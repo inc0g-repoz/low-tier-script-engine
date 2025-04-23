@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.lix4j.value;
 
-import com.github.inc0grepoz.lix4j.unit.ExecutionContext;
-import com.github.inc0grepoz.lix4j.unit.Variable;
+import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
+import com.github.inc0grepoz.lix4j.runtime.Variable;
 
 /**
  * Represents an accessor for variables stored in a
@@ -24,7 +24,7 @@ public class AccessorVariable extends AccessorNamed
         return new AccessorVariable(var);
     }
 
-    private Variable variable;
+    private final Variable variable;
 
     AccessorVariable(Variable var)
     {

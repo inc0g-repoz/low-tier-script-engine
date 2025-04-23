@@ -1,9 +1,10 @@
-package com.github.inc0grepoz.lix4j.unit;
+package com.github.inc0grepoz.lix4j.runtime;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.lix4j.unit.UnitSection;
 import com.github.inc0grepoz.lix4j.value.AccessorVariable;
 
 /**
@@ -11,7 +12,7 @@ import com.github.inc0grepoz.lix4j.value.AccessorVariable;
  * 
  * @author inc0g-repoz
  */
-public class Varpool implements Cloneable
+public class VarpoolStatic implements Cloneable
 {
 
     private final UnitSection section;
@@ -23,7 +24,7 @@ public class Varpool implements Cloneable
      * 
      * @param section the {@code UnitSection}
      */
-    Varpool(UnitSection section)
+    public VarpoolStatic(UnitSection section)
     {
         this.section = section;
     }
@@ -68,9 +69,9 @@ public class Varpool implements Cloneable
             }
         }
 
-        if (section.parent != null)
+        if (section.getParent() != null)
         {
-            Variable rv = section.parent.varpool.get0(name);
+            Variable rv = section.getParent().getVarpool().get0(name);
             if (rv != null)
             {
                 return rv;
