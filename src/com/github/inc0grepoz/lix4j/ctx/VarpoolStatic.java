@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.lix4j.runtime;
+package com.github.inc0grepoz.lix4j.ctx;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -8,7 +8,7 @@ import com.github.inc0grepoz.lix4j.unit.UnitSection;
 import com.github.inc0grepoz.lix4j.value.AccessorVariable;
 
 /**
- * Represents a pool for variables.
+ * Represents a static pool for variables.
  * 
  * @author inc0g-repoz
  */
@@ -20,7 +20,8 @@ public class VarpoolStatic implements Cloneable
     private Variable[] pool = new Variable[0];
 
     /**
-     * Creates a new global context for the specified {@code section}.
+     * Creates a new static pool for the specified
+     * {@code section}.
      * 
      * @param section the {@code UnitSection}
      */

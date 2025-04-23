@@ -24,7 +24,7 @@ public class Bootstrap
 
     private static void run(String path, String[] args)
     {
-        File file = new File(path);
+        File file = (new File(path)).getAbsoluteFile();
         ScriptExecutor executor = new ScriptExecutor();
         executor.setLoaderDirectory(file.getParentFile());
 

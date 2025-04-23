@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.lix4j.value;
 
-import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
-import com.github.inc0grepoz.lix4j.runtime.Variable;
+import com.github.inc0grepoz.lix4j.ctx.ExecutionContext;
+import com.github.inc0grepoz.lix4j.ctx.Variable;
 
 /**
  * Represents an accessor for variables stored in a

@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.github.inc0grepoz.lix4j.Script;
 import com.github.inc0grepoz.lix4j.ast.ASTNode;
-import com.github.inc0grepoz.lix4j.runtime.ExecutionContext;
+import com.github.inc0grepoz.lix4j.ctx.ExecutionContext;
 import com.github.inc0grepoz.lix4j.util.FlowControl;
 
 public class UnitFunction extends UnitSection
@@ -125,7 +125,7 @@ public class UnitFunction extends UnitSection
 
         for (int i = 0; i < params.length; i++)
         {
-            varpool.getOrCreate(paramNames.get(i)).mutate(context, null, params[i]);
+            varpoolStatic.getOrCreate(paramNames.get(i)).mutate(context, null, params[i]);
         }
 
         Object rv = super.execute(context);

@@ -34,7 +34,8 @@ public class ExpressionResolver
         return resolveOperator(script, section, tokens);
     }
 
-    private static Accessor resolveToken(UnitSection section, String token) {
+    private static Accessor resolveToken(UnitSection section, String token)
+    {
         if (token == null)
         {
             return Accessor.NULL;
@@ -105,7 +106,8 @@ public class ExpressionResolver
         return token.charAt(0) == '\'' && token.charAt(token.length() - 1) == '\'';
     }
 
-    private static Accessor resolveOperator(Script script, UnitSection section, LinkedList<String> tokens) {
+    private static Accessor resolveOperator(Script script, UnitSection section, LinkedList<String> tokens)
+    {
         for (Operator operator : script.getOperators())
         {
             switch (operator.getType())
@@ -161,7 +163,8 @@ public class ExpressionResolver
         return resolveLinkedAccessor(script, section, tokens);
     }
 
-    private static Accessor resolveLinkedAccessor(Script script, UnitSection section, LinkedList<String> tokens)
+    private static Accessor resolveLinkedAccessor(Script script, UnitSection section,
+            LinkedList<String> tokens)
     {
         LinkedList<LinkedList<String>> splitTokens = TokenHelper.splitTokens(tokens, ".");
         AccessorBuilder builder = Accessor.builder();
@@ -189,12 +192,14 @@ public class ExpressionResolver
         return builder.build();
     }
 
-    private static Accessor resolveIndex(Script script, UnitSection section, LinkedList<String> tokens)
+    private static Accessor resolveIndex(Script script, UnitSection section,
+            LinkedList<String> tokens)
     {
         if (tokens.peekLast() != null && tokens.peekLast().equals("]"))
         {
             return resolve(script, section, TokenHelper.readEnclosedTokensBackwards(tokens, "[", "]"));
         }
+
         return null;
     }
 
@@ -208,8 +213,8 @@ public class ExpressionResolver
         return tokens.peekLast() != null && tokens.peekLast().equals(")");
     }
 
-    private static void handleValueToken(Script script, UnitSection section, AccessorBuilder builder,
-            LinkedList<String> tokens, Accessor index)
+    private static void handleValueToken(Script script, UnitSection section,
+            AccessorBuilder builder, LinkedList<String> tokens, Accessor index)
     {
         if (builder.isEmpty())
         {
@@ -222,8 +227,8 @@ public class ExpressionResolver
         }
     }
 
-    private static void handleParameterizedToken(Script script, UnitSection section, AccessorBuilder builder,
-            LinkedList<String> tokens, Accessor index)
+    private static void handleParameterizedToken(Script script, UnitSection section,
+            AccessorBuilder builder, LinkedList<String> tokens, Accessor index)
     {
         String name = tokens.poll();
         TokenHelper.openParentheses(tokens);
@@ -244,7 +249,8 @@ public class ExpressionResolver
         }
     }
 
-    private static Accessor[] resolveParameters(Script script, UnitSection section, LinkedList<LinkedList<String>> paramList)
+    private static Accessor[] resolveParameters(Script script, UnitSection section,
+            LinkedList<LinkedList<String>> paramList)
     {
         Accessor[] accessors = new Accessor[paramList.size()];
 
@@ -256,7 +262,8 @@ public class ExpressionResolver
         return accessors;
     }
 
-    private static void handleFieldToken(UnitSection section, AccessorBuilder builder, LinkedList<String> tokens, Accessor index)
+    private static void handleFieldToken(UnitSection section, AccessorBuilder builder,
+            LinkedList<String> tokens, Accessor index)
     {
         if (tokens.size() > 1)
         {

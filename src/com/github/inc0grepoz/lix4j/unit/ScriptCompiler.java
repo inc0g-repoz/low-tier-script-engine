@@ -87,7 +87,7 @@ public class ScriptCompiler
         }
         else
         {
-            throw new IllegalStateException("Attempted to extend a statement with a block of code");
+            throw new IllegalStateException("An unexpected block of code");
         }
     }
 
