@@ -4,7 +4,7 @@ import com.github.inc0grepoz.lix4j.ctx.ExecutionContext;
 
 /**
  * Represents a callable unit of scripted logic that can be
- * invoked multiple times
+ * invoked multiple times.
  * 
  * @author inc0g-repoz
  */

@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 /**
- * Represents a context of the execution flow with a
- * pool for variables.
+ * Represents a non-static pool for variables.
  * 
  * @author inc0g-repoz
  */
@@ -16,20 +15,19 @@ public class VarpoolStack implements Cloneable
 
     private static final Object NO_KEY = new Object();
 
-    private final ArrayDeque<Map<String, Object>> layers;
+    private final ArrayDeque<Map<String, Object>> stack;
 
     /**
-     * Creates a new non-static pool for the specified
-     * {@code script}.
+     * Creates a new non-static pool.
      */
     public VarpoolStack()
     {
         this(new ArrayDeque<>());
     }
 
-    VarpoolStack(ArrayDeque<Map<String, Object>> layers)
+    private VarpoolStack(ArrayDeque<Map<String, Object>> stack)
     {
-        this.layers = layers;
+        this.stack = stack;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class VarpoolStack implements Cloneable
     {
         StringJoiner joiner = new StringJoiner("\n");
 
-        for (Map<String, Object> layer: layers)
+        for (Map<String, Object> layer: stack)
         {
             layer.forEach((k, v) -> joiner.add(k + " = " + v));
         }
@@ -54,12 +52,12 @@ public class VarpoolStack implements Cloneable
      */
     public Object set(String name, Object value)
     {
-        if (layers.isEmpty())
+        if (stack.isEmpty())
         {
             throw new IllegalStateException("No active section to set variable in");
         }
 
-        for (Map<String, Object> layer: layers)
+        for (Map<String, Object> layer: stack)
         {
             if (layer.containsKey(name))
             {
@@ -68,7 +66,7 @@ public class VarpoolStack implements Cloneable
             }
         }
 
-        layers.peek().put(name, value);
+        stack.peek().put(name, value);
         return value;
     }
 
@@ -84,7 +82,7 @@ public class VarpoolStack implements Cloneable
     {
         Object o;
 
-        for (Map<String, Object> layer : layers)
+        for (Map<String, Object> layer : stack)
         {
             if ((o = layer.getOrDefault(name, NO_KEY)) != NO_KEY)
             {
@@ -102,7 +100,7 @@ public class VarpoolStack implements Cloneable
      */
     public VarpoolStack enterSection()
     {
-        layers.push(new HashMap<>());
+        stack.push(new HashMap<>());
         return this;
     }
 
@@ -113,19 +111,19 @@ public class VarpoolStack implements Cloneable
      */
     public VarpoolStack exitSection()
     {
-        if (layers.isEmpty())
+        if (stack.isEmpty())
         {
             throw new IllegalStateException("No active section to exit");
         }
 
-        layers.pop();
+        stack.pop();
         return this;
     }
 
     @Override
     public VarpoolStack clone()
     {
-        return new VarpoolStack(layers.clone());
+        return new VarpoolStack(stack.clone());
     }
 
 }

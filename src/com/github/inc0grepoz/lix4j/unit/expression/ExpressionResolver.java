@@ -96,16 +96,6 @@ public class ExpressionResolver
         return section.getVarpool().getOrCreate(token);
     }
 
-    private static boolean isStringToken(String token)
-    {
-        return token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"';
-    }
-
-    private static boolean isCharacterToken(String token)
-    {
-        return token.charAt(0) == '\'' && token.charAt(token.length() - 1) == '\'';
-    }
-
     private static Accessor resolveOperator(Script script, UnitSection section, LinkedList<String> tokens)
     {
         for (Operator operator : script.getOperators())
@@ -280,6 +270,16 @@ public class ExpressionResolver
             builder.field(tokens.poll());
             builder.index(index);
         }
+    }
+
+    private static boolean isStringToken(String token)
+    {
+        return token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"';
+    }
+
+    private static boolean isCharacterToken(String token)
+    {
+        return token.charAt(0) == '\'' && token.charAt(token.length() - 1) == '\'';
     }
 
     private ExpressionResolver()
